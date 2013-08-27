@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="malmo.cloudbox" CodeBehind="cloudbox.svc.cs" %>

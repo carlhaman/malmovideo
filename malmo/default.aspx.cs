@@ -15,7 +15,7 @@ namespace malmo
 {
     public partial class index : System.Web.UI.Page
     {
-        private static string BCReadToken = "xVURYsAXi4CfTPNEHuuIU28Fe1ll855bbtr1JbryM2HI9WUrBpjJ8w..";
+        //private static string BCReadToken = "";
         private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
         protected void Page_Load(object sender, EventArgs e)
         {

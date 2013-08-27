@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -57,7 +64,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\playerCSS.css" />
+    <Content Include="anders_checkar_in.txt" />
+    <Content Include="cloudbox.svc" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <Content Include="Scripts\jquery.lazyload.min.js">
@@ -68,6 +76,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cloudbox.svc.cs">
+      <DependentUpon>cloudbox.svc</DependentUpon>
+    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -75,14 +86,15 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Icloudbox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Smil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="HiddenSettings.config" />
-    <Content Include="HiddenSettings.template.config" />
     <None Include="Properties\PublishProfiles\malmovideo - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo.pubxml" />
@@ -123,9 +135,7 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  -->
   <Target Name="AfterBuild">
-    <Copy SourceFiles="HiddenSettings.Template.config" DestinationFiles="HiddenSettings.config" SkipUnchangedFiles="true" Condition="!Exists('HiddenSettings.config')">
-    </Copy>
   </Target>
+  -->
 </Project>
