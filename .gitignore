@@ -41,6 +41,9 @@ local.properties
 *.user
 *.sln.docstates
 
+## Hidden Config File
+HiddenSettings.config
+
 # Build results
 
 [Dd]ebug/
