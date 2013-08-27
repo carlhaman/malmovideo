@@ -57,9 +57,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\playerCSS.css" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
-    <Content Include="playerCSS.css" />
     <Content Include="Scripts\jquery.lazyload.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
