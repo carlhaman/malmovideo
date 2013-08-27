@@ -67,6 +67,7 @@
 	<Content Include="css\playerCSS.css" />
     <Content Include="anders_checkar_in.txt" />
     <Content Include="cloudbox.svc" />
+    <Content Include="crossdomain.xml" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <Content Include="Scripts\jquery.lazyload.min.js">
