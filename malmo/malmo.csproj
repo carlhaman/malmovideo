@@ -82,6 +82,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="HiddenSettings.config" />
+    <Content Include="HiddenSettings.template.config" />
     <None Include="Properties\PublishProfiles\malmovideo - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo.pubxml" />
@@ -122,7 +123,9 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="HiddenSettings.Template.config" DestinationFiles="HiddenSettings.config" SkipUnchangedFiles="true" Condition="!Exists('HiddenSettings.config')">
+    </Copy>
+  </Target>
 </Project>
