@@ -16,6 +16,18 @@ namespace malmo
     {
         public System.IO.Stream get_smil(string video_id)
         {
+            try {
+                return private_get_smil(video_id);
+            }
+            catch (Exception ex) { 
+            }
+
+            // TODO: Handle error
+            return new System.IO.MemoryStream(ASCIIEncoding.Default.GetBytes("ERROR: get_smil failed"));
+        }
+
+        private System.IO.Stream private_get_smil(string video_id)
+        {
             string bc_read_token = ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"];
 
             // Set MIME type for returned data
@@ -55,7 +67,7 @@ namespace malmo
             foreach (string part in parts)
             {
                 if (part.Length == 0) continue;
-                ungap.CloudBox.Video video = new ungap.CloudBox.Video(files, 0, "", "", dtStarttime, 0, true);
+                ungap.CloudBox.Video video = new ungap.CloudBox.Video(files, 0, "video/flash", "brightcove:" + video_id, dtStarttime, 0, true);
                 smil.videos.Add(video);
             }
 
