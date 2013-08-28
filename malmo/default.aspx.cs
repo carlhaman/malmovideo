@@ -34,6 +34,7 @@ namespace malmo
             {
                 getBrightcoveVideo(brightcoveId);
             }
+            else { getBrightcoveVideo(2630344050001); }
 
             getArchivePlayerItems(1180742924001);
 
