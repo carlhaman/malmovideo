@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "malmo", "malmo\malmo.csproj", "{FF236BA3-D5E8-4EE7-94CE-42A73A1D1C10}"
 EndProject
 Global

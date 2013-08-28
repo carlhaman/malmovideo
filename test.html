@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <style type="text/css">
+
+        pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+        .string { color: green; }
+        .number { color: darkorange; }
+        .boolean { color: blue; }
+        .null { color: magenta; }
+        .key { color: red; }
+
+    </style>
+
+    <script src="Scripts/jquery-2.0.3.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            // Init the page
+            init();
+        });
+
+        function init() {
+
+            // Call REST service
+
+            var restApi = window.location.origin + "/cloudbox.svc/test";
+
+            // Turn off caching
+            $.ajaxSetup({
+                cache: false
+            });
+
+            $.getJSON(restApi,
+                {
+                    tag: 123
+                }, function (data) {
+
+                    var str = JSON.stringify(data, undefined, 4);
+
+                    //output(str);
+                    output(syntaxHighlight(str));
+                });
+        }
+
+        function output(inp) {
+            document.body.appendChild(document.createElement('pre')).innerHTML = inp;
+        }
+
+        // Json pretty print: http://jsfiddle.net/KJQ9K/
+
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+
+    </script>
+
+</head>
+<body>
+
+    This code was deployed via GitHub.
+
+    
+
+</body>
+</html>

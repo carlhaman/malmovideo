@@ -17,5 +17,13 @@ namespace malmo
         [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "get_smil?video_id={video_id}")]
         [OperationContract]
         System.IO.Stream get_smil(string video_id);
+
+        // ----------------------------------------------------------------------------------
+        // TEST API
+        // ----------------------------------------------------------------------------------
+
+        [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "test?video_id={video_id}")]
+        [OperationContract]
+        System.IO.Stream test(string video_id);
     }
 }
