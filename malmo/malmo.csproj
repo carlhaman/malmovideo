@@ -64,10 +64,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-	<Content Include="css\playerCSS.css" />
+    <Content Include="css\playerCSS.css" />
     <Content Include="anders_checkar_in.txt" />
     <Content Include="cloudbox.svc" />
-    <Content Include="crossdomain.xml" />
+    <Content Include="crossdomain.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <Content Include="Scripts\jquery.lazyload.min.js">
@@ -97,7 +99,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="HiddenSettings.config" />
-	<Content Include="HiddenSettings.template.config" />
+    <Content Include="HiddenSettings.template.config" />
     <None Include="Properties\PublishProfiles\malmovideo - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo.pubxml" />
@@ -139,8 +141,7 @@
   <Target Name="BeforeBuild">
   </Target>-->
   <Target Name="AfterBuild">
-	<Copy SourceFiles="HiddenSettings.Template.config" DestinationFiles="HiddenSettings.config" SkipUnchangedFiles="true" Condition="!Exists('HiddenSettings.config')">
-	</Copy>
+    <Copy SourceFiles="HiddenSettings.Template.config" DestinationFiles="HiddenSettings.config" SkipUnchangedFiles="true" Condition="!Exists('HiddenSettings.config')">
+    </Copy>
   </Target>
-  
 </Project>
