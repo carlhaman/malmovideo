@@ -131,18 +131,25 @@ namespace malmo
                                 metaHtml += "</div>\n";
                             
                             }
+                            if (meta.id > 0) {
+                                metaOgUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
+                                metaTwitterUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
+                            }
                             if (meta.name != null) { 
                                 metaHtml += "<h1>" + meta.name + "</h1>\n";
                                 metaOgTitle.Attributes["content"] = meta.name;
+                                metaTwitterTitle.Attributes["content"] = meta.name;
                                 metaPageTitle.Text = "Malmö Stad Video - " + meta.name;
                             }
                             if (meta.shortDescription != null) { 
                                 metaHtml += "<p>" + meta.shortDescription + "</p>\n";
                                 metaOgDescription.Attributes["content"] = meta.shortDescription;
+                                metaTwitterDescription.Attributes["content"] = meta.shortDescription;
                             }
                             if (meta.videoStillURL != null)
                             {
                                 metaOgImage.Attributes["content"] = meta.videoStillURL;
+                                metaTwitterImage.Attributes["content"] = meta.videoStillURL;
                             }
 
                             if (meta.length > 0) { metaHtml += "Längd: " + new TimeSpan(0, 0, 0, 0, (int)meta.length).ToString(@"hh\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "<br/>"; }

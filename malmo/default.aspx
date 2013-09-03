@@ -21,9 +21,16 @@
 
     <title runat="server" id="metaPageTitle"></title>
 
+    <meta id="metaOgUrl" runat="server" property="og:url" />
     <meta id="metaOgTitle" runat="server" property="og:title" />
     <meta id="metaOgDescription" runat="server" property="og:description" />
     <meta id="metaOgImage" runat="server" property="og:image" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta id="metaTwitterUrl" name="twitter:url" runat="server" />
+    <meta id="metaTwitterTitle" name="twitter:title" runat="server" />
+    <meta id="metaTwitterDescription" name="twitter:description" runat="server" />
+    <meta id="metaTwitterImage" name="twitter:image" runat="server" />
 
 
 
@@ -46,12 +53,9 @@
                                             <div class="pagecontent">
 
                                                 <form id="form1" runat="server">
-                                                    <div id="videoDetails" runat="server">
-                                                    </div>
+                                                    <div id="videoDetails" runat="server"></div>
                                                     <div class="relatedVideos">Relaterade Videos</div>
-
                                                     <div class="playList" id="videoArchive" runat="server"></div>
-
                                                 </form>
 
                                             </div>

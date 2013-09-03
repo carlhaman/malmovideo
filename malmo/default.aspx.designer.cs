@@ -22,6 +22,15 @@ namespace malmo {
         protected global::System.Web.UI.HtmlControls.HtmlTitle metaPageTitle;
         
         /// <summary>
+        /// metaOgUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgUrl;
+        
+        /// <summary>
         /// metaOgTitle control.
         /// </summary>
         /// <remarks>
@@ -47,6 +56,42 @@ namespace malmo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgImage;
+        
+        /// <summary>
+        /// metaTwitterUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterUrl;
+        
+        /// <summary>
+        /// metaTwitterTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterTitle;
+        
+        /// <summary>
+        /// metaTwitterDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterDescription;
+        
+        /// <summary>
+        /// metaTwitterImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterImage;
         
         /// <summary>
         /// mastHead control.
