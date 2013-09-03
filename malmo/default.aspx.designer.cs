@@ -13,6 +13,42 @@ namespace malmo {
     public partial class index {
         
         /// <summary>
+        /// metaPageTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTitle metaPageTitle;
+        
+        /// <summary>
+        /// metaOgTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgTitle;
+        
+        /// <summary>
+        /// metaOgDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgDescription;
+        
+        /// <summary>
+        /// metaOgImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgImage;
+        
+        /// <summary>
         /// mastHead control.
         /// </summary>
         /// <remarks>

@@ -94,11 +94,11 @@ namespace malmo
                             bool CBPlayer = false;
                             if (meta.customFields != null)
                             {
-                                if (meta.customFields.ContainsKey("cb-landing-page"))
+                                if (meta.customFields.ContainsKey("cblandingpage"))
                                 {
                                     CBPlayer = true;
                                     metaHtml += "<div class=\"embed-container\">\n";
-                                    metaHtml += "<iframe src=\"" + meta.customFields["cb-landing-page"] + "\" frameborder=\"0\" allowfullscreen></iframe>\n";
+                                    metaHtml += "<iframe src=\"" + meta.customFields["cblandingpage"] + "\" frameborder=\"0\" allowfullscreen></iframe>\n";
                                     metaHtml += "</div>\n";
                                 }
                             }
@@ -131,8 +131,20 @@ namespace malmo
                                 metaHtml += "</div>\n";
                             
                             }
-                            if (meta.name != null) { metaHtml += "<h1>" + meta.name.ToString() + "</h1>\n"; }
-                            if (meta.shortDescription != null) { metaHtml += "<p>" + meta.shortDescription + "</p>\n"; }
+                            if (meta.name != null) { 
+                                metaHtml += "<h1>" + meta.name + "</h1>\n";
+                                metaOgTitle.Attributes["content"] = meta.name;
+                                metaPageTitle.Text = "Malmö Stad Video - " + meta.name;
+                            }
+                            if (meta.shortDescription != null) { 
+                                metaHtml += "<p>" + meta.shortDescription + "</p>\n";
+                                metaOgDescription.Attributes["content"] = meta.shortDescription;
+                            }
+                            if (meta.videoStillURL != null)
+                            {
+                                metaOgImage.Attributes["content"] = meta.videoStillURL;
+                            }
+
                             if (meta.length > 0) { metaHtml += "Längd: " + new TimeSpan(0, 0, 0, 0, (int)meta.length).ToString(@"hh\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "<br/>"; }
                             if (meta.publishedDate != null)
                             {

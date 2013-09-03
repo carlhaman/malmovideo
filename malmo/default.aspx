@@ -18,7 +18,14 @@
     <script src="http://s7.addthis.com/js/250/addthis_widget.js" type="text/javascript"></script>
 
     <link href="css/playerCSS.css" rel="stylesheet" />
-    <title></title>
+
+    <title runat="server" id="metaPageTitle"></title>
+
+    <meta id="metaOgTitle" runat="server" property="og:title" />
+    <meta id="metaOgDescription" runat="server" property="og:description" />
+    <meta id="metaOgImage" runat="server" property="og:image" />
+
+
 
 </head>
 <body>
