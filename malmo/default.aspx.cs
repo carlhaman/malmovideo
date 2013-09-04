@@ -22,7 +22,9 @@ namespace malmo
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
+            MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
+
             renderMasthead();
 
             long brightcoveId = 0;
@@ -37,7 +39,7 @@ namespace malmo
             {
                 getBrightcoveVideo(brightcoveId,MReadToken);
             }
-            else { getBrightcoveVideo(2645621858001, KFReadToken); }
+            else {getBrightcoveVideo(2645621858001, KFReadToken); }
 
             getArchivePlayerItems(1180742924001);
 
