@@ -103,7 +103,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="HiddenSettings.config" />
-    <Content Include="HiddenSettings.template.config" />
+    <Content Include="HiddenSettings.template.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\malmovideo - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo.pubxml" />

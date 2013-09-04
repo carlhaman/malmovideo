@@ -26,11 +26,12 @@
     <meta id="metaOgDescription" runat="server" property="og:description" />
     <meta id="metaOgImage" runat="server" property="og:image" />
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="player" />
     <meta id="metaTwitterUrl" name="twitter:url" runat="server" />
     <meta id="metaTwitterTitle" name="twitter:title" runat="server" />
     <meta id="metaTwitterDescription" name="twitter:description" runat="server" />
     <meta id="metaTwitterImage" name="twitter:image" runat="server" />
+    <meta id="metaTwitterPlayer" name="twitter:player" runat="server" />
 
 
 
