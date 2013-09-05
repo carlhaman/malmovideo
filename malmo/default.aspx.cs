@@ -9,6 +9,7 @@ using System.Web.Caching;
 using System.Net;
 using System.IO;
 using System.Web.Script.Serialization;
+using System.Web.UI.HtmlControls;
 
 
 namespace malmo
@@ -21,6 +22,11 @@ namespace malmo
 
         protected void Page_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
+=======
+            KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
+            MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
 
             renderMasthead();
 
@@ -34,9 +40,15 @@ namespace malmo
 
             if (queryId)
             {
+<<<<<<< HEAD
                 getBrightcoveVideo(brightcoveId, MReadToken);
             }
             else { getBrightcoveVideo(2630344050001, KFReadToken); }
+=======
+                getBrightcoveVideo(brightcoveId,MReadToken);
+            }
+            else {getBrightcoveVideo(2645621858001, KFReadToken); }
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
 
             getArchivePlayerItems(1180742924001);
 
@@ -67,13 +79,18 @@ namespace malmo
 
         }
 
+<<<<<<< HEAD
         private void parseBrightcoveVideo(string response)
+=======
+        private void parseBrightcoveVideo(string BCResponseString) 
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
             string BCResponseString = response;
             string metaHtml = string.Empty;
             VideoMeta meta = (VideoMeta)js.Deserialize(BCResponseString, typeof(VideoMeta));
 
+<<<<<<< HEAD
             if (meta != null)
             {
                 bool CBPlayer = false;
@@ -93,6 +110,43 @@ namespace malmo
                     //metaHtml += "<iframe src=\"http://link.brightcove.com/services/player/bcpid745456405001?bckey=AQ~~,AAAArZCmTQE~,w5iz83926fkXk5wAB6K2HNZ2NUmtlRla&bctid=" + meta.id.ToString() + "\" frameborder=\"0\" allowfullscreen></iframe>\n";
                     //testar med javascript istället
                     metaHtml += @"
+=======
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            if (BCResponseString != "null")
+            {
+                string metaHtml = string.Empty;
+                VideoMeta meta = (VideoMeta)js.Deserialize(BCResponseString, typeof(VideoMeta));
+
+                if (meta != null)
+                {
+                    string playerKey = string.Empty;
+                    string playerId = string.Empty;
+                    bool CBPlayer = false;
+
+                    if (meta.customFields != null)
+                    {
+                        if (meta.customFields.ContainsKey("cblandingpage"))
+                        {
+                            CBPlayer = true;
+                            playerKey = System.Configuration.ConfigurationManager.AppSettings["KF_BC_PLAYERKEY"].ToString();
+                            playerId = System.Configuration.ConfigurationManager.AppSettings["KF_BC_PLAYERID"].ToString();
+
+                            metaHtml += "<div class=\"embed-container\">\n";
+                            metaHtml += "<iframe src=\"" + meta.customFields["cblandingpage"] + "\" frameborder=\"0\" allowfullscreen></iframe>\n";
+                            metaHtml += "</div>\n";
+                        }
+                    }
+                    if (!CBPlayer)
+                    {
+                        playerKey = System.Configuration.ConfigurationManager.AppSettings["M_BC_PLAYERKEY"].ToString();
+                        playerId = System.Configuration.ConfigurationManager.AppSettings["M_BC_PLAYERID"].ToString();
+
+                        metaHtml += "<div class=\"embed-container\">\n";
+                        //metaHtml += "<iframe src=\"http://link.brightcove.com/services/player/bcpid745456405001?bckey=AQ~~,AAAArZCmTQE~,w5iz83926fkXk5wAB6K2HNZ2NUmtlRla&bctid=" + meta.id.ToString() + "\" frameborder=\"0\" allowfullscreen></iframe>\n";
+                        //testar med javascript istället
+                        metaHtml += @"
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
 
                                     <script language='JavaScript' type='text/javascript' src='http://admin.brightcove.com/js/BrightcoveExperiences.js'></script>
 
@@ -114,6 +168,7 @@ namespace malmo
                                     ";
 
 
+<<<<<<< HEAD
                     metaHtml += "</div>\n";
 
                 }
@@ -164,6 +219,60 @@ namespace malmo
             string metadata = string.Empty;
             videoDetails.InnerHtml = metaHtml;
 
+=======
+                        metaHtml += "</div>\n";
+
+                    }
+                    if (meta.id > 0)
+                    {
+                        metaOgUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
+                        metaTwitterUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
+                        string twitterPlayerUrl = "https://link.brightcove.com/services/player/bcpid" + playerId + "?bckey=" + playerKey + "bctid=" + meta.id.ToString() + "&secureConnections=true&autoStart=false&height=100%25&width=100%25";
+                        metaTwitterPlayer.Attributes["content"] = twitterPlayerUrl;
+                    }
+                    if (meta.name != null)
+                    {
+                        metaHtml += "<h1>" + meta.name + "</h1>\n";
+                        metaOgTitle.Attributes["content"] = meta.name;
+                        metaTwitterTitle.Attributes["content"] = meta.name;
+                        metaPageTitle.Text = "Malmö Stad Video - " + meta.name;
+                    }
+                    if (meta.shortDescription != null)
+                    {
+                        metaHtml += "<p>" + meta.shortDescription + "</p>\n";
+                        metaOgDescription.Attributes["content"] = meta.shortDescription;
+                        metaTwitterDescription.Attributes["content"] = meta.shortDescription;
+                    }
+                    if (meta.videoStillURL != null)
+                    {
+                        metaOgImage.Attributes["content"] = meta.videoStillURL;
+                        metaTwitterImage.Attributes["content"] = meta.videoStillURL;
+                    }
+
+                    if (meta.length > 0) { metaHtml += "Längd: " + new TimeSpan(0, 0, 0, 0, (int)meta.length).ToString(@"hh\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "<br/>"; }
+                    if (meta.publishedDate != null)
+                    {
+                        DateTime UNIXepoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                        long milli;
+                        bool parse = long.TryParse(meta.publishedDate, out milli);
+                        if (parse) { UNIXepoch = UNIXepoch.AddMilliseconds(milli); }
+                        metaHtml += "Publicerad: " + UNIXepoch.ToShortDateString() + "<br/>\n";
+                    }
+                    if (meta.playsTotal != null) { metaHtml += "Visad: " + meta.playsTotal + "\n"; }
+                    if (meta.tags != null)
+                    {
+                        metaHtml += "<ul class=\videoTags\">\n";
+                        foreach (string s in meta.tags)
+                        {
+                            metaHtml += "<li>" + s + "</li>";
+                        }
+                        metaHtml += "</ul>\n";
+                    }
+                }
+                string metadata = string.Empty;
+                videoDetails.InnerHtml = metaHtml;
+            }
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
         }
         private void getBrightcoveVideo(long brightcoveId, string token)
         {
@@ -176,19 +285,28 @@ namespace malmo
             try
             {
                 var response = request.GetResponse();
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
                 dataStream = response.GetResponseStream();
                 string BCResponseString = string.Empty;
                 using (StreamReader reader = new StreamReader(dataStream))
                 {
                     BCResponseString = reader.ReadToEnd();
 
+<<<<<<< HEAD
                     if (BCResponseString != "null" && BCResponseString != null) { parseBrightcoveVideo(BCResponseString); }
                     if (BCResponseString == "null" && token == MReadToken)
                     {
+=======
+                    if (BCResponseString != "null") {parseBrightcoveVideo(BCResponseString); }
+                    if (BCResponseString == "null" && token == MReadToken) {
+>>>>>>> e07dffd22a2e93bd713e6a5abad7dde2b3f52c58
                         getBrightcoveVideo(brightcoveId, KFReadToken);
                     }
+
                 }
 
             }
