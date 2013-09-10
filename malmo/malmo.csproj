@@ -70,14 +70,14 @@
     <Content Include="crossdomain.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="css\tooltipster.css" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
-    <Content Include="Scripts\jquery.lazyload.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Scripts\jquery.tooltipster.js" />
+    <Content Include="Scripts\jquery.tooltipster.min.js" />
     <Content Include="test.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -5,16 +5,18 @@
 
 .video_grid {
 	list-style:none;
+    text-align:justify;
 }
 
 .video_item {
 	float:left;
-	margin-left:1rem;
-	margin-right:1rem;
+	margin-left:0.5rem;
+	margin-right:0.5rem;
 	margin-bottom: 1rem;
 	position: relative;
-	width: 120px;
+	width: 160px;
 	height: 160px;
 }
 .video_item img {border: 2px solid #5d5d5d;}
+.video_item:hover img {border: 2px solid #5d5d5d;}
 .video_item {font-size: 1.4rem;}

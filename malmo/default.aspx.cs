@@ -10,6 +10,7 @@ using System.Net;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Web.UI.HtmlControls;
+using Newtonsoft;
 
 
 namespace malmo
@@ -19,6 +20,7 @@ namespace malmo
         //private static string BCReadToken = "";
         private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -39,7 +41,7 @@ namespace malmo
             }
             else {getBrightcoveVideo(2645621858001, KFReadToken); }
 
-            getArchivePlayerItems(1180742924001);
+            //getArchivePlayerItems(1180742924001);
 
         }
 
@@ -199,10 +201,13 @@ namespace malmo
                     BCResponseString = reader.ReadToEnd();
                     if (BCResponseString != null)
                     {
-                        if (BCResponseString != "null") { parseBrightcoveVideo(BCResponseString); }
+                        if (BCResponseString != "null") { 
+                            parseBrightcoveVideo(BCResponseString);
+                            getRelatedVideos(brightcoveId, token);
+                        }
                         if (BCResponseString == "null" && token == MReadToken)
                         {
-                            getBrightcoveVideo(brightcoveId, KFReadToken);
+                            getBrightcoveVideo(brightcoveId, KFReadToken);                           
                         }
                     }
 
@@ -212,10 +217,77 @@ namespace malmo
             catch (WebException ex) { }
 
         }
+
+        private void getRelatedVideos(long brightcoveId, string token) {
+            Stream dataStream;
+            string html = string.Empty;
+
+            string videoFields = "id,name,shortDescription,customFields,videoStillURL,thumbnailURL,length,playsTotal";
+            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_related_videos&video_id={0}&video_fields={1}&token={2}", brightcoveId.ToString(), videoFields, token));
+            request.Method = "POST";
+
+                try
+                {
+                    var response = request.GetResponse();
+
+
+                    dataStream = response.GetResponseStream();
+                    string BCResponseString = string.Empty;
+                    using (StreamReader reader = new StreamReader(dataStream))
+                    {
+                        BCResponseString = reader.ReadToEnd();
+
+                        if (BCResponseString != null && BCResponseString != "null")
+                        {
+                            var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+
+                            
+                                html += "<div id=\"accordion\">\n";
+                                html += "<ul class=\"video_grid\">\n";
+
+                                foreach (dynamic video in results.items)
+                                {
+                                    string title = video.name.ToString().Replace("\"", "&quot");
+                                    string description = video.shortDescription.ToString().Replace("\"", "&quot");
+
+                                    html += "\t\t<a href=\"?bctid=" + video.id.ToString() + "\"><li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n";
+                                    html += "\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\" alt=\"" + description + "\"/>\n";
+                                    html += "\t\t\t<h4>" + title + "</h4>\n";
+                                    html += "\t\t</li></a>\n";
+                                }
+
+                                //foreach (Video v in videoList.videos)
+                                //{
+
+                                //    html += "\t\t<a href=\"?bctid=" + v.id.ToString() + "\"><li class=\"video_item\">\n";
+                                //    html += "\t\t\t<img src=\"" + v.thumbnailURL.ToString() + "\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
+                                //    //html += "\t\t\t<img class=\"lazy\" data-original=\"" + v.thumbnailURL.ToString() + "\" src=\"Images/grey.gif\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
+                                //    html += "\t\t\t" + v.name.ToString() + "\n";
+                                //    html += "\t\t</li></a>\n";
+
+
+                                //}
+                                html += "\t<li style=\"clear:both;\"</li>\n";
+                                html += "</ul>\n";
+                                html += "</div>\n";
+
+                                //Cache.Insert("archiveString", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(10));
+                            
+                        }
+                    }
+
+                }
+                catch (WebException ex) { }
+            
+            videoArchive.InnerHtml = html;
+
+
+        }
+
         private void getArchivePlayerItems(long playerBcId)
         {
             string html = (string)Cache["archiveString"];
-           
+
             if (html == null)
             {
                 long playlistBcId = 2623641282001;
@@ -255,7 +327,7 @@ namespace malmo
 
                                 foreach (Video v in i.videos)
                                 {
-                                    html += "\t\t<a href=\"?bctid=" + v.id.ToString() + "\"><li class=\"video_item\">\n";                                    
+                                    html += "\t\t<a href=\"?bctid=" + v.id.ToString() + "\"><li class=\"video_item\">\n";
                                     html += "\t\t\t<img src=\"" + v.thumbnailURL.ToString() + "\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
                                     //html += "\t\t\t<img class=\"lazy\" data-original=\"" + v.thumbnailURL.ToString() + "\" src=\"Images/grey.gif\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
                                     html += "\t\t\t" + v.name.ToString() + "\n";
