@@ -24,6 +24,13 @@ namespace malmo
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //För att inte indexera staging-server
+            if (!Request.Url.Host.ToString().Contains("video.malmo.se")){
+                HtmlMeta robotMeta = new HtmlMeta();
+                robotMeta.Name = "ROBOTS";
+                robotMeta.Content = "NOINDEX, NOFOLLOW";
+                Page.Header.Controls.Add(robotMeta);
+            }
 
             renderMasthead();
 

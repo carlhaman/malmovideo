@@ -45,7 +45,8 @@
             $('.tooltip').tooltipster({
                 theme: '.tooltipster-shadow',
                 delay: 100,
-                maxWidth: 420
+                maxWidth: 420,
+                iconTouch: true
             });
         });
     </script>
