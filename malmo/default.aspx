@@ -46,7 +46,7 @@
                 theme: '.tooltipster-shadow',
                 delay: 100,
                 maxWidth: 420,
-                iconTouch: true
+                touchDevices: false
             });
         });
     </script>

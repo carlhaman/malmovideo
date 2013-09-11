@@ -34,19 +34,18 @@ namespace malmo
 
             renderMasthead();
 
-            long brightcoveId = 0;
-            bool queryId = false;
+            string queryId = string.Empty;
 
             if (Request.QueryString["bctid"] != null)
             {
-                queryId = long.TryParse(Request.QueryString.GetValues("bctid").GetValue(0).ToString(), out brightcoveId);
+                queryId = Request.QueryString.GetValues("bctid").GetValue(0).ToString();
             }
 
-            if (queryId)
+            if (queryId.Length > 6)
             {
-                getBrightcoveVideo(brightcoveId,MReadToken);
+                getBrightcoveVideo(queryId,MReadToken);
             }
-            else {getBrightcoveVideo(2645621858001, KFReadToken); }
+            else { getLatestVideo(); }
 
             //getArchivePlayerItems(1180742924001);
 
@@ -190,12 +189,12 @@ namespace malmo
             }
         }
   
-        private void getBrightcoveVideo(long brightcoveId, string token)
+        private void getBrightcoveVideo(string brightcoveId, string token)
         {
 
             Stream dataStream;
             string requestFields = "id,name,shortDescription,publishedDate,tags,customFields,videoStillURL,length,playsTotal";
-            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_video_by_id&video_id={0}&video_fields={1}&token={2}", brightcoveId.ToString(), requestFields, token));
+            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_video_by_id&video_id={0}&video_fields={1}&token={2}", brightcoveId, requestFields, token));
             request.Method = "POST";
 
             try
@@ -224,13 +223,62 @@ namespace malmo
             catch (WebException ex) { }
 
         }
+        private void setMetaOnPage(string name) { 
+        
+        }
 
-        private void getRelatedVideos(long brightcoveId, string token) {
+        private void getLatestVideo() {
+            //Kf listan: 2623641282001
+            //Aktuellt listan: 1172867907001
+            bool isKf = false;
+            if (Request.QueryString["kf"] != null)
+            {
+                isKf = true;
+            }
+            string token = MReadToken;
+            string playlistId = "1172867907001";
+            if (isKf) { token = KFReadToken; playlistId = "2623641282001"; }
+
+            Stream dataStream;
+
+            string videoFields = "id,name,shortDescription,publishedDate,tags,customFields,videoStillURL,length,playsTotal";
+            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlist_by_id&playlist_id={0}&video_fields={1}&token={2}", playlistId, videoFields, token));
+            request.Method = "POST";
+
+            try
+            {
+                var response = request.GetResponse();
+                dataStream = response.GetResponseStream();
+                string BCResponseString = string.Empty;
+
+                using (StreamReader reader = new StreamReader(dataStream))
+                {
+                    BCResponseString = reader.ReadToEnd();
+
+                    if (BCResponseString != null && BCResponseString != "null")
+                    {
+                        var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+                        string id = results.videoIds[0];
+                        if (id.Length > 6)
+                        {
+                            getBrightcoveVideo(id, token);
+                        }
+
+                    }
+                }
+
+            }
+            catch (WebException ex) { }
+
+
+        }
+
+        private void getRelatedVideos(string brightcoveId, string token) {
             Stream dataStream;
             string html = string.Empty;
 
             string videoFields = "id,name,shortDescription,customFields,videoStillURL,thumbnailURL,length,playsTotal";
-            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_related_videos&video_id={0}&video_fields={1}&token={2}", brightcoveId.ToString(), videoFields, token));
+            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_related_videos&video_id={0}&video_fields={1}&token={2}", brightcoveId, videoFields, token));
             request.Method = "POST";
 
                 try
@@ -257,10 +305,12 @@ namespace malmo
                                     string title = video.name.ToString().Replace("\"", "&quot");
                                     string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                                    html += "\t\t<a href=\"?bctid=" + video.id.ToString() + "\"><li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n";
+                                    html += "\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n";
+                                    html += "\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n";
                                     html += "\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\" alt=\"" + description + "\"/>\n";
                                     html += "\t\t\t<h4>" + title + "</h4>\n";
-                                    html += "\t\t</li></a>\n";
+                                    html += "\t\t\t</a>";
+                                    html += "\t\t</li>\n";
                                 }
 
                                 //foreach (Video v in videoList.videos)
