@@ -76,6 +76,7 @@
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery.lazyload.min.js" />
     <Content Include="Scripts\jquery.tooltipster.js" />
     <Content Include="Scripts\jquery.tooltipster.min.js" />
     <Content Include="test.html" />
@@ -97,6 +98,7 @@
     <Compile Include="Icloudbox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Smil.cs" />
+    <Compile Include="videoArchive.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

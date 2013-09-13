@@ -21,18 +21,26 @@ namespace malmo
         private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
 
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            videoArchive archive = (videoArchive)Cache["archive"];
+            if (archive == null) {
+                archive = buildVideoArchive();
+                Cache.Insert("archive", archive, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
+            }
+
             //För att inte indexera staging-server
-            if (!Request.Url.Host.ToString().Contains("video.malmo.se")){
+            if (!Request.Url.Host.ToString().Contains("video.malmo.se"))
+            {
                 HtmlMeta robotMeta = new HtmlMeta();
                 robotMeta.Name = "ROBOTS";
                 robotMeta.Content = "NOINDEX, NOFOLLOW";
                 Page.Header.Controls.Add(robotMeta);
             }
 
-            renderMasthead();
+            renderMasthead(); 
 
             string queryId = string.Empty;
 
@@ -43,15 +51,16 @@ namespace malmo
 
             if (queryId.Length > 6)
             {
-                getBrightcoveVideo(queryId,MReadToken);
+                getBrightcoveVideo(queryId, MReadToken);
             }
             else { getLatestVideo(); }
 
-            //getArchivePlayerItems(1180742924001);
+            renderVideoArchive(archive);
 
         }
 
-        private void renderMasthead() {
+        private void renderMasthead()
+        {
 
             string mastHeadString = (string)Cache["masthead"];
             if (mastHeadString == null)
@@ -75,7 +84,7 @@ namespace malmo
 
         }
 
-        private void parseBrightcoveVideo(string BCResponseString) 
+        private void parseBrightcoveVideo(string BCResponseString)
         {
 
             JavaScriptSerializer js = new JavaScriptSerializer();
@@ -188,7 +197,7 @@ namespace malmo
                 videoDetails.InnerHtml = metaHtml;
             }
         }
-  
+
         private void getBrightcoveVideo(string brightcoveId, string token)
         {
 
@@ -207,13 +216,14 @@ namespace malmo
                     BCResponseString = reader.ReadToEnd();
                     if (BCResponseString != null)
                     {
-                        if (BCResponseString != "null") { 
+                        if (BCResponseString != "null")
+                        {
                             parseBrightcoveVideo(BCResponseString);
                             getRelatedVideos(brightcoveId, token);
                         }
                         if (BCResponseString == "null" && token == MReadToken)
                         {
-                            getBrightcoveVideo(brightcoveId, KFReadToken);                           
+                            getBrightcoveVideo(brightcoveId, KFReadToken);
                         }
                     }
 
@@ -223,11 +233,13 @@ namespace malmo
             catch (WebException ex) { }
 
         }
-        private void setMetaOnPage(string name) { 
-        
+        private void setMetaOnPage(string name)
+        {
+
         }
 
-        private void getLatestVideo() {
+        private void getLatestVideo()
+        {
             //Kf listan: 2623641282001
             //Aktuellt listan: 1172867907001
             bool isKf = false;
@@ -273,7 +285,8 @@ namespace malmo
 
         }
 
-        private void getRelatedVideos(string brightcoveId, string token) {
+        private void getRelatedVideos(string brightcoveId, string token)
+        {
             Stream dataStream;
             string html = string.Empty;
 
@@ -281,132 +294,174 @@ namespace malmo
             var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_related_videos&video_id={0}&video_fields={1}&token={2}", brightcoveId, videoFields, token));
             request.Method = "POST";
 
-                try
+            try
+            {
+                var response = request.GetResponse();
+
+
+                dataStream = response.GetResponseStream();
+                string BCResponseString = string.Empty;
+                using (StreamReader reader = new StreamReader(dataStream))
                 {
-                    var response = request.GetResponse();
+                    BCResponseString = reader.ReadToEnd();
 
-
-                    dataStream = response.GetResponseStream();
-                    string BCResponseString = string.Empty;
-                    using (StreamReader reader = new StreamReader(dataStream))
+                    if (BCResponseString != null && BCResponseString != "null")
                     {
-                        BCResponseString = reader.ReadToEnd();
+                        var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
 
-                        if (BCResponseString != null && BCResponseString != "null")
+                        html += "<dl class=\"accordion\">\n";
+                        html += "<dt><h2>Relaterade Videos</h2></dt>\n";
+                        html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
+
+                        foreach (dynamic video in results.items)
                         {
-                            var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+                            string title = video.name.ToString().Replace("\"", "&quot");
+                            string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                            
-                                html += "<div id=\"accordion\">\n";
-                                html += "<ul class=\"video_grid\">\n";
-
-                                foreach (dynamic video in results.items)
-                                {
-                                    string title = video.name.ToString().Replace("\"", "&quot");
-                                    string description = video.shortDescription.ToString().Replace("\"", "&quot");
-
-                                    html += "\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n";
-                                    html += "\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n";
-                                    html += "\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\" alt=\"" + description + "\"/>\n";
-                                    html += "\t\t\t<h4>" + title + "</h4>\n";
-                                    html += "\t\t\t</a>";
-                                    html += "\t\t</li>\n";
-                                }
-
-                                //foreach (Video v in videoList.videos)
-                                //{
-
-                                //    html += "\t\t<a href=\"?bctid=" + v.id.ToString() + "\"><li class=\"video_item\">\n";
-                                //    html += "\t\t\t<img src=\"" + v.thumbnailURL.ToString() + "\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
-                                //    //html += "\t\t\t<img class=\"lazy\" data-original=\"" + v.thumbnailURL.ToString() + "\" src=\"Images/grey.gif\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
-                                //    html += "\t\t\t" + v.name.ToString() + "\n";
-                                //    html += "\t\t</li></a>\n";
-
-
-                                //}
-                                html += "\t<li style=\"clear:both;\"</li>\n";
-                                html += "</ul>\n";
-                                html += "</div>\n";
-
-                                //Cache.Insert("archiveString", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(10));
-                            
+                            html += "\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n";
+                            html += "\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n";
+                            html += "\t\t\t<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n";
+                            html += "\t\t\t<h4>" + title + "</h4>\n";
+                            html += "\t\t\t</a>";
+                            html += "\t\t</li>\n";
                         }
-                    }
 
+                        html += "\t<li style=\"clear:both;\"</li>\n";
+                        html += "</ul>\n";
+                        html += "</dl>\n";
+
+
+                    }
                 }
-                catch (WebException ex) { }
-            
-            videoArchive.InnerHtml = html;
+
+            }
+            catch (WebException ex) { }
+
+            relatedVideos.InnerHtml = html;
 
 
         }
 
-        private void getArchivePlayerItems(long playerBcId)
+        private videoArchive buildVideoArchive()
         {
-            string html = (string)Cache["archiveString"];
+            videoArchive archive = new videoArchive();
+            archive.categories = new List<videoCategory>();
 
-            if (html == null)
+            string kfPlaylistBcId = "2623641282001";
+            string mArchivePlayerBcId = "1180742924001";
+            string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal";
+
+            var mRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlists_for_player_id&player_id={0}&video_fields={1}&token={2}", mArchivePlayerBcId, videoFields, MReadToken));
+            var kfRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlist_by_id&playlist_id={0}&video_fields={1}&token={2}", kfPlaylistBcId, videoFields, KFReadToken));
+            mRequest.Method = "POST";
+            kfRequest.Method = "POST";
+
+            //Get Malmö Account Items
+            try
             {
-                long playlistBcId = 2623641282001;
-                playerBcId = 2619227676001;
-                Stream dataStream;
-                string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal";
-                //var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlists_for_player_id&player_id={0}&video_fields={1}&token={2}", playerBcId.ToString(), videoFields, BCReadToken));
-                var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlist_by_id&playlist_id={0}&video_fields={1}&token={2}", playlistBcId.ToString(), videoFields, KFReadToken));
-                request.Method = "POST";
-
-                try
+                var response = mRequest.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                string BCResponseString = string.Empty;
+                using (StreamReader reader = new StreamReader(dataStream))
                 {
-                    var response = request.GetResponse();
+                    BCResponseString = reader.ReadToEnd();
 
-
-                    dataStream = response.GetResponseStream();
-                    string BCResponseString = string.Empty;
-                    using (StreamReader reader = new StreamReader(dataStream))
+                    if (BCResponseString != null && BCResponseString != "null")
                     {
-                        BCResponseString = reader.ReadToEnd();
+                        var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
 
-                        if (BCResponseString != null)
+                        foreach (dynamic category in results.items)
                         {
-                            JavaScriptSerializer js = new JavaScriptSerializer();
-                            //RootObject parsedRoot = (RootObject)js.Deserialize(BCResponseString, typeof(RootObject));
-                            //RootObject parsedRoot = JsonConvert.DeserializeObject<RootObject>(BCResponseString);
-                            RootObject parsedRoot = new RootObject();
-                            Item playlist = (Item)js.Deserialize(BCResponseString, typeof(Item));
-                            parsedRoot.items = new List<Item>();
-                            parsedRoot.items.Add(playlist);
-
-                            html += "<div id=\"accordion\">\n";
-                            foreach (Item i in parsedRoot.items)
+                            videoCategory cat = new videoCategory();
+                            cat.name = category.name;
+                            cat.videos = new List<videoItem>();
+                            foreach (dynamic video in category.videos)
                             {
-                                html += "<h3>" + i.name.ToString() + "</h3>\n";
-                                html += "<ul class=\"video_grid\" id=\"" + i.id.ToString() + "\">\n";
-
-                                foreach (Video v in i.videos)
-                                {
-                                    html += "\t\t<a href=\"?bctid=" + v.id.ToString() + "\"><li class=\"video_item\">\n";
-                                    html += "\t\t\t<img src=\"" + v.thumbnailURL.ToString() + "\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
-                                    //html += "\t\t\t<img class=\"lazy\" data-original=\"" + v.thumbnailURL.ToString() + "\" src=\"Images/grey.gif\" width=\"120\" height=\"90\" alt=\"" + v.shortDescription.ToString() + "\"/>\n";
-                                    html += "\t\t\t" + v.name.ToString() + "\n";
-                                    html += "\t\t</li></a>\n";
-
-                                }
-
-                                html += "\t<li style=\"clear:both;\"</li>\n";
-                                html += "</ul>\n";
+                                videoItem item = new videoItem();
+                                item.id = video.id;
+                                item.name = video.name.ToString().Replace("\"", "&quot");
+                                item.length = video.length;
+                                item.playsTotal = video.playsTotal;
+                                item.thumbnailURL = video.thumbnailURL;
+                                item.videoStillURL = video.videoStillURL;
+                                item.shortDescription = video.shortDescription.ToString().Replace("\"", "&quot");
+                                cat.videos.Add(item);
                             }
-                            html += "</div>\n";
-
-                            Cache.Insert("archiveString", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(10));
+                            archive.categories.Add(cat);
                         }
-                    }
 
+
+
+
+                    }
                 }
-                catch (WebException ex) { }
+            }
+            catch { }
+            //Get KF Account Items
+            try
+            {
+                var response = kfRequest.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                string BCResponseString = string.Empty;
+                using (StreamReader reader = new StreamReader(dataStream))
+                {
+                    BCResponseString = reader.ReadToEnd();
+
+                    if (BCResponseString != null && BCResponseString != "null")
+                    {
+                        var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+
+                        videoCategory category = new videoCategory();
+                        category.name = results.name;
+                        category.videos = new List<videoItem>();
+
+                        foreach (dynamic video in results.videos)
+                        {
+                            videoItem item = new videoItem();
+                            item.id = video.id;
+                            item.name = video.name.ToString().Replace("\"", "&quot");
+                            item.length = video.length;
+                            item.playsTotal = video.playsTotal;
+                            item.thumbnailURL = video.thumbnailURL;
+                            item.videoStillURL = video.videoStillURL;
+                            item.shortDescription = video.shortDescription.ToString().Replace("\"", "&quot");
+                            category.videos.Add(item);
+                        }
+                        archive.categories.Add(category);
+                    }
+                }
+            }
+            catch { }
+            return archive;
+
+        }
+
+        private void renderVideoArchive(videoArchive archive) {
+
+            string html = (string)Cache["archiveHtml"];
+            if (html == null) {
+                html += "<dl class=\"accordion\">\n";
+                foreach (videoCategory category in archive.categories) {
+                    html += "<dt><h2>"+category.name+"</h2></dt>";
+                    html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
+                    foreach (videoItem video in category.videos) {
+                        html += "<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n";
+                        html += "\t<a href=\"?bctid="+video.id+"\">";
+                        html += "<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>";
+                        html += "<h4>"+video.name+"</h4>";
+                        html += "</a>\n";
+                        html += "</li>\n";
+                    }
+                    html += "<li style=\"clear:both;\"></li>\n";
+                    html += "</ul>\n";
+                }
+                html += "</dl>\n";
+
+                Cache.Insert("archiveHtml", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
             }
             videoArchive.InnerHtml = html;
-
         }
+
     }
     public class VideoMeta
     {
@@ -449,4 +504,5 @@ namespace malmo
         public int page_size { get; set; }
         public int total_count { get; set; }
     }
+
 }
