@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using System.Web.Caching;
+using System.Text;
 using System.Net;
 using System.IO;
 using System.Web.Script.Serialization;
@@ -21,12 +22,13 @@ namespace malmo
         private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
 
-        
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
             videoArchive archive = (videoArchive)Cache["archive"];
-            if (archive == null) {
+            if (archive == null)
+            {
                 archive = buildVideoArchive();
                 Cache.Insert("archive", archive, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
             }
@@ -40,7 +42,7 @@ namespace malmo
                 Page.Header.Controls.Add(robotMeta);
             }
 
-            renderMasthead(); 
+            renderMasthead();
 
             string queryId = string.Empty;
 
@@ -150,7 +152,7 @@ namespace malmo
                     {
                         metaOgUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
                         metaTwitterUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
-                        string twitterPlayerUrl = "https://link.brightcove.com/services/player/bcpid" + playerId + "?bckey=" + playerKey + "bctid=" + meta.id.ToString() + "&secureConnections=true&autoStart=false&height=100%25&width=100%25";
+                        string twitterPlayerUrl = "https://link.brightcove.com/services/player/bcpid" + playerId + "?bckey=" + playerKey + "&bctid=" + meta.id.ToString() + "&secureConnections=true&autoStart=false&height=100%25&width=100%25";
                         metaTwitterPlayer.Attributes["content"] = twitterPlayerUrl;
                     }
                     if (meta.name != null)
@@ -308,28 +310,33 @@ namespace malmo
                     if (BCResponseString != null && BCResponseString != "null")
                     {
                         var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+                        StringBuilder htmlBuilder = new StringBuilder();
 
-                        html += "<dl class=\"accordion\">\n";
-                        html += "<dt><h2>Relaterade Videos</h2></dt>\n";
-                        html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
+                        htmlBuilder.AppendLine("<dl class=\"accordion\">\n");
+                        htmlBuilder.AppendLine("<dt><h2>Relaterade Videos</h2></dt>\n");
+                        htmlBuilder.AppendLine("<ul class=\"video_grid\" style=\"display:none;\">\n");
+                        //html += "<dl class=\"accordion\">\n";
+                        //html += "<dt><h2>Relaterade Videos</h2></dt>\n";
+                        //html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
 
                         foreach (dynamic video in results.items)
                         {
                             string title = video.name.ToString().Replace("\"", "&quot");
                             string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                            html += "\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n";
-                            html += "\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n";
-                            html += "\t\t\t<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n";
-                            html += "\t\t\t<h4>" + title + "</h4>\n";
-                            html += "\t\t\t</a>";
-                            html += "\t\t</li>\n";
+                            htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
+                            htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
+                            htmlBuilder.AppendLine("\t\t\t<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
+                            htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
+                            htmlBuilder.AppendLine("\t\t\t</a>");
+                            htmlBuilder.AppendLine("\t\t</li>\n");
                         }
 
-                        html += "\t<li style=\"clear:both;\"</li>\n";
-                        html += "</ul>\n";
-                        html += "</dl>\n";
+                        htmlBuilder.AppendLine("\t<li style=\"clear:both;\"</li>\n");
+                        htmlBuilder.AppendLine("</ul>\n");
+                        htmlBuilder.AppendLine("</dl>\n");
 
+                        html = htmlBuilder.ToString();
 
                     }
                 }
@@ -436,27 +443,33 @@ namespace malmo
 
         }
 
-        private void renderVideoArchive(videoArchive archive) {
+        private void renderVideoArchive(videoArchive archive)
+        {
 
             string html = (string)Cache["archiveHtml"];
-            if (html == null) {
-                html += "<dl class=\"accordion\">\n";
-                foreach (videoCategory category in archive.categories) {
-                    html += "<dt><h2>"+category.name+"</h2></dt>";
-                    html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
-                    foreach (videoItem video in category.videos) {
-                        html += "<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n";
-                        html += "\t<a href=\"?bctid="+video.id+"\">";
-                        html += "<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>";
-                        html += "<h4>"+video.name+"</h4>";
-                        html += "</a>\n";
-                        html += "</li>\n";
-                    }
-                    html += "<li style=\"clear:both;\"></li>\n";
-                    html += "</ul>\n";
-                }
-                html += "</dl>\n";
+            if (html == null)
+            {
+                StringBuilder htmlBuilder = new StringBuilder();
 
+                htmlBuilder.AppendLine("<dl class=\"accordion\">\n");
+                foreach (videoCategory category in archive.categories)
+                {
+                    htmlBuilder.AppendLine("<dt><h2>" + category.name + "</h2></dt>");
+                    htmlBuilder.AppendLine("<ul class=\"video_grid\" style=\"display:none;\">\n");
+                    foreach (videoItem video in category.videos)
+                    {
+                        htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
+                        htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
+                        htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>");
+                        htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
+                        htmlBuilder.AppendLine("</a>\n");
+                        htmlBuilder.AppendLine("</li>\n");
+                    }
+                    htmlBuilder.AppendLine("<li style=\"clear:both;\"></li>\n");
+                    htmlBuilder.AppendLine("</ul>\n");
+                }
+                htmlBuilder.AppendLine("</dl>\n");
+                html = htmlBuilder.ToString();
                 Cache.Insert("archiveHtml", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
             }
             videoArchive.InnerHtml = html;

@@ -38,7 +38,7 @@
     <meta id="metaTwitterDescription" name="twitter:description" runat="server" />
     <meta id="metaTwitterImage" name="twitter:image" runat="server" />
     <meta id="metaTwitterPlayer" name="twitter:player" runat="server" />
-
+    
 
     <script>
         $(document).ready(function () {
@@ -53,11 +53,14 @@
 
             $('.accordion > dt > h2').click(function () {
                 if ($(this).parent().next().is(':visible')) {
+                    $(this).removeClass("active");
                     allPanels.slideUp();
                 }
                 if ($(this).parent().next().is(':hidden')) {
                     allPanels.slideUp();
+                    $('.accordion > dt > h2').removeClass("active");
                     $(this).parent().next().slideDown();
+                    $(this).addClass("active");
                     $(this).parent().next().find('img.lazy').lazyload({ effect: "fadeIn" });
                 }
 
