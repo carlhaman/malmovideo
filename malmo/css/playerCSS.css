@@ -1,14 +1,52 @@
 ﻿body {
 }
+.cb_container
+{
+    width: 100%;
+}
+.bc-container
+{
+    width: 60%;
+    float: left;
+
+}
 .embed-container { position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden; max-width: 100%; height: auto; } 
 .embed-container div, .embed-container iframe, .embed-container object, .embed-container embed, .BrightcoveExperience { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-#videoDetails h1 {
+.descriptionBox
+{
+    width: auto;   
+}
+.descriptionBoxBC
+{
+    width: 40%;
+    float:right;
+}
+.videoDescription
+{
+    padding: 0 1rem 0 1rem;
+}
+
+.descriptionBoxBC .videoDetails h1 {
 margin-top: 1rem;
 }
 
 #relatedVideos {
 margin-bottom: -0.8rem;
+}
+.archiveMenu
+{
+    width: 22%;
+    float: left;
+}
+.archiveVideos
+{
+    width: 78%;
+    float:right;
+}
+.videoSearch h2 input
+{
+    float: right;
 }
 
 .video_grid {
@@ -40,19 +78,11 @@ word-break: break-word;
 {
 border: 1px solid black;
 padding: 0.5rem;
-color: #ffffff;
-background-color: #006633;
+color: #333333;
+background-color: #f5f5ee;
 }
 .accordion dt h2:hover, .accordion dt h2.active
 {
-background: #006633; /* Old browsers */
-background: -moz-linear-gradient(top,  #006633 0%, #669966 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#006633), color-stop(100%,#669966)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #006633 0%,#669966 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #006633 0%,#669966 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #006633 0%,#669966 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #006633 0%,#669966 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006633', endColorstr='#669966',GradientType=0 ); /* IE6-9 */
+background: #dcdcd2; /* Old browsers */
 
-text-shadow: 0.2rem 0.1rem 0 rgba(0,0,0,0.5);
 }

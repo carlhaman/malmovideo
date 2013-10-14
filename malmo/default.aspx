@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="malmo.index" EnableViewState="false"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="malmo.index" EnableViewState="false" %>
 
 <!DOCTYPE html>
 
@@ -38,31 +38,27 @@
     <meta id="metaTwitterDescription" name="twitter:description" runat="server" />
     <meta id="metaTwitterImage" name="twitter:image" runat="server" />
     <meta id="metaTwitterPlayer" name="twitter:player" runat="server" />
-    
+
 
     <script>
         $(document).ready(function () {
-            $('.tooltip').tooltipster({
-                theme: '.tooltipster-shadow',
-                delay: 100,
-                maxWidth: 420,
-                touchDevices: false
+
+            $('#searchButton').click(function () {
+                $('.tooltip').tooltipster('destroy');
             });
 
-            var allPanels = $('.accordion > ul').hide();
-
             $('.accordion > dt > h2').click(function () {
-                if ($(this).parent().next().is(':visible')) {
-                    $(this).removeClass("active");
-                    allPanels.slideUp();
-                }
-                if ($(this).parent().next().is(':hidden')) {
-                    allPanels.slideUp();
-                    $('.accordion > dt > h2').removeClass("active");
-                    $(this).parent().next().slideDown();
-                    $(this).addClass("active");
-                    $(this).parent().next().find('img.lazy').lazyload({ effect: "fadeIn" });
-                }
+                $('.accordion > dt > h2').removeClass("active");
+                $(this).addClass("active");
+                $('#archiveContent').html($(this).parent().next().html());
+                $('#archiveContent').find('img.lazy').lazyload({ effect: "fadeIn" });
+                $('#archiveContent').find('.tooltip').tooltipster('destroy');
+                $('#archiveContent').find('.tooltip').tooltipster({
+                    theme: '.tooltipster-shadow',
+                    delay: 100,
+                    maxWidth: 420,
+                    touchDevices: false
+                });
 
                 return false;
             });
@@ -90,9 +86,25 @@
                                             <div class="pagecontent">
 
                                                 <form id="form1" runat="server">
+                                                    <asp:ScriptManager ID="scriptManager" runat="server" />
                                                     <div id="videoDetails" runat="server"></div>
                                                     <div class="playlist" id="relatedVideos" runat="server"></div>
-                                                    <div class="playList" id="videoArchive" runat="server"></div>
+                                                    <div id="videoSearch" class="playlist" runat="server">
+
+                                                        <asp:UpdatePanel ID="searchResultsPanel" runat="server">
+                                                            <ContentTemplate>
+                                                                <h2>Videoarkiv                        
+                                                                    <asp:Button runat="server" ID="searchButton" OnClick="searchButton_Click" Text="Sök" />                                        
+                                                                    <asp:TextBox ID="searchText" runat="server"></asp:TextBox>                                                                 
+                                                                </h2>
+                                                                <div id="searchResultsDiv" class="searchResults" runat="server" style="display:none;"></div>
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                    </div>
+                                                    <div class="archiveMenu" id="videoArchive" runat="server"></div>
+                                                    <div class="archiveVideos">
+                                                        <ul id="archiveContent" class="video_grid"></ul>
+                                                    </div>
                                                 </form>
 
                                             </div>
