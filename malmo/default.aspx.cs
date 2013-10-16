@@ -516,6 +516,7 @@ namespace malmo
 
             string kfPlaylistBcId = "2623641282001";
             string mArchivePlayerBcId = "1180742924001";
+            if (komin) { mArchivePlayerBcId = "1213665896001"; }
             string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal,customFields";
 
             var mRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlists_for_player_id&player_id={0}&video_fields={1}&token={2}", mArchivePlayerBcId, videoFields, MReadToken));
