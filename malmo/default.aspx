@@ -12,6 +12,13 @@
     <link href="http://www.malmo.se/assets-2.0/css/malmo-print.css" rel="stylesheet" type="text/css" media="print" />
     <!--[if lt IE 7]><link href="http://www.malmo.se/assets-2.0/css/malmo-ie-css-fix.css" rel="stylesheet" type="text/css" media="all" /><![endif]-->
     <!--[if IE 7]><link href="http://www.malmo.se/assets-2.0/css/malmo-ie7-css-fix.css" rel="stylesheet" type="text/css" media="all" /><![endif]-->
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .gradient {
+           filter: none;
+        }
+      </style>
+    <![endif]-->
     <link rel="shortcut icon" href="http://www.malmo.se/assets-2.0/img/malmo-favicon.ico" type="image/x-icon" />
     <script src="http://www.malmo.se/assets-2.0/jquery/jquery.js" type="text/javascript"></script>
     <script src="http://www.malmo.se/assets-2.0/js/malmo.js" type="text/javascript"></script>
@@ -75,47 +82,39 @@
         <div id="mastHead" runat="server"></div>
 
         <div class="main">
-            <div class="columns-1">
-                <div class="content-wrapper">
-                    <div class="content-wrapper-1">
-                        <div class="content-wrapper-2">
-                            <div class="content-wrapper-3">
-                                <div class="content-wrapper-4">
-                                    <div class="content-wrapper-5">
-                                        <div class="content-wrapper-6">
-                                            <div class="pagecontent">
+            <div class="videoWrapper">
+                <div class="pagecontent">
 
-                                                <form id="form1" runat="server">
-                                                    <asp:ScriptManager ID="scriptManager" runat="server" />
-                                                    <div id="videoDetails" runat="server"></div>
-                                                    <div class="playlist" id="relatedVideos" runat="server"></div>
-                                                    <div id="videoSearch" class="playlist" runat="server">
+                    <form id="form1" runat="server">
+                        <asp:ScriptManager ID="scriptManager" runat="server" />
 
-                                                        <asp:UpdatePanel ID="searchResultsPanel" runat="server">
-                                                            <ContentTemplate>
-                                                                <h2>Videoarkiv                        
-                                                                    <asp:Button runat="server" ID="searchButton" OnClick="searchButton_Click" Text="Sök" />                                        
-                                                                    <asp:TextBox ID="searchText" runat="server"></asp:TextBox>                                                                 
-                                                                </h2>
-                                                                <div id="searchResultsDiv" class="searchResults" runat="server" style="display:none;"></div>
-                                                            </ContentTemplate>
-                                                        </asp:UpdatePanel>
-                                                    </div>
-                                                    <div class="archiveMenu" id="videoArchive" runat="server"></div>
-                                                    <div class="archiveVideos">
-                                                        <ul id="archiveContent" class="video_grid"></ul>
-                                                    </div>
-                                                </form>
+                        <div class="videoBlock gradient greyGradient">
+                            <div id="videoDetails" runat="server"></div>
+                            <div class="playlist" id="relatedVideos" runat="server"></div>
+                        </div>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="archiveBlock">
+                            <div id="videoSearch" class="playlist" runat="server">
+
+                                <asp:UpdatePanel ID="searchResultsPanel" runat="server">
+                                    <ContentTemplate>
+                                        <h2>Videoarkiv                        
+                                            <asp:Button runat="server" ID="searchButton" class="gradient yellowGradient" OnClick="searchButton_Click" Text="Sök" />
+                                            <asp:TextBox ID="searchText" text="Sök video" runat="server"></asp:TextBox>
+                                        </h2>
+                                        <div id="searchResultsDiv" class="searchResults" runat="server" style="display: none;"></div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                            <div class="archiveMenu" id="videoArchive" runat="server"></div>
+                            <div class="archiveVideos">
+                                <ul id="archiveContent" class="video_grid"></ul>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+
         </div>
 
     </div>

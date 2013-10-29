@@ -1,0 +1,53 @@
+﻿<body>
+    <div class="wrap-all">
+
+        <!--Include the remote masthead here -->
+        <div id="mastHead" runat="server"></div>
+
+        <div class="main">
+            <div class="columns-1">
+                <div class="content-wrapper">
+                    <div class="content-wrapper-1">
+                        <div class="content-wrapper-2">
+                            <div class="content-wrapper-3">
+                                <div class="content-wrapper-4">
+                                    <div class="content-wrapper-5">
+                                        <div class="content-wrapper-6">
+                                            <div class="pagecontent">
+
+                                                <form id="form1" runat="server">
+                                                    <asp:ScriptManager ID="scriptManager" runat="server" />
+                                                    <div id="videoDetails" runat="server"></div>
+                                                    <div class="playlist" id="relatedVideos" runat="server"></div>
+                                                    <div id="videoSearch" class="playlist" runat="server">
+
+                                                        <asp:UpdatePanel ID="searchResultsPanel" runat="server">
+                                                            <ContentTemplate>
+                                                                <h2>Videoarkiv                        
+                                                                    <asp:Button runat="server" ID="searchButton" OnClick="searchButton_Click" Text="Sök" />                                        
+                                                                    <asp:TextBox ID="searchText" runat="server"></asp:TextBox>                                                                 
+                                                                </h2>
+                                                                <div id="searchResultsDiv" class="searchResults" runat="server" style="display:none;"></div>
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                    </div>
+                                                    <div class="archiveMenu" id="videoArchive" runat="server"></div>
+                                                    <div class="archiveVideos">
+                                                        <ul id="archiveContent" class="video_grid"></ul>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>

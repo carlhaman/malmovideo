@@ -80,6 +80,7 @@
     <Content Include="Scripts\jquery.tooltipster.js" />
     <Content Include="Scripts\jquery.tooltipster.min.js" />
     <Content Include="test.html" />
+    <Content Include="oldFramework.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
