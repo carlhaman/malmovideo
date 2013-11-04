@@ -70,6 +70,8 @@
                 return false;
             });
 
+            $('.accordion > dt > h2').first().click();
+
         })(jQuery);
 
 
@@ -111,6 +113,7 @@
                                 <ul id="archiveContent" class="video_grid"></ul>
                             </div>
                         </div>
+                        <div class="disclaimer"><p>Har du frågor kring sändningarna från Kommunfullmäktige? Kontakta <a href="mailto:bild@malmo.se">bild@malmo.se</a></p></div>
                     </form>
                 </div>
             </div>

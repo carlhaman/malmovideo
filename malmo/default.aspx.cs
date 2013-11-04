@@ -188,10 +188,11 @@ namespace malmo
                     {
                         metaHtml += "<div class=\"descriptionBox\">\n";
                     }
-                    else {
+                    else
+                    {
                         metaHtml += "<div class=\"descriptionBoxBC\">\n";
                     }
-                        metaHtml += "<div class=\"videoDescription\">\n";
+                    metaHtml += "<div class=\"videoDescription\">\n";
 
                     if (meta.id > 0)
                     {
@@ -209,7 +210,8 @@ namespace malmo
                         {
                             metaPageTitle.Text = "Malmö Stad Video Komin - " + meta.name;
                         }
-                        else {
+                        else
+                        {
                             metaPageTitle.Text = "Malmö Stad Video - " + meta.name;
                         }
                     }
@@ -235,16 +237,16 @@ namespace malmo
                         metaHtml += "Publicerad: " + UNIXepoch.ToShortDateString() + "<br/>\n";
                     }
                     if (meta.playsTotal != null) { metaHtml += "Visad: " + meta.playsTotal + "\n"; }
-                    if (meta.tags != null)
-                    {
-                        metaHtml += "<ul class=\videoTags\">\n";
-                        foreach (string s in meta.tags)
-                        {
-                            metaHtml += "<li>" + s + "</li>";
-                        }
-                        metaHtml += "</ul>\n";
+                    //if (meta.tags != null)
+                    //{
+                    //    metaHtml += "<ul class=\videoTags\">\n";
+                    //    foreach (string s in meta.tags)
+                    //    {
+                    //        metaHtml += "<li>" + s + "</li>";
+                    //    }
+                    //    metaHtml += "</ul>\n";
 
-                    }
+                    //}
                     if (!kominVideo)
                     {
                         metaHtml += "<div class=\"social\">\n";
@@ -401,20 +403,21 @@ namespace malmo
                                     }
                                 }
                             }
-                            if (counter <= 4) { 
-                            if (!kominVideo || kominVideo && malmoKomin)
+                            if (counter <= 4)
                             {
-                                string title = video.name.ToString().Replace("\"", "&quot");
-                                string description = video.shortDescription.ToString().Replace("\"", "&quot");
+                                if (!kominVideo || kominVideo && malmoKomin)
+                                {
+                                    string title = video.name.ToString().Replace("\"", "&quot");
+                                    string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                                htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
-                                htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
-                                htmlBuilder.AppendLine("\t\t\t<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
-                                htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
-                                htmlBuilder.AppendLine("\t\t\t</a>");
-                                htmlBuilder.AppendLine("\t\t</li>\n");
-                                counter++;
-                            }
+                                    htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
+                                    htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
+                                    htmlBuilder.AppendLine("\t\t\t<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
+                                    htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
+                                    htmlBuilder.AppendLine("\t\t\t</a>");
+                                    htmlBuilder.AppendLine("\t\t</li>\n");
+                                    counter++;
+                                }
                             }
                         }
 
@@ -584,7 +587,7 @@ namespace malmo
                 }
             }
             catch { }
-            //Get KF Account Items
+            ////Get KF Account Items
             try
             {
                 var response = kfRequest.GetResponse();
@@ -700,7 +703,7 @@ namespace malmo
         {
             ipRangeCheck kominRange = new ipRangeCheck();
             var rangeList = new List<IpRange>();
-            rangeList.Add(new IpRange(IPAddress.Parse("161.52.0.0"),IPAddress.Parse("161.52.255.255")));
+            rangeList.Add(new IpRange(IPAddress.Parse("161.52.0.0"), IPAddress.Parse("161.52.255.255")));
             string adress = kominRange.GetIP4Address();
             bool result = kominRange.CheckIsIpInRange(adress, rangeList);
             return result;
