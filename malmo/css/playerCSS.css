@@ -21,7 +21,6 @@ width: 960px;
 {
     position: relative;
     padding-bottom: 56.25%;
-    padding-top: 30px;
     height: 0;
     overflow: hidden;
     max-width: 100%;
@@ -55,6 +54,11 @@ width: 960px;
 .videoDescription
 {
     padding: 0 1rem 0 1rem;
+}
+.extraMeta {
+color: #cccccc;
+font-size: 0.8rem;
+line-height: 1rem;
 }
 
 .descriptionBoxBC .videoDetails h1
@@ -152,6 +156,19 @@ padding:0.2rem 0.5rem;
     word-break: break-word;
     color: #000000;
     font-size: 0.8rem;
+}
+.related {
+overflow-y: hidden;
+overflow-x: scroll;
+margin: auto;
+}
+.sidescroll {
+list-style: none;
+height: 100px;
+width: 1800px;
+overflow-y: hidden;
+margin: auto;
+padding-left: 0;
 }
 
 .accordion dt h2

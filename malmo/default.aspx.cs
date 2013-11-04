@@ -226,7 +226,7 @@ namespace malmo
                         metaOgImage.Attributes["content"] = meta.videoStillURL;
                         metaTwitterImage.Attributes["content"] = meta.videoStillURL;
                     }
-
+                    metaHtml += "<div class=\"extraMeta\">\n";
                     if (meta.length > 0) { metaHtml += "Längd: " + new TimeSpan(0, 0, 0, 0, (int)meta.length).ToString(@"hh\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "<br/>"; }
                     if (meta.publishedDate != null)
                     {
@@ -247,6 +247,7 @@ namespace malmo
                     //    metaHtml += "</ul>\n";
 
                     //}
+                    metaHtml += "</div>\n";
                     if (!kominVideo)
                     {
                         metaHtml += "<div class=\"social\">\n";
@@ -380,7 +381,8 @@ namespace malmo
 
                         htmlBuilder.AppendLine("<dl>\n");
                         htmlBuilder.AppendLine("<dt><h2>Relaterade Videos</h2></dt>\n");
-                        htmlBuilder.AppendLine("<ul class=\"video_grid\">\n");
+                        htmlBuilder.AppendLine("<div class=\"related\">\n");
+                        htmlBuilder.AppendLine("<ul class=\"sidescroll\">\n");
                         //html += "<dl class=\"accordion\">\n";
                         //html += "<dt><h2>Relaterade Videos</h2></dt>\n";
                         //html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
@@ -403,7 +405,7 @@ namespace malmo
                                     }
                                 }
                             }
-                            if (counter <= 4)
+                            if (counter <= 9)
                             {
                                 if (!kominVideo || kominVideo && malmoKomin)
                                 {
@@ -412,7 +414,7 @@ namespace malmo
 
                                     htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
                                     htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
+                                    htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
                                     htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
                                     htmlBuilder.AppendLine("\t\t\t</a>");
                                     htmlBuilder.AppendLine("\t\t</li>\n");
@@ -423,6 +425,7 @@ namespace malmo
 
                         htmlBuilder.AppendLine("\t<li style=\"clear:both;\"</li>\n");
                         htmlBuilder.AppendLine("</ul>\n");
+                        htmlBuilder.AppendLine("</div>\n");
                         htmlBuilder.AppendLine("</dl>\n");
 
                         html = htmlBuilder.ToString();
