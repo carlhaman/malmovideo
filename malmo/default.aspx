@@ -32,6 +32,8 @@
     <link href="css/tooltipster.css" rel="stylesheet" />
     <link href="css/playerCSS.css" rel="stylesheet" />
 
+    <!--[if IE]><link href="css/playerCSS_ie.css" type="text/css" rel="stylesheet"><![endif]-->
+
     <title runat="server" id="metaPageTitle"></title>
 
     <meta id="metaOgUrl" runat="server" property="og:url" />
@@ -100,10 +102,13 @@
 
                                 <asp:UpdatePanel ID="searchResultsPanel" runat="server">
                                     <ContentTemplate>
-                                        <h2>Videoarkiv                        
+                                        
+                                        <div class="searchField">
                                             <asp:Button runat="server" ID="searchButton" class="gradient yellowGradient" OnClick="searchButton_Click" Text="Sök" />
-                                            <asp:TextBox ID="searchText" text="Sök video" runat="server"></asp:TextBox>
-                                        </h2>
+                                            <asp:TextBox ID="searchText" Text="Sök video" runat="server"></asp:TextBox>
+                                        </div>
+                                        <h2>Videoarkiv</h2>
+                                            
                                         <div id="searchResultsDiv" class="searchResults" runat="server" style="display: none;"></div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
@@ -113,7 +118,7 @@
                                 <ul id="archiveContent" class="video_grid"></ul>
                             </div>
                         </div>
-                        <div class="disclaimer"><p>Har du frågor kring sändningarna från Kommunfullmäktige? Kontakta <a href="mailto:bild@malmo.se">bild@malmo.se</a></p></div>
+
                     </form>
                 </div>
             </div>

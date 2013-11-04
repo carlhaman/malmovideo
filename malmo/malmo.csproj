@@ -70,6 +70,7 @@
     <Content Include="crossdomain.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="css\playerCSS_ie.css" />
     <Content Include="css\tooltipster.css" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />

@@ -87,15 +87,17 @@ line-height: 1rem;
     float: right;
 }
 
-#videoSearch h2 input
+.searchField input
 {
     float: right;
 }
-
+.searchField {
+    float:right;
+display: inline-block;
+}
 #videoSearch h2 {
 color: #ffffff;
 line-height: 1.8rem;
-
 }
 #videoSearch {
 background-color: #303030;
@@ -116,7 +118,10 @@ border: 0px;
 padding:0.2rem 0.5rem;
 }
 
-
+a, a:visited, a:link
+{
+    color: #808080;
+}
 .video_grid
 {
     list-style: none;
@@ -156,6 +161,7 @@ padding:0.2rem 0.5rem;
     word-break: break-word;
     color: #000000;
     font-size: 0.8rem;
+    font-weight: normal;
 }
 .related {
 overflow-y: hidden;

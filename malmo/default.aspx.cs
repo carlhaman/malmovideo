@@ -252,8 +252,10 @@ namespace malmo
                     {
                         metaHtml += "<div class=\"social\">\n";
                         //Social sharing
-                        //Facebook
+                        //Facebook like
                         metaHtml += "<iframe src=\"//www.facebook.com/plugins/like.php?locale=sv_SE&amp;href=http%3A%2F%2Fvideo.malmo.se%2F%3Fbctid%3D" + meta.id.ToString() + "&amp;width=100&amp;height=21&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; width:100px; height:21px;\" allowTransparency=\"true\"></iframe>\n";
+                        //facebook share
+                        //metaHtml += "<a href=\"#\" onclick=\"window.open('https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fvideo.malmo.se%2F%3Fbctid%3D" + meta.id.ToString() + "','facebook-share-dialog','width=626,height=436');return false;\" class=\"shareButton\">Dela på Facebook</a>\n";
                         //Twitter
                         metaHtml += "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\"  data-url=\"http://video.malmo.se/?bctid=" + meta.id.ToString() + "\" data-lang=\"sv\">Tweeta</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\n";
                         metaHtml += "</div>\n";
