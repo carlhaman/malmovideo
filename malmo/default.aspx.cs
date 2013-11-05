@@ -206,14 +206,7 @@ namespace malmo
                         metaHtml += "<h1>" + meta.name + "</h1>\n";
                         metaOgTitle.Attributes["content"] = meta.name;
                         metaTwitterTitle.Attributes["content"] = meta.name;
-                        if (malmoKomin)
-                        {
-                            metaPageTitle.Text = "Malmö Stad Video Komin - " + meta.name;
-                        }
-                        else
-                        {
-                            metaPageTitle.Text = "Malmö Stad Video - " + meta.name;
-                        }
+                        metaPageTitle.Text = "Malmö Stad Video - " + meta.name;                        
                     }
                     if (meta.shortDescription != null)
                     {
@@ -383,7 +376,7 @@ namespace malmo
 
                         htmlBuilder.AppendLine("<dl>\n");
                         htmlBuilder.AppendLine("<dt><h2>Relaterade Videos</h2></dt>\n");
-                        htmlBuilder.AppendLine("<div class=\"related\">\n");
+                        htmlBuilder.AppendLine("<div id=\"scrollbar\" class=\"related\">\n");
                         htmlBuilder.AppendLine("<ul class=\"sidescroll\">\n");
                         //html += "<dl class=\"accordion\">\n";
                         //html += "<dt><h2>Relaterade Videos</h2></dt>\n";
@@ -426,7 +419,7 @@ namespace malmo
                         }
 
                         htmlBuilder.AppendLine("\t<li style=\"clear:both;\"</li>\n");
-                        htmlBuilder.AppendLine("</ul>\n");
+                        htmlBuilder.AppendLine("</ul>\n");                      
                         htmlBuilder.AppendLine("</div>\n");
                         htmlBuilder.AppendLine("</dl>\n");
 

@@ -71,7 +71,19 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="css\playerCSS_ie.css" />
+    <Content Include="css\smoothDivScroll.css" />
     <Content Include="css\tooltipster.css" />
+    <Content Include="Images\arrow_left.gif" />
+    <Content Include="Images\arrow_left.png" />
+    <Content Include="Images\arrow_right.gif" />
+    <Content Include="Images\arrow_right.png" />
+    <Content Include="Images\big_transparent.gif" />
+    <Content Include="Images\cursors\cursor_arrow_left.cur" />
+    <Content Include="Images\cursors\cursor_arrow_left.gif" />
+    <Content Include="Images\cursors\cursor_arrow_left.png" />
+    <Content Include="Images\cursors\cursor_arrow_right.cur" />
+    <Content Include="Images\cursors\cursor_arrow_right.gif" />
+    <Content Include="Images\cursors\cursor_arrow_right.png" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -80,6 +92,10 @@
     <Content Include="Scripts\jquery.lazyload.min.js" />
     <Content Include="Scripts\jquery.tooltipster.js" />
     <Content Include="Scripts\jquery.tooltipster.min.js" />
+    <Content Include="Scripts\smoothScroll\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="Scripts\smoothScroll\jquery.kinetic.min.js" />
+    <Content Include="Scripts\smoothScroll\jquery.mousewheel.min.js" />
+    <Content Include="Scripts\smoothScroll\jquery.smoothdivscroll-1.3-min.js" />
     <Content Include="test.html" />
     <Content Include="oldFramework.txt" />
     <Content Include="Web.config">

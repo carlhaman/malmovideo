@@ -29,8 +29,14 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="Scripts/jquery.tooltipster.min.js"></script>
     <script src="Scripts/jquery.lazyload.min.js"></script>
+    <script src="Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="Scripts/smoothScroll/jquery.kinetic.min.js"></script>
+    <script src="Scripts/smoothScroll/jquery.mousewheel.min.js"></script>
+    <script src="Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js"></script>
+
     <link href="css/tooltipster.css" rel="stylesheet" />
     <link href="css/playerCSS.css" rel="stylesheet" />
+    <link href="css/smoothDivScroll.css" rel="stylesheet" />
 
     <!--[if IE]><link href="css/playerCSS_ie.css" type="text/css" rel="stylesheet"><![endif]-->
 
@@ -74,8 +80,15 @@
 
             $('.accordion > dt > h2').first().click();
 
-        })(jQuery);
+            $("div#scrollbar").smoothDivScroll({
+                autoScrollingMode: "",
+                hotSpotScrolling: true,
+                visibleHotSpotBackgrounds: "always",
+                mousewheelScrolling: "allDirections",
+                touchScrolling: true
+		    });
 
+        })(jQuery);
 
     </script>
 </head>
@@ -102,13 +115,13 @@
 
                                 <asp:UpdatePanel ID="searchResultsPanel" runat="server">
                                     <ContentTemplate>
-                                        
+
                                         <div class="searchField">
                                             <asp:Button runat="server" ID="searchButton" class="gradient yellowGradient" OnClick="searchButton_Click" Text="Sök" />
                                             <asp:TextBox ID="searchText" Text="Sök video" runat="server"></asp:TextBox>
                                         </div>
                                         <h2>Videoarkiv</h2>
-                                            
+
                                         <div id="searchResultsDiv" class="searchResults" runat="server" style="display: none;"></div>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
