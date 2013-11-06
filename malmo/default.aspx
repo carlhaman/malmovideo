@@ -85,7 +85,8 @@
                 hotSpotScrolling: true,
                 visibleHotSpotBackgrounds: "always",
                 mousewheelScrolling: "allDirections",
-                touchScrolling: true
+                touchScrolling: true,
+                easingAfterHotSpotScrollingFunction: "easeOutCirc"
 		    });
 
         })(jQuery);
