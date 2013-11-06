@@ -164,7 +164,7 @@ namespace malmo
                                     <script language='JavaScript' type='text/javascript' src='http://admin.brightcove.com/js/BrightcoveExperiences.js'></script>
 
                                     <object id='myExperience" + meta.id.ToString() + @"' class='BrightcoveExperience'>
-                                      <param name='bgcolor' value='#FFFFFF' />
+                                      <param name='bgcolor' value='#808080' />
                                       <param name='width' value='480' />
                                       <param name='height' value='270' />
                                       <param name='playerID' value='745456405001' />
@@ -172,7 +172,9 @@ namespace malmo
                                       <param name='isVid' value='true' />
                                       <param name='isUI' value='true' />
                                       <param name='dynamicStreaming' value='true' />
-
+                                      <param name='linkBaseURL' value='http://video.malmo.se?bctid=" + meta.id.ToString() + @"' />
+                                      <param name='wmode' value='opaque' />
+                                      <param name='htmlFallback' value='true' />
                                       <param name='@videoPlayer' value='" + meta.id.ToString() + @"' />
                                     </object>
                                     <script type='text/javascript'>brightcove.createExperiences();</script>

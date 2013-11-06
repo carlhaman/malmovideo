@@ -84,10 +84,8 @@
     <Content Include="default.aspx" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Images\new_arrow_left.gif" />
-    <Content Include="Images\new_arrow_left.png" />
     <Content Include="Images\new_arrow_left_hover.gif" />
     <Content Include="Images\new_arrow_right.gif" />
-    <Content Include="Images\new_arrow_right.png" />
     <Content Include="Images\new_arrow_right_hover.gif" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
