@@ -73,10 +73,6 @@
     <Content Include="css\playerCSS_ie.css" />
     <Content Include="css\smoothDivScroll.css" />
     <Content Include="css\tooltipster.css" />
-    <Content Include="Images\arrow_left.gif" />
-    <Content Include="Images\arrow_left.png" />
-    <Content Include="Images\arrow_right.gif" />
-    <Content Include="Images\arrow_right.png" />
     <Content Include="Images\big_transparent.gif" />
     <Content Include="Images\cursors\cursor_arrow_left.cur" />
     <Content Include="Images\cursors\cursor_arrow_left.gif" />
@@ -89,8 +85,10 @@
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Images\new_arrow_left.gif" />
     <Content Include="Images\new_arrow_left.png" />
+    <Content Include="Images\new_arrow_left_hover.gif" />
     <Content Include="Images\new_arrow_right.gif" />
     <Content Include="Images\new_arrow_right.png" />
+    <Content Include="Images\new_arrow_right_hover.gif" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery.lazyload.min.js" />
