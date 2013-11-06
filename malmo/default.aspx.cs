@@ -375,7 +375,7 @@ namespace malmo
                         StringBuilder htmlBuilder = new StringBuilder();
 
                         htmlBuilder.AppendLine("<dl>\n");
-                        htmlBuilder.AppendLine("<dt><h2>Relaterade Videos</h2></dt>\n");
+                        htmlBuilder.AppendLine("<dt><h2>Relaterade Videor</h2></dt>\n");
                         htmlBuilder.AppendLine("<div id=\"scrollbar\" class=\"related\">\n");
                         htmlBuilder.AppendLine("<ul class=\"sidescroll\">\n");
                         //html += "<dl class=\"accordion\">\n";

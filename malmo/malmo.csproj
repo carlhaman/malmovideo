@@ -87,6 +87,10 @@
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Images\new_arrow_left.gif" />
+    <Content Include="Images\new_arrow_left.png" />
+    <Content Include="Images\new_arrow_right.gif" />
+    <Content Include="Images\new_arrow_right.png" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery.lazyload.min.js" />

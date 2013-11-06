@@ -198,6 +198,9 @@ a, a:visited, a:link
     width: 1700px;
 
 }
+.sidescroll .video_item {
+padding-top: 0.2rem;
+}
 
 #makeMeScrollable div.scrollableArea li
 {
