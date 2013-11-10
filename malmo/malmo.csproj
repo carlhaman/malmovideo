@@ -98,6 +98,7 @@
     <Content Include="Scripts\smoothScroll\jquery.smoothdivscroll-1.3-min.js" />
     <Content Include="test.html" />
     <Content Include="oldFramework.txt" />
+    <Content Include="videoSiteMap.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -118,6 +119,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Smil.cs" />
     <Compile Include="videoArchive.cs" />
+    <Compile Include="videoSiteMap.aspx.cs">
+      <DependentUpon>videoSiteMap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="videoSiteMap.aspx.designer.cs">
+      <DependentUpon>videoSiteMap.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

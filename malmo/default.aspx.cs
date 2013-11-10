@@ -28,6 +28,7 @@ namespace malmo
         {
 
             malmoKomin = isMalmoNetwork();
+            
 
             string archiveString = "Archive";
             if (malmoKomin)
@@ -151,9 +152,21 @@ namespace malmo
 
                     if (!CBPlayer && !kominVideo || !CBPlayer && kominVideo && malmoKomin)
                     {
-                        playerKey = System.Configuration.ConfigurationManager.AppSettings["M_BC_PLAYERKEY"].ToString();
-                        playerId = System.Configuration.ConfigurationManager.AppSettings["M_BC_PLAYERID"].ToString();
+                        //playerKey = System.Configuration.ConfigurationManager.AppSettings["M_BC_PLAYERKEY"].ToString();
+                        //playerId = System.Configuration.ConfigurationManager.AppSettings["M_BC_PLAYERID"].ToString();
+                        //745456405001 - Chromeless ID
+                        //AQ~~,AAAArZCmTQE~,w5iz83926fkXk5wAB6K2HNZ2NUmtlRla - Chromeless Key
 
+
+                        //För stats på olika användare
+                        if (kominVideo) {
+                            playerId = "2810881921001";
+                            playerKey = "AQ~~,AAAArZCmTQE~,w5iz83926fm7oUsR94lRtjiPJ3VicQiA";
+                        }
+                        else {
+                            playerId = "2810881920001";
+                            playerKey = "AQ~~,AAAArZCmTQE~,w5iz83926flwNgeVE8x1_ZgoF5t7oTGp";
+                        }
 
                         metaHtml += "<div class=\"bc-container\">\n";
                         metaHtml += "<div class=\"embed-container\">\n";
@@ -167,8 +180,8 @@ namespace malmo
                                       <param name='bgcolor' value='#808080' />
                                       <param name='width' value='480' />
                                       <param name='height' value='270' />
-                                      <param name='playerID' value='745456405001' />
-                                      <param name='playerKey' value='AQ~~,AAAArZCmTQE~,w5iz83926fkXk5wAB6K2HNZ2NUmtlRla' />
+                                      <param name='playerID' value='"+ playerId +@"' />
+                                      <param name='playerKey' value='" + playerKey + @"' />
                                       <param name='isVid' value='true' />
                                       <param name='isUI' value='true' />
                                       <param name='dynamicStreaming' value='true' />
@@ -208,7 +221,7 @@ namespace malmo
                         metaHtml += "<h1>" + meta.name + "</h1>\n";
                         metaOgTitle.Attributes["content"] = meta.name;
                         metaTwitterTitle.Attributes["content"] = meta.name;
-                        metaPageTitle.Text = "Malmö Stad Video - " + meta.name;                        
+                        metaPageTitle.Text = "Malmö stad Video - " + meta.name;                        
                     }
                     if (meta.shortDescription != null)
                     {

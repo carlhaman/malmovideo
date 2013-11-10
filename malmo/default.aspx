@@ -84,7 +84,7 @@
                 autoScrollingMode: "",
                 hotSpotScrolling: true,
                 visibleHotSpotBackgrounds: "always",
-                mousewheelScrolling: "allDirections",
+                mousewheelScrolling: "horizontal",
                 touchScrolling: true
 		    });
 

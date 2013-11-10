@@ -39,7 +39,6 @@
 
 .cb-container
 {
-    background-color: #C9C9C9;
     margin-bottom: 1rem;
 }
 
@@ -188,7 +187,6 @@ a, a:visited, a:link
 {
     width: 100%;
     position: relative;
-
 }
 
 .sidescroll
@@ -196,20 +194,21 @@ a, a:visited, a:link
     list-style: none;
     height: 100px;
     width: 1700px;
+}
 
-}
-.sidescroll .video_item {
-padding-top: 0.2rem;
-}
+    .sidescroll .video_item
+    {
+        padding-top: 0.2rem;
+    }
 
 #makeMeScrollable div.scrollableArea li
 {
-	position: relative;
-	float: left;
-	margin: 0;
-	padding: 0;
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0;
 }
-	
+
 
 .accordion dt h2
 {
