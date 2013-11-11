@@ -30,7 +30,7 @@ namespace malmo
             videoArchive archive = (videoArchive)Cache["Archive"];
             if (archive == null) {
                 buildVideoArchive builder = new buildVideoArchive();
-                archive = builder.render(true);
+                archive = builder.render(false);
             }
             if (archive != null) {                
                 foreach (videoCategory category in archive.categories) {
@@ -55,7 +55,15 @@ namespace malmo
         {
             long milli;
             bool parse = long.TryParse(item.length, out milli);
+            if (milli >= 28800000) { milli = 28800000; }
             string duration = (milli / 1000).ToString();
+
+            string _viewComunt = item.playsTotal;
+            if (_viewComunt == null) _viewComunt = "0";
+
+            string _thumbnail = item.videoStillURL;
+            if (_thumbnail == null) _thumbnail = item.thumbnailURL;
+
             w.WriteStartElement("url");
 
             w.WriteElementString("loc", "http://video.malmo.se/?bctid=" + item.id);
@@ -64,10 +72,10 @@ namespace malmo
 
             w.WriteElementString("video", "title", null, item.name);
             w.WriteElementString("video", "description", null, item.shortDescription);
-            w.WriteElementString("video", "thumbnail_loc", null, item.videoStillURL);
+            w.WriteElementString("video", "thumbnail_loc", null, _thumbnail);
             w.WriteElementString("video", "family_friendly", null, "Yes");
             w.WriteElementString("video", "category", null, category);
-            w.WriteElementString("video", "view_count", null, item.playsTotal);
+            w.WriteElementString("video", "view_count", null, _viewComunt);
             w.WriteElementString("video", "duration", null, duration);
 
             w.WriteStartElement("video", "player_loc", null);

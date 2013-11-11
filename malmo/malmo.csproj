@@ -64,6 +64,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BingSiteAuth.xml" />
     <Content Include="css\playerCSS.css" />
     <Content Include="anders_checkar_in.txt" />
     <Content Include="cloudbox.svc" />
@@ -73,6 +74,7 @@
     <Content Include="css\playerCSS_ie.css" />
     <Content Include="css\smoothDivScroll.css" />
     <Content Include="css\tooltipster.css" />
+    <Content Include="google98541fcbfdbe77bc.html" />
     <Content Include="Images\big_transparent.gif" />
     <Content Include="Images\cursors\cursor_arrow_left.cur" />
     <Content Include="Images\cursors\cursor_arrow_left.gif" />
@@ -96,6 +98,7 @@
     <Content Include="Scripts\smoothScroll\jquery.kinetic.min.js" />
     <Content Include="Scripts\smoothScroll\jquery.mousewheel.min.js" />
     <Content Include="Scripts\smoothScroll\jquery.smoothdivscroll-1.3-min.js" />
+    <Content Include="siteMap.aspx" />
     <Content Include="test.html" />
     <Content Include="oldFramework.txt" />
     <Content Include="videoSiteMap.aspx" />
@@ -117,6 +120,13 @@
     <Compile Include="Icloudbox.cs" />
     <Compile Include="ipRangeCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="siteMap.aspx.cs">
+      <DependentUpon>siteMap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="siteMap.aspx.designer.cs">
+      <DependentUpon>siteMap.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Smil.cs" />
     <Compile Include="videoArchive.cs" />
     <Compile Include="videoSiteMap.aspx.cs">
