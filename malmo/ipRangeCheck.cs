@@ -90,5 +90,14 @@ namespace malmo
             return false;
         }
 
+        public bool MalmoNetwork() {
+            ipRangeCheck kominRange = new ipRangeCheck();
+            var rangeList = new List<IpRange>();
+            rangeList.Add(new IpRange(IPAddress.Parse("161.52.0.0"), IPAddress.Parse("161.52.255.255")));
+            string adress = kominRange.GetIP4Address();
+            bool result = kominRange.CheckIsIpInRange(adress, rangeList);
+            return result;        
+        }
+
     }
 }
