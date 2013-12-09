@@ -484,11 +484,12 @@ namespace malmo
                         metaHtml += "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\"  data-url=\"http://video.malmo.se/?bctid=" + meta.id.ToString() + "\" data-lang=\"sv\">Tweeta</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\n";
                         metaHtml += "</div>\n";
 
+                        string facebookPlayerId = "2915333897001";
                         faceBookMeta.AppendLine("<meta property=\"og:type\" content=\"movie\"/>");
                         faceBookMeta.AppendLine("<meta property=\"og:video:height\" content=\"270\"/>");
                         faceBookMeta.AppendLine("<meta property=\"og:video:width\" content=\"480\"/>");
-                        faceBookMeta.AppendLine("<meta property=\"og:video\" content=\"http://c.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + playerId + "&autoStart=true&videoId=" + meta.id.ToString() + "\">");
-                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID="+ playerId +"&autoStart=true&videoId="+meta.id.ToString()+"&secureConnections=true\">");
+                        faceBookMeta.AppendLine("<meta property=\"og:video\" content=\"http://c.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "\">");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "&secureConnections=true\">");
                         faceBookMeta.AppendLine("<meta property=\"og:video:type\" content=\"application/x-shockwave-flash\">");
  
   
