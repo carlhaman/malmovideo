@@ -22,40 +22,13 @@ namespace malmo {
         protected global::System.Web.UI.HtmlControls.HtmlTitle metaPageTitle;
         
         /// <summary>
-        /// metaOgUrl control.
+        /// fbMeta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgUrl;
-        
-        /// <summary>
-        /// metaOgTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgTitle;
-        
-        /// <summary>
-        /// metaOgDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgDescription;
-        
-        /// <summary>
-        /// metaOgImage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaOgImage;
+        protected global::System.Web.UI.WebControls.Literal fbMeta;
         
         /// <summary>
         /// metaTwitterUrl control.

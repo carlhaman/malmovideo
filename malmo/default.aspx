@@ -8,11 +8,8 @@
     <meta charset="utf-8" />
 
     <title runat="server" id="metaPageTitle"></title>
-
-    <meta id="metaOgUrl" runat="server" property="og:url" />
-    <meta id="metaOgTitle" runat="server" property="og:title" />
-    <meta id="metaOgDescription" runat="server" property="og:description" />
-    <meta id="metaOgImage" runat="server" property="og:image" />
+    
+    <asp:Literal ID="fbMeta" runat="server"></asp:Literal>
 
     <meta name="twitter:card" content="player" />
     <meta id="metaTwitterUrl" name="twitter:url" runat="server" />

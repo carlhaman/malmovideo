@@ -415,30 +415,40 @@ namespace malmo
                     }
                     metaHtml += "<div class=\"videoDescription\">\n";
 
+                    StringBuilder faceBookMeta = new StringBuilder();
+
                     if (meta.id > 0)
                     {
-                        metaOgUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
+                        
                         metaTwitterUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
                         string twitterPlayerUrl = "https://link.brightcove.com/services/player/bcpid" + playerId + "?bckey=" + playerKey + "&bctid=" + meta.id.ToString() + "&secureConnections=true&autoStart=false&height=100%25&width=100%25";
                         metaTwitterPlayer.Attributes["content"] = twitterPlayerUrl;
+
+                        faceBookMeta.AppendLine("<meta property=\"og:url\"  content=\"http://video.malmo.se/?bctid=" + meta.id.ToString() +"\"/>");
                     }
                     if (meta.name != null)
                     {
                         metaHtml += "<h1>" + meta.name + "</h1>\n";
-                        metaOgTitle.Attributes["content"] = meta.name;
+                       
                         metaTwitterTitle.Attributes["content"] = meta.name;
                         metaPageTitle.Text = "Malmö stad Video - " + meta.name;
+
+                        faceBookMeta.AppendLine("<meta property=\"og:title\" content=\""+ meta.name +"\"/>");
                     }
                     if (meta.shortDescription != null)
                     {
                         metaHtml += "<p>" + meta.shortDescription + "</p>\n";
-                        metaOgDescription.Attributes["content"] = meta.shortDescription;
+                        
                         metaTwitterDescription.Attributes["content"] = meta.shortDescription;
+
+                        faceBookMeta.AppendLine("<meta property=\"og:description\" content=\"" + meta.shortDescription + "\"/>");
                     }
                     if (meta.videoStillURL != null)
                     {
-                        metaOgImage.Attributes["content"] = meta.videoStillURL;
+                        
                         metaTwitterImage.Attributes["content"] = meta.videoStillURL;
+
+                        faceBookMeta.AppendLine("<meta property=\"og:image\" content=\""+meta.videoStillURL+"\"/>");
                     }
                     metaHtml += "<div class=\"extraMeta\">\n";
                     if (meta.length > 0) { metaHtml += "Längd: " + new TimeSpan(0, 0, 0, 0, (int)meta.length).ToString(@"hh\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "<br/>"; }
@@ -473,13 +483,25 @@ namespace malmo
                         //Twitter
                         metaHtml += "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\"  data-url=\"http://video.malmo.se/?bctid=" + meta.id.ToString() + "\" data-lang=\"sv\">Tweeta</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\n";
                         metaHtml += "</div>\n";
+
+                        faceBookMeta.AppendLine("<meta property=\"og:type\" content=\"movie\"/>");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:height\" content=\"270\"/>");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:width\" content=\"480\"/>");
+                        faceBookMeta.AppendLine("<meta property=\"og:video\" content=\"http://c.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + playerId + "&autoStart=true&videoId=" + meta.id.ToString() + "\">");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID="+ playerId +"&autoStart=true&videoId="+meta.id.ToString()+"&secureConnections=true\">");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:type\" content=\"application/x-shockwave-flash\">");
+ 
+  
                     }
                     metaHtml += "</div>\n";
                     metaHtml += "</div>\n";
                     metaHtml += "<div style=\"clear: both;\"></div>\n";
+
+                    fbMeta.Text = faceBookMeta.ToString();
                 }
                 string metadata = string.Empty;
                 videoDetails.InnerHtml = metaHtml;
+                
             }
         }
 
