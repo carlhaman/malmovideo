@@ -86,6 +86,7 @@
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Images\Logga.jpg" />
     <Content Include="Images\new_arrow_left.gif" />
     <Content Include="Images\new_arrow_left_hover.gif" />
     <Content Include="Images\new_arrow_right.gif" />

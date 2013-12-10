@@ -22,6 +22,7 @@ namespace malmo
         private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
         private bool malmoKomin = false;
+        private bool frontPage = false;
 
         StringBuilder clientScripts = new StringBuilder();
 
@@ -29,7 +30,7 @@ namespace malmo
         {
 
             malmoKomin = isMalmoNetwork();
-            
+
 
             string archiveString = "Archive";
             if (malmoKomin)
@@ -68,8 +69,6 @@ namespace malmo
 
             renderCommonAssets();
 
-
-
             string queryId = string.Empty;
 
             if (Request.QueryString["bctid"] != null)
@@ -82,7 +81,11 @@ namespace malmo
                 getBrightcoveVideo(queryId, MReadToken);
             }
 
-            else { getLatestVideo(); }
+            else
+            {
+                frontPage = true;
+                getLatestVideo();
+            }
 
             renderVideoArchive(archive);
 
@@ -252,7 +255,8 @@ namespace malmo
             IEplayerCSS.Text = "<!--[if IE]><link href=\"" + Request.Url.GetLeftPart(UriPartial.Authority) + "/css/playerCSS_ie.css\" type=\"text/css\" rel=\"stylesheet\"><![endif]-->";
             Page.Header.Controls.Add(IEplayerCSS);
 
-            if (malmoKomin) {
+            if (malmoKomin)
+            {
                 HtmlLink playerKominCSS = new HtmlLink();
                 playerKominCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/playerKominCSS.css";
                 playerKominCSS.Attributes["rel"] = "stylesheet";
@@ -273,6 +277,31 @@ namespace malmo
         private void addScriptsToPage()
         {
             scriptBlock.Text = clientScripts.ToString();
+        }
+
+        private void setStandardMeta()
+        {
+            string title = "Malmö stads videoarkiv";
+            string description = "Välkommen till Malmö stads videoarkiv! Här publicerar vi videoklipp av nyheter, händelser och evenemang som vi tror kan vara av intresse för dig som bor i, eller besöker Malmö.";
+            string logoURL = Request.Url.GetLeftPart(UriPartial.Authority) + "/Images/Logga.jpg";
+
+            StringBuilder twitter = new StringBuilder();
+            StringBuilder facebook = new StringBuilder();
+
+            twitter.AppendLine("<meta name=\"twitter:title\" content=\"" + title + "\" />");
+            facebook.AppendLine("<meta property=\"og:title\" content=\"" + title + "\"/>");
+            twitter.AppendLine("<meta name=\"twitter:description\" content=\"" + description + "\" />");
+            facebook.AppendLine("<meta property=\"og:description\" content=\"" + description + "\" />");
+            twitter.AppendLine("<meta name=\"twitter:image:src\" content=\"" + logoURL + "\" />");
+            facebook.AppendLine("<meta property=\"og:image\" content=\"" + logoURL + "\" />");
+            facebook.AppendLine("<meta property=\"og:type\" content=\"website\"/>");
+            twitter.AppendLine("<meta name=\"twitter:card\" content=\"summary\" />");
+            twitter.AppendLine("<meta name=\"twitter:url\" content=\"http://video.malmo.se\" />");
+            facebook.AppendLine("<meta property=\"og:url\" content=\"http://video.malmo.se\" />");
+
+            fbMeta.Text = facebook.ToString();
+            twMeta.Text = twitter.ToString();
+
         }
 
         private void renderMasthead()
@@ -416,39 +445,42 @@ namespace malmo
                     metaHtml += "<div class=\"videoDescription\">\n";
 
                     StringBuilder faceBookMeta = new StringBuilder();
+                    StringBuilder twitterMeta = new StringBuilder();
 
                     if (meta.id > 0)
                     {
-                        
-                        metaTwitterUrl.Attributes["content"] = "http://video.malmo.se/?bctid=" + meta.id.ToString();
-                        string twitterPlayerUrl = "https://link.brightcove.com/services/player/bcpid" + playerId + "?bckey=" + playerKey + "&bctid=" + meta.id.ToString() + "&secureConnections=true&autoStart=false&height=100%25&width=100%25";
-                        metaTwitterPlayer.Attributes["content"] = twitterPlayerUrl;
+                        twitterMeta.AppendLine("<meta name=\"twitter:card\" content=\"player\" />");
+                        twitterMeta.AppendLine("<meta name=\"twitter:url\" content=\"http://video.malmo.se/?bctid=" + meta.id.ToString() + "\" />");
 
-                        faceBookMeta.AppendLine("<meta property=\"og:url\"  content=\"http://video.malmo.se/?bctid=" + meta.id.ToString() +"\"/>");
+                        string twitterPlayerUrl = "https://link.brightcove.com/services/player/bcpid" + playerId + "?bckey=" + playerKey + "&bctid=" + meta.id.ToString() + "&secureConnections=true&autoStart=false&height=100%25&width=100%25";
+
+                        twitterMeta.AppendLine("<meta name=\"twitter:player\" content=\"" + twitterPlayerUrl + "\" />");
+                        twitterMeta.AppendLine("<meta name=\"twitter:player:width\" content=\"360\" />");
+                        twitterMeta.AppendLine("<meta name=\"twitter:player:height\" content=\"200\" />");
+
+                        faceBookMeta.AppendLine("<meta property=\"og:url\"  content=\"http://video.malmo.se/?bctid=" + meta.id.ToString() + "\"/>");
                     }
                     if (meta.name != null)
                     {
                         metaHtml += "<h1>" + meta.name + "</h1>\n";
-                       
-                        metaTwitterTitle.Attributes["content"] = meta.name;
-                        metaPageTitle.Text = "Malmö stad Video - " + meta.name;
 
-                        faceBookMeta.AppendLine("<meta property=\"og:title\" content=\""+ meta.name +"\"/>");
+                        metaPageTitle.Text = "Malmö stad video - " + meta.name;
+
+                        twitterMeta.AppendLine("<meta name=\"twitter:title\" content=\"" + meta.name + "\" />");
+                        faceBookMeta.AppendLine("<meta property=\"og:title\" content=\"" + meta.name + "\"/>");
                     }
                     if (meta.shortDescription != null)
                     {
                         metaHtml += "<p>" + meta.shortDescription + "</p>\n";
-                        
-                        metaTwitterDescription.Attributes["content"] = meta.shortDescription;
 
-                        faceBookMeta.AppendLine("<meta property=\"og:description\" content=\"" + meta.shortDescription + "\"/>");
+                        twitterMeta.AppendLine("<meta name=\"twitter:description\" content=\"" + meta.shortDescription + "\" />");
+                        faceBookMeta.AppendLine("<meta property=\"og:description\" content=\"" + meta.shortDescription + "\" />");
                     }
                     if (meta.videoStillURL != null)
                     {
-                        
-                        metaTwitterImage.Attributes["content"] = meta.videoStillURL;
 
-                        faceBookMeta.AppendLine("<meta property=\"og:image\" content=\""+meta.videoStillURL+"\"/>");
+                        twitterMeta.AppendLine("<meta name=\"twitter:image:src\" content=\"" + meta.videoStillURL + "\" />");
+                        faceBookMeta.AppendLine("<meta property=\"og:image\" content=\"" + meta.videoStillURL + "\" />");
                     }
                     metaHtml += "<div class=\"extraMeta\">\n";
                     if (meta.length > 0) { metaHtml += "Längd: " + new TimeSpan(0, 0, 0, 0, (int)meta.length).ToString(@"hh\:mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "<br/>"; }
@@ -491,18 +523,26 @@ namespace malmo
                         faceBookMeta.AppendLine("<meta property=\"og:video\" content=\"http://c.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "\">");
                         faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "&secureConnections=true\">");
                         faceBookMeta.AppendLine("<meta property=\"og:video:type\" content=\"application/x-shockwave-flash\">");
- 
-  
+
+                        if (!frontPage)
+                        {
+                            fbMeta.Text = faceBookMeta.ToString();
+                            twMeta.Text = twitterMeta.ToString();
+                        }
+
+                    }
+                    if (frontPage || kominVideo)
+                    {
+                        setStandardMeta();
                     }
                     metaHtml += "</div>\n";
                     metaHtml += "</div>\n";
                     metaHtml += "<div style=\"clear: both;\"></div>\n";
 
-                    fbMeta.Text = faceBookMeta.ToString();
                 }
                 string metadata = string.Empty;
                 videoDetails.InnerHtml = metaHtml;
-                
+
             }
         }
 
@@ -678,7 +718,7 @@ namespace malmo
             relatedVideos.InnerHtml = html;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-loader", "<script type='text/javascript'>$('#relatedVideos').find('img.lazy').lazyload();</script>", false);
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#relatedVideos').find('.tooltip').tooltipster('destroy');$('#relatedVideos').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
-            
+
         }
 
         private string searchBrightcoveVideos(string searchString)

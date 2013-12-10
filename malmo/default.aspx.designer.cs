@@ -31,58 +31,13 @@ namespace malmo {
         protected global::System.Web.UI.WebControls.Literal fbMeta;
         
         /// <summary>
-        /// twitterMeta control.
+        /// twMeta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal twitterMeta;
-        
-        /// <summary>
-        /// metaTwitterUrl control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterUrl;
-        
-        /// <summary>
-        /// metaTwitterTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterTitle;
-        
-        /// <summary>
-        /// metaTwitterDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterDescription;
-        
-        /// <summary>
-        /// metaTwitterImage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterImage;
-        
-        /// <summary>
-        /// metaTwitterPlayer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlMeta metaTwitterPlayer;
+        protected global::System.Web.UI.WebControls.Literal twMeta;
         
         /// <summary>
         /// bodyTag control.

@@ -11,14 +11,8 @@
     
     <asp:Literal ID="fbMeta" runat="server"></asp:Literal>
 
-    <asp:Literal ID="twitterMeta" runat="server"></asp:Literal>
+    <asp:Literal ID="twMeta" runat="server"></asp:Literal>
 
-    <meta name="twitter:card" content="player" />
-    <meta id="metaTwitterUrl" name="twitter:url" runat="server" />
-    <meta id="metaTwitterTitle" name="twitter:title" runat="server" />
-    <meta id="metaTwitterDescription" name="twitter:description" runat="server" />
-    <meta id="metaTwitterImage" name="twitter:image" runat="server" />
-    <meta id="metaTwitterPlayer" name="twitter:player" runat="server" />
 
 </head>
 <body runat="server" id="bodyTag">
