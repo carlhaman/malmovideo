@@ -41,7 +41,7 @@ namespace malmo
             if (archive == null)
             {
                 archive = buildVideoArchive(malmoKomin);
-                Cache.Insert(archiveString, archive, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
+                Cache.Insert(archiveString, archive, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
             }
 
             //För att inte indexera staging-server
@@ -234,31 +234,31 @@ namespace malmo
             addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
 
             HtmlLink tooltipsterCSS = new HtmlLink();
-            tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.css";
+            tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.min.css";
             tooltipsterCSS.Attributes["rel"] = "stylesheet";
             tooltipsterCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(tooltipsterCSS);
 
             HtmlLink smoothDivScrollCSS = new HtmlLink();
-            smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.css";
+            smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
             smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
             smoothDivScrollCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(smoothDivScrollCSS);
 
             HtmlLink playerCSS = new HtmlLink();
-            playerCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/playerCSS.css";
+            playerCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player.min.css";
             playerCSS.Attributes["rel"] = "stylesheet";
             playerCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(playerCSS);
 
             Literal IEplayerCSS = new Literal();
-            IEplayerCSS.Text = "<!--[if IE]><link href=\"" + Request.Url.GetLeftPart(UriPartial.Authority) + "/css/playerCSS_ie.css\" type=\"text/css\" rel=\"stylesheet\"><![endif]-->";
+            IEplayerCSS.Text = "<!--[if IE]><link href=\"" + Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player_ie.min.css\" type=\"text/css\" rel=\"stylesheet\"><![endif]-->";
             Page.Header.Controls.Add(IEplayerCSS);
 
             if (malmoKomin)
             {
                 HtmlLink playerKominCSS = new HtmlLink();
-                playerKominCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/playerKominCSS.css";
+                playerKominCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/playerKomin.min.css";
                 playerKominCSS.Attributes["rel"] = "stylesheet";
                 playerKominCSS.Attributes["type"] = "text/css";
                 Page.Header.Controls.Add(playerKominCSS);
@@ -268,7 +268,7 @@ namespace malmo
             //startScript.Attributes.Add("type", "text/javascript");
             //startScript.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.js");
             //Page.Header.Controls.Add(startScript);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.js");
+            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.min.js");
         }
         private void addStartupScripts(string scriptSrc)
         {
@@ -323,7 +323,7 @@ namespace malmo
                     }
 
                 }
-                catch (WebException ex) { }
+                catch (WebException ex) { mastHeadString = "<div>Error: " + ex.Message + "</div>\n"; }
             }
             mastHead.InnerHtml = mastHeadString;
 
@@ -378,7 +378,7 @@ namespace malmo
 
                         metaHtml += "<div class=\"cb-container\">\n";
                         metaHtml += "<div class=\"embed-container\">\n";
-                        metaHtml += "<iframe src=\"" + meta.customFields["cblandingpage"] + "\" frameborder=\"0\" allowfullscreen></iframe>\n";
+                        metaHtml += "<iframe src=\"" + meta.customFields["cblandingpage"] + "\" frameborder=\"0\" allowTransparency=\"true\" allowfullscreen></iframe>\n";
                         metaHtml += "</div>\n";
                         metaHtml += "</div>\n";
                     }
@@ -717,7 +717,9 @@ namespace malmo
 
             relatedVideos.InnerHtml = html;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-loader", "<script type='text/javascript'>$('#relatedVideos').find('img.lazy').lazyload();</script>", false);
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#relatedVideos').find('.tooltip').tooltipster('destroy');$('#relatedVideos').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
+            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#relatedVideos').find('.tooltip').tooltipster('destroy');$('#relatedVideos').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
+
 
         }
 
@@ -929,7 +931,7 @@ namespace malmo
                     {
                         htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
                         htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
-                        htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>");
+                        htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL + "\" width=\"160\" height=\"90\"/>");
                         htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
                         htmlBuilder.AppendLine("</a>\n");
                         htmlBuilder.AppendLine("</li>\n");

@@ -65,6 +65,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BingSiteAuth.xml" />
+    <Content Include="clear.aspx" />
+    <Content Include="css\4plus1.css">
+      <DependentUpon>4plus1.less</DependentUpon>
+    </Content>
+    <Content Include="css\4plus1.min.css">
+      <DependentUpon>4plus1.less</DependentUpon>
+    </Content>
+    <Content Include="css\player.css">
+      <DependentUpon>player.less</DependentUpon>
+    </Content>
+    <Content Include="css\player.min.css">
+      <DependentUpon>player.less</DependentUpon>
+    </Content>
     <Content Include="css\playerCSS.css" />
     <Content Include="anders_checkar_in.txt" />
     <Content Include="cloudbox.svc" />
@@ -72,9 +85,33 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="css\playerCSS_ie.css" />
+    <Content Include="css\playerKomin.css">
+      <DependentUpon>playerKomin.less</DependentUpon>
+    </Content>
+    <Content Include="css\playerKomin.min.css">
+      <DependentUpon>playerKomin.less</DependentUpon>
+    </Content>
     <Content Include="css\playerKominCSS.css" />
-    <Content Include="css\smoothDivScroll.css" />
-    <Content Include="css\tooltipster.css" />
+    <Content Include="css\player_ie.css">
+      <DependentUpon>player_ie.less</DependentUpon>
+    </Content>
+    <Content Include="css\player_ie.min.css">
+      <DependentUpon>player_ie.less</DependentUpon>
+    </Content>
+    <Content Include="css\smoothDivScroll.css">
+      <DependentUpon>smoothDivScroll.less</DependentUpon>
+    </Content>
+    <Content Include="css\smoothDivScroll.min.css">
+      <DependentUpon>smoothDivScroll.less</DependentUpon>
+    </Content>
+    <Content Include="css\tooltipster.css">
+      <DependentUpon>tooltipster.less</DependentUpon>
+    </Content>
+    <Content Include="css\tooltipster.min.css">
+      <DependentUpon>tooltipster.less</DependentUpon>
+    </Content>
+    <Content Include="dummy.html" />
+    <Content Include="dummy2.html" />
     <Content Include="google98541fcbfdbe77bc.html" />
     <Content Include="Images\big_transparent.gif" />
     <Content Include="Images\cursors\cursor_arrow_left.cur" />
@@ -85,12 +122,20 @@
     <Content Include="Images\cursors\cursor_arrow_right.png" />
     <Content Include="Images\grey.gif" />
     <Content Include="default.aspx" />
+    <Content Include="css\4plus1.less" />
+    <Content Include="css\player.less" />
+    <Content Include="css\player_ie.less" />
+    <Content Include="css\playerKomin.less" />
+    <Content Include="css\smoothDivScroll.less" />
+    <Content Include="css\tooltipster.less" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Images\Logga.jpg" />
     <Content Include="Images\new_arrow_left.gif" />
     <Content Include="Images\new_arrow_left_hover.gif" />
     <Content Include="Images\new_arrow_right.gif" />
     <Content Include="Images\new_arrow_right_hover.gif" />
+    <Content Include="Images\video_play_overlay.png" />
+    <Content Include="includes\4plus1.aspx" />
     <Content Include="rss.aspx" />
     <Content Include="Scripts\startupScript.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -102,6 +147,9 @@
     <Content Include="Scripts\smoothScroll\jquery.kinetic.min.js" />
     <Content Include="Scripts\smoothScroll\jquery.mousewheel.min.js" />
     <Content Include="Scripts\smoothScroll\jquery.smoothdivscroll-1.3-min.js" />
+    <Content Include="Scripts\startupScript.min.js">
+      <DependentUpon>startupScript.js</DependentUpon>
+    </Content>
     <Content Include="siteMap.aspx" />
     <Content Include="test.html" />
     <Content Include="oldFramework.txt" />
@@ -111,6 +159,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clear.aspx.cs">
+      <DependentUpon>clear.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="clear.aspx.designer.cs">
+      <DependentUpon>clear.aspx</DependentUpon>
+    </Compile>
     <Compile Include="cloudbox.svc.cs">
       <DependentUpon>cloudbox.svc</DependentUpon>
     </Compile>
@@ -122,6 +177,13 @@
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Icloudbox.cs" />
+    <Compile Include="includes\4plus1.aspx.cs">
+      <DependentUpon>4plus1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="includes\4plus1.aspx.designer.cs">
+      <DependentUpon>4plus1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ipRangeCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="rss.aspx.cs">
@@ -162,6 +224,9 @@
     <None Include="Properties\PublishProfiles\malmovideo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo.pubxml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="Scripts\startupScript.min.js.map">
+      <DependentUpon>startupScript.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

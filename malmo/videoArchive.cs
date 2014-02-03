@@ -26,14 +26,18 @@ namespace malmo
         public string length { get; set; }
         public string playsTotal { get; set; }
     }
-    public class buildVideoArchive {
-     public videoArchive render(bool komin) {
-     return build(komin);
-     }
-     private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
-     private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
+    public class buildVideoArchive
+    {
 
-     private videoArchive build(bool komin)
+        public videoArchive render(bool komin)
+        {
+            return build(komin);
+        }
+
+        private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
+        private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
+
+        private videoArchive build(bool komin)
         {
             videoArchive archive = new videoArchive();
             archive.categories = new List<videoCategory>();
@@ -146,4 +150,5 @@ namespace malmo
             return archive;
 
         }
-}}
+    }
+}

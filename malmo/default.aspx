@@ -13,7 +13,7 @@
 
     <asp:Literal ID="twMeta" runat="server"></asp:Literal>
 
-
+    <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
 </head>
 <body runat="server" id="bodyTag">
     <div class="wrap-all">
@@ -41,7 +41,7 @@
 
                                         <div class="searchField">
                                             <asp:Button runat="server" ID="searchButton" class="gradient yellowGradient" OnClick="searchButton_Click" Text="Sök" />
-                                            <asp:TextBox ID="searchText" Text="Sök video" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="searchText" placeholder="Sök video" runat="server"></asp:TextBox>
                                         </div>
                                         <h2>Videoarkiv</h2>
 
@@ -62,6 +62,6 @@
         </div>
 
     </div>
-<asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
+
 </body>
 </html>
