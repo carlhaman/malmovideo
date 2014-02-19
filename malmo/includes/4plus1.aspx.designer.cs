@@ -22,15 +22,6 @@ namespace malmo.includes {
         protected global::System.Web.UI.HtmlControls.HtmlForm startPageCarousel;
         
         /// <summary>
-        /// kfContainer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl kfContainer;
-        
-        /// <summary>
         /// aktuelltContainer control.
         /// </summary>
         /// <remarks>
@@ -38,5 +29,14 @@ namespace malmo.includes {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl aktuelltContainer;
+        
+        /// <summary>
+        /// kfContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl kfContainer;
     }
 }

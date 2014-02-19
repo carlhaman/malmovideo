@@ -110,8 +110,6 @@
     <Content Include="css\tooltipster.min.css">
       <DependentUpon>tooltipster.less</DependentUpon>
     </Content>
-    <Content Include="dummy.html" />
-    <Content Include="dummy2.html" />
     <Content Include="google98541fcbfdbe77bc.html" />
     <Content Include="Images\big_transparent.gif" />
     <Content Include="Images\cursors\cursor_arrow_left.cur" />

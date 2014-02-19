@@ -28,7 +28,7 @@ namespace malmo
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
             malmoKomin = isMalmoNetwork();
 
 
@@ -799,10 +799,13 @@ namespace malmo
         {
             videoArchive archive = new videoArchive();
             archive.categories = new List<videoCategory>();
+            string mArchivePlayerBcId = string.Empty;
 
             string kfPlaylistBcId = "2623641282001";
-            string mArchivePlayerBcId = "1180742924001";
+
             if (komin) { mArchivePlayerBcId = "1213665896001"; }
+            else { mArchivePlayerBcId = "1180742924001"; }
+
             string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal,customFields";
 
             var mRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlists_for_player_id&player_id={0}&video_fields={1}&token={2}", mArchivePlayerBcId, videoFields, MReadToken));
@@ -984,11 +987,12 @@ namespace malmo
 
         private bool isMalmoNetwork()
         {
+            bool result = false;
             ipRangeCheck kominRange = new ipRangeCheck();
             var rangeList = new List<IpRange>();
             rangeList.Add(new IpRange(IPAddress.Parse("161.52.0.0"), IPAddress.Parse("161.52.255.255")));
             string adress = kominRange.GetIP4Address();
-            bool result = kominRange.CheckIsIpInRange(adress, rangeList);
+            result = kominRange.CheckIsIpInRange(adress, rangeList);
             return result;
         }
     }
