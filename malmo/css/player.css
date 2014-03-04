@@ -11,7 +11,6 @@
 .embed-container {
   position: relative;
   padding-bottom: 56.25%;
-  height: 0;
   overflow: hidden;
   max-width: 100%;
   height: auto;
@@ -68,6 +67,7 @@
 .searchField {
   float: right;
   display: inline-block;
+  margin-top: .15rem;
 }
 #videoSearch h2 {
   color: #ffffff;
@@ -79,14 +79,14 @@
   overflow: auto;
 }
 #searchButton {
-  margin-left: 0;
+  margin: 0;
   border: 0px;
   width: 3rem;
   padding: 0.2rem;
 }
 #searchText {
   width: 15rem;
-  margin-right: 0;
+  margin: 0;
   border: 0px;
   padding: 0.2rem 0.5rem;
 }
@@ -109,6 +109,7 @@ a:link {
   position: relative;
   width: 160px;
   height: 160px;
+  font-size: 1.4rem;
 }
 .video_item img {
   border: 2px solid #5d5d5d;
@@ -116,11 +117,9 @@ a:link {
 .video_item:hover img {
   border: 2px solid #5d5d5d;
 }
-.video_item {
-  font-size: 1.4rem;
-}
 .video_item h4 {
-  word-break: break-word;
+  -ms-word-break: keep-all;
+  word-break: keep-all;
   color: #000000;
   font-size: 0.8rem;
   font-weight: normal;
@@ -136,6 +135,7 @@ a:link {
 }
 .sidescroll .video_item {
   padding-top: 0.2rem;
+  padding-right: .9rem;
 }
 #makeMeScrollable div.scrollableArea li {
   position: relative;

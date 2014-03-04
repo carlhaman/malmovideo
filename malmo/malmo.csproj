@@ -72,6 +72,10 @@
     <Content Include="css\4plus1.min.css">
       <DependentUpon>4plus1.less</DependentUpon>
     </Content>
+    <Content Include="css\extensions.css" />
+    <Content Include="css\extensions.min.css">
+      <DependentUpon>extensions.css</DependentUpon>
+    </Content>
     <Content Include="css\player.css">
       <DependentUpon>player.less</DependentUpon>
     </Content>

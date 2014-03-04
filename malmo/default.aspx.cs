@@ -30,7 +30,7 @@ namespace malmo
         {
             
             malmoKomin = isMalmoNetwork();
-
+            malmoKomin = true;
 
             string archiveString = "Archive";
             if (malmoKomin)
@@ -201,7 +201,7 @@ namespace malmo
             //tooltipster.Attributes.Add("type", "text/javascript");
             //tooltipster.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.tooltipster.min.js");
             //Page.Header.Controls.Add(tooltipster);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.tooltipster.min.js");
+           // addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.tooltipster.min.js");
 
             //HtmlGenericControl lazyload = new HtmlGenericControl("script");
             //lazyload.Attributes.Add("type", "text/javascript");
@@ -213,25 +213,25 @@ namespace malmo
             //ui.Attributes.Add("type", "text/javascript");
             //ui.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
             //Page.Header.Controls.Add(ui);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
-
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
+            
             //HtmlGenericControl kinetic = new HtmlGenericControl("script");
             //kinetic.Attributes.Add("type", "text/javascript");
             //kinetic.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
             //Page.Header.Controls.Add(kinetic);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
 
             //HtmlGenericControl mouseWheel = new HtmlGenericControl("script");
             //mouseWheel.Attributes.Add("type", "text/javascript");
             //mouseWheel.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
             //Page.Header.Controls.Add(mouseWheel);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
 
             //HtmlGenericControl smoothScroll = new HtmlGenericControl("script");
             //smoothScroll.Attributes.Add("type", "text/javascript");
             //smoothScroll.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
             //Page.Header.Controls.Add(smoothScroll);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
 
             HtmlLink tooltipsterCSS = new HtmlLink();
             tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.min.css";
@@ -239,11 +239,17 @@ namespace malmo
             tooltipsterCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(tooltipsterCSS);
 
-            HtmlLink smoothDivScrollCSS = new HtmlLink();
-            smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
-            smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
-            smoothDivScrollCSS.Attributes["type"] = "text/css";
-            Page.Header.Controls.Add(smoothDivScrollCSS);
+            HtmlLink extensionsCSS = new HtmlLink();
+            extensionsCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/extensions.min.css";
+            extensionsCSS.Attributes["rel"] = "stylesheet";
+            extensionsCSS.Attributes["type"] = "text/css";
+            Page.Header.Controls.Add(extensionsCSS);
+
+            //HtmlLink smoothDivScrollCSS = new HtmlLink();
+            //smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
+            //smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
+            //smoothDivScrollCSS.Attributes["type"] = "text/css";
+            //Page.Header.Controls.Add(smoothDivScrollCSS);
 
             HtmlLink playerCSS = new HtmlLink();
             playerCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player.min.css";
@@ -684,14 +690,16 @@ namespace malmo
                                     }
                                 }
                             }
-                            if (counter <= 9)
+                            if (counter <= 4)
                             {
                                 if (!kominVideo || kominVideo && malmoKomin)
                                 {
                                     string title = video.name.ToString().Replace("\"", "&quot");
                                     string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                                    htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
+                                    //htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
+                                    htmlBuilder.AppendLine("\t\t<li class=\"video_item\">\n");
+                                    htmlBuilder.AppendLine("\t\t<div class=\"info-box\"><h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p></div>\n");
                                     htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
                                     htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
                                     htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
@@ -718,7 +726,7 @@ namespace malmo
             relatedVideos.InnerHtml = html;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-loader", "<script type='text/javascript'>$('#relatedVideos').find('img.lazy').lazyload();</script>", false);
             //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#relatedVideos').find('.tooltip').tooltipster('destroy');$('#relatedVideos').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
+            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
 
 
         }
@@ -932,7 +940,9 @@ namespace malmo
                     htmlBuilder.AppendLine("<ul class=\"video_grid\" style=\"display:none;\">\n");
                     foreach (videoItem video in category.videos)
                     {
-                        htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
+                        //htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
+                        htmlBuilder.AppendLine("<li class=\"video_item\">\n");
+                        htmlBuilder.AppendLine("<div class=\"info-box\"><h2>" + video.name + "</h2><img src=\"" + video.videoStillURL + "\" width=\"400\" height=\"225\"/><p>" + video.shortDescription + "</p></div>\n");
                         htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
                         htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL + "\" width=\"160\" height=\"90\"/>");
                         htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
@@ -959,7 +969,9 @@ namespace malmo
 
             foreach (videoItem video in results.videos)
             {
-                htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
+                //htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
+                htmlBuilder.AppendLine("<li class=\"video_item\">\n");
+                htmlBuilder.AppendLine("<div class=\"info-box\"><h2>" + video.name + "</h2><img src=\"" + video.videoStillURL + "\" width=\"400\" height=\"225\"/><p>" + video.shortDescription + "</p></div>\n");                       
                 htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
                 htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>");
                 htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
@@ -982,7 +994,7 @@ namespace malmo
             //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "slideDown", "<script type='text/javascript'>$('.searchResults').slideDown();</script>", false);
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "populate", "<script type='text/javascript'>$('#archiveContent').html($('#searchResultsDiv').html());</script>", false);
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-load", "<script type='text/javascript'>$('#archiveContent').find('img.lazy').lazyload({ effect: \"fadeIn\" });</script>", false);
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
+            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
         }
 
         private bool isMalmoNetwork()
