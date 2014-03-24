@@ -25,6 +25,7 @@ namespace malmo
         public string thumbnailURL { get; set; }
         public string length { get; set; }
         public string playsTotal { get; set; }
+        public List<string> tags { get; set; }
     }
     public class buildVideoArchive
     {

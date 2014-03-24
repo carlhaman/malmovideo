@@ -56,7 +56,7 @@ namespace malmo.includes
             {
                 html.Append(renderClip(clip, false));
                 counter++;
-                if (counter >= 4) { break; };
+                if (counter >= 5) { break; };
             }
             html.AppendLine("</ul>\n");
             aktuelltContainer.InnerHtml = html.ToString();

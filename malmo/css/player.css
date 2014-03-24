@@ -128,6 +128,16 @@ a:link {
   width: 100%;
   position: relative;
 }
+ul.sidescroll {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  outline: 0px;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  line-height: inherit;
+}
 .sidescroll {
   list-style: none;
   height: 100px;
@@ -135,7 +145,7 @@ a:link {
 }
 .sidescroll .video_item {
   padding-top: 0.2rem;
-  padding-right: .9rem;
+  /*padding-right: .9rem;*/
 }
 #makeMeScrollable div.scrollableArea li {
   position: relative;
@@ -154,7 +164,6 @@ a:link {
 .accordion dt h2.active {
   background: #303030;
   /* Old browsers */
-
 }
 .videoBlock {
   -webkit-border-top-left-radius: 5px;
@@ -204,4 +213,12 @@ a:link {
   background-color: #ffffff;
   padding: 1rem;
   font-size: 1.2rem;
+}
+div.moreKF select {
+  width: 100%;
+  font-size: 1em;
+}
+div.moreKF {
+  float: right;
+  width: 40%;
 }

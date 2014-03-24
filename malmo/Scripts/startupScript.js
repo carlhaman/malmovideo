@@ -29,7 +29,7 @@
 
         $('.accordion > dt > h2').first().click();
 
-        /*
+        /**/
         $("div#scrollbar").smoothDivScroll({
             autoScrollingMode: "",
             hotSpotScrolling: true,
@@ -37,7 +37,15 @@
             mousewheelScrolling: "horizontal",
             touchScrolling: true
         });
-        */
+        
 
     });
 })(jQuery);
+
+function kfListChange() {
+    var myselect = document.getElementById("kfList");
+    /*
+    alert(myselect.options[myselect.selectedIndex].value);
+    */
+    window.open("http://video.malmo.se?bctid=" + myselect.options[myselect.selectedIndex].value,"_self")
+}

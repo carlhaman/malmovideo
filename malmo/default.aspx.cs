@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+
 using System.Web.Caching;
 using System.Text;
 using System.Net;
@@ -23,14 +24,18 @@ namespace malmo
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
         private bool malmoKomin = false;
         private bool frontPage = false;
+        private bool isFromKfAccount = false;
+
+        string _kfDropDownList = string.Empty;
 
         StringBuilder clientScripts = new StringBuilder();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            #region Build Page Indexes
+
             malmoKomin = isMalmoNetwork();
-            malmoKomin = true;
+            //malmoKomin = true;
 
             string archiveString = "Archive";
             if (malmoKomin)
@@ -44,6 +49,16 @@ namespace malmo
                 Cache.Insert(archiveString, archive, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
             }
 
+            _kfDropDownList = (string)Cache["kfListString"];
+            if (_kfDropDownList == null) {
+                _kfDropDownList = renderKFDropDownList(archive);
+                Cache.Insert("kfListString", _kfDropDownList, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
+            }
+
+            
+            #endregion
+
+            #region Adapt page to Public/Internal viewers
             //För att inte indexera staging-server
             if (!Request.Url.Host.ToString().Contains("video.malmo.se"))
             {
@@ -68,6 +83,7 @@ namespace malmo
             }
 
             renderCommonAssets();
+            #endregion
 
             string queryId = string.Empty;
 
@@ -87,7 +103,11 @@ namespace malmo
                 getLatestVideo();
             }
 
-            renderVideoArchive(archive);
+            if (!isFromKfAccount)
+            {
+                renderVideoArchive(archive);
+            }
+            else { videoSearch.Visible = false; }
 
             addScriptsToPage();
         }
@@ -201,7 +221,7 @@ namespace malmo
             //tooltipster.Attributes.Add("type", "text/javascript");
             //tooltipster.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.tooltipster.min.js");
             //Page.Header.Controls.Add(tooltipster);
-           // addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.tooltipster.min.js");
+            // addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.tooltipster.min.js");
 
             //HtmlGenericControl lazyload = new HtmlGenericControl("script");
             //lazyload.Attributes.Add("type", "text/javascript");
@@ -213,25 +233,25 @@ namespace malmo
             //ui.Attributes.Add("type", "text/javascript");
             //ui.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
             //Page.Header.Controls.Add(ui);
-            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
-            
+            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
+
             //HtmlGenericControl kinetic = new HtmlGenericControl("script");
             //kinetic.Attributes.Add("type", "text/javascript");
             //kinetic.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
             //Page.Header.Controls.Add(kinetic);
-            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
+            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
 
             //HtmlGenericControl mouseWheel = new HtmlGenericControl("script");
             //mouseWheel.Attributes.Add("type", "text/javascript");
             //mouseWheel.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
             //Page.Header.Controls.Add(mouseWheel);
-            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
+            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
 
             //HtmlGenericControl smoothScroll = new HtmlGenericControl("script");
             //smoothScroll.Attributes.Add("type", "text/javascript");
             //smoothScroll.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
             //Page.Header.Controls.Add(smoothScroll);
-            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
+            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
 
             HtmlLink tooltipsterCSS = new HtmlLink();
             tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.min.css";
@@ -245,11 +265,11 @@ namespace malmo
             extensionsCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(extensionsCSS);
 
-            //HtmlLink smoothDivScrollCSS = new HtmlLink();
-            //smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
-            //smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
-            //smoothDivScrollCSS.Attributes["type"] = "text/css";
-            //Page.Header.Controls.Add(smoothDivScrollCSS);
+            HtmlLink smoothDivScrollCSS = new HtmlLink();
+            smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
+            smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
+            smoothDivScrollCSS.Attributes["type"] = "text/css";
+            Page.Header.Controls.Add(smoothDivScrollCSS);
 
             HtmlLink playerCSS = new HtmlLink();
             playerCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player.min.css";
@@ -443,6 +463,7 @@ namespace malmo
                     if (CBPlayer)
                     {
                         metaHtml += "<div class=\"descriptionBox\">\n";
+                        metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>" + _kfDropDownList + "</div>";
                     }
                     else
                     {
@@ -546,15 +567,99 @@ namespace malmo
                     metaHtml += "<div style=\"clear: both;\"></div>\n";
 
                 }
-                string metadata = string.Empty;
+
+
                 videoDetails.InnerHtml = metaHtml;
 
             }
         }
 
+        private string renderKFDropDownList(videoArchive archive)
+        {
+            StringBuilder html = new StringBuilder();
+            videoCategory kfVideos = new videoCategory();
+            if (archive != null)
+            {
+                foreach (videoCategory category in archive.categories)
+                {
+                    if (category.name == "Kommunfullmäktige") {
+                        kfVideos = category;
+                    }
+                }
+            }
+            System.Data.DataTable kfTable = new System.Data.DataTable("KF Videor");
+            kfTable.Columns.Add("id", typeof(string));
+            kfTable.Columns.Add("name", typeof(string));
+            kfTable.Columns.Add("year", typeof(int));
+            kfTable.Columns.Add("month", typeof(int));
+
+            if (kfVideos != null) 
+            {
+                foreach (videoItem video in kfVideos.videos) {
+                    int month = 0;
+                    int year = DateTime.Now.Year;
+                    string id = "0";
+                    string name = "KF Video";
+
+                    if (video.id != null) { id = video.id; }
+                    if (video.name != null) { name = video.name; }
+                    if (video.tags != null) 
+                    {
+                        foreach (string tag in video.tags) 
+                        {
+                            //är det en månads-tagg
+                            if (tag.ToUpper() == "JANUARI") { month = 1; }
+                            if (tag.ToUpper() == "FEBRUARI") { month = 2; }
+                            if (tag.ToUpper() == "MARS") { month = 3; }
+                            if (tag.ToUpper() == "APRIL") { month = 4; }
+                            if (tag.ToUpper() == "MAJ") { month = 5; }
+                            if (tag.ToUpper() == "JUNI") { month = 6; }
+                            if (tag.ToUpper() == "JULI") { month = 7; }
+                            if (tag.ToUpper() == "AUGUSTI") { month = 8; }
+                            if (tag.ToUpper() == "SEPTEMBER") { month = 9; }
+                            if (tag.ToUpper() == "OKTOBER") { month = 10; }
+                            if (tag.ToUpper() == "NOVEMBER") { month = 11; }
+                            if (tag.ToUpper() == "DECEMBER") { month = 12; }
+
+                            //eller en års-tag
+                            string pattern = @"\d{4}";
+                            System.Text.RegularExpressions.Regex r = new System.Text.RegularExpressions.Regex(pattern);
+                            if (r.IsMatch(tag)) {
+                                year = Int32.Parse(tag);
+                            }
+                        }
+                    }
+                    kfTable.Rows.Add(id, name, year, month);
+                }
+            }
+            //sortera sändningarna per år och månad
+            System.Data.DataView dv = kfTable.DefaultView;
+            dv.Sort = "year DESC, month DESC";
+
+            //skapa en tabell över de unika åren 
+            System.Data.DataTable yearsTable = dv.ToTable(true, "year");
+
+            //bygg listan
+            html.AppendLine("<select onChange=\"kfListChange()\" id=\"kfList\">");
+            foreach (System.Data.DataRow r in yearsTable.Rows) {
+                html.AppendLine("\t<optgroup label=\""+r["year"].ToString()+"\">");
+                foreach (System.Data.DataRow kfRow in kfTable.Rows)
+                {
+                    if (kfRow["year"].ToString() == r["year"].ToString()) {
+
+                        html.AppendLine("\t\t<option value=\""+kfRow["id"].ToString()+"\">"+kfRow["name"].ToString().Replace(kfRow["year"].ToString(), "")+"</option>");                    
+                    }
+                }
+                html.AppendLine("\t</optgroup>");
+            }
+            html.AppendLine("</select>");
+
+            return html.ToString();
+        }
+
         private void getBrightcoveVideo(string brightcoveId, string token)
         {
-
+            if (token == KFReadToken) { isFromKfAccount = true; }
             Stream dataStream;
             string requestFields = "id,name,shortDescription,publishedDate,tags,customFields,videoStillURL,length,playsTotal";
             var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_video_by_id&video_id={0}&video_fields={1}&token={2}", brightcoveId, requestFields, token));
@@ -573,7 +678,11 @@ namespace malmo
                         if (BCResponseString != "null")
                         {
                             parseBrightcoveVideo(BCResponseString);
-                            getRelatedVideos(brightcoveId, token);
+
+                            if (!isFromKfAccount)
+                            {
+                                getRelatedVideos(brightcoveId, token);
+                            }
                         }
                         if (BCResponseString == "null" && token == MReadToken)
                         {
@@ -690,7 +799,7 @@ namespace malmo
                                     }
                                 }
                             }
-                            if (counter <= 4)
+                            if (counter <= 9)
                             {
                                 if (!kominVideo || kominVideo && malmoKomin)
                                 {
@@ -699,7 +808,7 @@ namespace malmo
 
                                     //htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
                                     htmlBuilder.AppendLine("\t\t<li class=\"video_item\">\n");
-                                    htmlBuilder.AppendLine("\t\t<div class=\"info-box\"><h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p></div>\n");
+                                    //htmlBuilder.AppendLine("\t\t<div class=\"info-box\"><h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p></div>\n");
                                     htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
                                     htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
                                     htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
@@ -814,7 +923,7 @@ namespace malmo
             if (komin) { mArchivePlayerBcId = "1213665896001"; }
             else { mArchivePlayerBcId = "1180742924001"; }
 
-            string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal,customFields";
+            string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal,tags,customFields";
 
             var mRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlists_for_player_id&player_id={0}&video_fields={1}&token={2}", mArchivePlayerBcId, videoFields, MReadToken));
             var kfRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlist_by_id&playlist_id={0}&video_fields={1}&token={2}", kfPlaylistBcId, videoFields, KFReadToken));
@@ -868,6 +977,16 @@ namespace malmo
                                     item.thumbnailURL = video.thumbnailURL;
                                     item.videoStillURL = video.videoStillURL;
                                     item.shortDescription = video.shortDescription.ToString().Replace("\"", "&quot");
+                                    if (video.tags != null)
+                                    {
+                                        item.tags = new List<string>();
+                                        var tags = video.tags;
+                                        foreach (string tag in tags)
+                                        {
+                                            item.tags.Add((string)tag);
+                                        }
+                                    }
+
                                     cat.videos.Add(item);
                                 }
                             }
@@ -909,6 +1028,16 @@ namespace malmo
                             item.thumbnailURL = video.thumbnailURL;
                             item.videoStillURL = video.videoStillURL;
                             item.shortDescription = video.shortDescription.ToString().Replace("\"", "&quot");
+                            if (video.tags != null)
+                            {
+                                item.tags = new List<string>();
+                                var tags = video.tags;
+                                foreach (string tag in tags)
+                                {
+                                    item.tags.Add((string)tag);
+                                }
+                            }
+
                             category.videos.Add(item);
                         }
                         archive.categories.Add(category);
@@ -971,7 +1100,7 @@ namespace malmo
             {
                 //htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
                 htmlBuilder.AppendLine("<li class=\"video_item\">\n");
-                htmlBuilder.AppendLine("<div class=\"info-box\"><h2>" + video.name + "</h2><img src=\"" + video.videoStillURL + "\" width=\"400\" height=\"225\"/><p>" + video.shortDescription + "</p></div>\n");                       
+                htmlBuilder.AppendLine("<div class=\"info-box\"><h2>" + video.name + "</h2><img src=\"" + video.videoStillURL + "\" width=\"400\" height=\"225\"/><p>" + video.shortDescription + "</p></div>\n");
                 htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
                 htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>");
                 htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
