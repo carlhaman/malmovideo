@@ -34,6 +34,7 @@
                         </div>
 
                         <div class="archiveBlock">
+                            <div id="KFDisclaimer" runat="server" class="disclaimer"><h2>Har du frågor om webbsändningen?</h2>Kontakta Mikael Hellman, <a href="mailto:mikael.hellman@malmo.se">mikael.hellman@malmo.se</a>, 0734-32 32 19</div>
                             <div id="videoSearch" class="playlist" runat="server">
 
                                 <asp:UpdatePanel ID="searchResultsPanel" runat="server">

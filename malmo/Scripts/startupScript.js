@@ -38,9 +38,26 @@
             touchScrolling: true
         });
         
+        setKfListItem();
 
     });
 })(jQuery);
+
+function setKfListItem() {
+    var id = getUrlVars()["bctid"];
+    var list = document.getElementById("kfList");
+    list.value = id;
+    
+
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
 
 function kfListChange() {
     var myselect = document.getElementById("kfList");

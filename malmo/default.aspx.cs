@@ -106,8 +106,9 @@ namespace malmo
             if (!isFromKfAccount)
             {
                 renderVideoArchive(archive);
+                KFDisclaimer.Visible = false;
             }
-            else { videoSearch.Visible = false; }
+            else { videoSearch.Visible = false; KFDisclaimer.Visible = true; }
 
             addScriptsToPage();
         }
@@ -463,7 +464,8 @@ namespace malmo
                     if (CBPlayer)
                     {
                         metaHtml += "<div class=\"descriptionBox\">\n";
-                        metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>" + _kfDropDownList + "</div>";
+                        metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>\n" + _kfDropDownList + "\n";
+                        metaHtml += "<p>Läs mer om <a href=\"http://www.malmo.se/Kommun--politik/Politiker-och-beslut/Kommunfullmaktige.html\" target=\"_blank\">Kommunfullmäktige</a></p></div>";
                     }
                     else
                     {
