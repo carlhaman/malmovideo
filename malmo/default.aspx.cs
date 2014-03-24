@@ -662,6 +662,7 @@ namespace malmo
         private void getBrightcoveVideo(string brightcoveId, string token)
         {
             if (token == KFReadToken) { isFromKfAccount = true; }
+
             Stream dataStream;
             string requestFields = "id,name,shortDescription,publishedDate,tags,customFields,videoStillURL,length,playsTotal";
             var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_video_by_id&video_id={0}&video_fields={1}&token={2}", brightcoveId, requestFields, token));
@@ -738,6 +739,7 @@ namespace malmo
                         string id = results.videoIds[0];
                         if (id.Length > 6)
                         {
+                            if (isKf) {Response.Redirect("?bctid="+id.ToString()); }
                             getBrightcoveVideo(id, token);
                         }
 
