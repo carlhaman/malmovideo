@@ -45,14 +45,16 @@ namespace malmo
             videoArchive archive = (videoArchive)Cache[archiveString];
             if (archive == null)
             {
-                archive = buildVideoArchive(malmoKomin);
-                Cache.Insert(archiveString, archive, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
+                buildVideoArchive builder = new malmo.buildVideoArchive();
+                archive = builder.render(malmoKomin);
+                //archive = buildVideoArchive(malmoKomin);
+                Cache.Insert(archiveString, archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
             }
 
             _kfDropDownList = (string)Cache["kfListString"];
             if (_kfDropDownList == null) {
                 _kfDropDownList = renderKFDropDownList(archive);
-                Cache.Insert("kfListString", _kfDropDownList, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
+                Cache.Insert("kfListString", _kfDropDownList, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
             }
 
             
@@ -86,6 +88,7 @@ namespace malmo
             #endregion
 
             string queryId = string.Empty;
+            error.Visible = false;
 
             if (Request.QueryString["bctid"] != null)
             {
@@ -99,6 +102,13 @@ namespace malmo
 
             else
             {
+                if (Request.QueryString["public"] != null)
+                {
+                    if (Request.QueryString.GetValues("public").GetValue(0).ToString() == "no") {
+                        error.InnerHtml = "Du försöker spela en intern video från Malmö stad men kan inte verifieras som en behörig användare.";
+                        error.Visible = true;
+                    }
+                }
                 frontPage = true;
                 getLatestVideo();
             }
@@ -106,9 +116,9 @@ namespace malmo
             if (!isFromKfAccount)
             {
                 renderVideoArchive(archive);
-                KFDisclaimer.Visible = false;
+                
             }
-            else { videoSearch.Visible = false; KFDisclaimer.Visible = true; }
+            else { videoSearch.Visible = false;  }
 
             addScriptsToPage();
         }
@@ -385,7 +395,7 @@ namespace malmo
                 }
             }
 
-            if (kominVideo && !malmoKomin) { Response.Redirect("http://video.malmo.se", true); }
+            if (kominVideo && !malmoKomin) { Response.Redirect("http://video.malmo.se?public=no", true); }
 
             if (BCResponseString != "null")
             {
@@ -465,7 +475,8 @@ namespace malmo
                     {
                         metaHtml += "<div class=\"descriptionBox\">\n";
                         metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>\n" + _kfDropDownList + "\n";
-                        metaHtml += "<p>Läs mer om <a href=\"http://www.malmo.se/Kommun--politik/Politiker-och-beslut/Kommunfullmaktige.html\" target=\"_blank\">Kommunfullmäktige</a></p></div>";
+                        metaHtml += "<p>Läs mer om <a href=\"http://www.malmo.se/Kommun--politik/Politiker-och-beslut/Kommunfullmaktige.html\" target=\"_blank\">Kommunfullmäktige</a></p>\n";
+                        metaHtml += "<h2>Har du frågor om webbsändningen?</h2><p>Kontakta Mikael Hellman, <a href=\"mailto:mikael.hellman@malmo.se\">mikael.hellman@malmo.se</a>, 0734-32 32 19</p></div>\n";
                     }
                     else
                     {
@@ -1089,7 +1100,8 @@ namespace malmo
                 }
                 htmlBuilder.AppendLine("</dl>\n");
                 html = htmlBuilder.ToString();
-                Cache.Insert("archiveHtml", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
+                //Cache.Insert("archiveHtml", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
+                Cache.Insert(archiveString, html, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
             }
             videoArchive.InnerHtml = html;
         }

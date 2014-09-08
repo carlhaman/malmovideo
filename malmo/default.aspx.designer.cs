@@ -85,6 +85,15 @@ namespace malmo {
         protected global::System.Web.UI.ScriptManager scriptManager;
         
         /// <summary>
+        /// error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl error;
+        
+        /// <summary>
         /// videoDetails control.
         /// </summary>
         /// <remarks>
@@ -101,15 +110,6 @@ namespace malmo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl relatedVideos;
-        
-        /// <summary>
-        /// KFDisclaimer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl KFDisclaimer;
         
         /// <summary>
         /// videoSearch control.

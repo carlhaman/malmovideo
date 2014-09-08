@@ -20,7 +20,7 @@ namespace malmo.includes
             {
                 buildVideoArchive builder = new buildVideoArchive();
                 archive = builder.render(false);
-                Cache.Insert("Archive", archive, null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.FromHours(1));
+                Cache.Insert("Archive", archive, null, DateTime.UtcNow.AddMinutes(10),System.Web.Caching.Cache.NoSlidingExpiration);
             }
             foreach (videoCategory cat in archive.categories)
             {

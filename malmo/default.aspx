@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
 
     <title runat="server" id="metaPageTitle"></title>
-    
+
     <asp:Literal ID="fbMeta" runat="server"></asp:Literal>
 
     <asp:Literal ID="twMeta" runat="server"></asp:Literal>
@@ -27,14 +27,14 @@
 
                     <form id="form1" runat="server">
                         <asp:ScriptManager ID="scriptManager" runat="server" />
-
+                        <div id="error" runat="server"></div>
                         <div class="videoBlock gradient greyGradient">
                             <div id="videoDetails" runat="server"></div>
                             <div class="playlist" id="relatedVideos" runat="server"></div>
                         </div>
 
                         <div class="archiveBlock">
-                            <div id="KFDisclaimer" runat="server" class="disclaimer"><h2>Har du frågor om webbsändningen?</h2>Kontakta Mikael Hellman, <a href="mailto:mikael.hellman@malmo.se">mikael.hellman@malmo.se</a>, 0734-32 32 19</div>
+
                             <div id="videoSearch" class="playlist" runat="server">
 
                                 <asp:UpdatePanel ID="searchResultsPanel" runat="server">

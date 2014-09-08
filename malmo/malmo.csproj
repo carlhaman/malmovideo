@@ -130,6 +130,10 @@
     <Content Include="css\playerKomin.less" />
     <Content Include="css\smoothDivScroll.less" />
     <Content Include="css\tooltipster.less" />
+    <None Include="Properties\PublishProfiles\malmovideo - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\malmovideo - FTP %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\malmovideo - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\malmovideo - Web Deploy %283%29.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Images\Logga.jpg" />
     <Content Include="Images\new_arrow_left.gif" />

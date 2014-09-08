@@ -32,6 +32,12 @@ namespace malmo
                 html += "\n<p>KOMIN Video archive cache is removed!</p>";
             }
 
+            if (Cache["kfListString"] != null)
+            {
+                Cache.Remove("kfListString");
+                html += "\n<p>KF drop down list cache removed!</p>";
+            }
+
             pageContent.InnerHtml = html;
         }
     }
