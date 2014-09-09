@@ -65,7 +65,8 @@
         var player,
           APIModules,
           videoPlayer,
-          experienceModule;
+          experienceModule,
+          percentage;
 
         // utility
         logit = function (context, message) {
@@ -111,12 +112,14 @@
             logit("Video Width = ", width);
             logit("Video Height = ", height);
             logit("New Percentage = ", newPercentage);
+            percentage = ((height / width) * 100);
             //document.getElementById("container1").style.paddingBottom = newPercentage;
         }
 
         window.onresize = function (evt) {
             var resizeWidth = $(".embed-container").width(),
-            resizeHeight = $(".BrightcoveExperience").height();
+                resizeHeight = (resizeWidth / 100) * percentage;
+            //resizeHeight = $(".embed-container.BrightcoveExperience").height();
             if (experienceModule.experience.type == "html") {
                 experienceModule.setSize(resizeWidth, resizeHeight)
                 //logit("html mode: ", "call setSize method to resize player");
