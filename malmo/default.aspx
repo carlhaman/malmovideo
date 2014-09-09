@@ -125,9 +125,9 @@
         
         window.addEventListener("orientationchange", function (evt) {
             setTimeout(function () {
-                var resizeWidth = $(".BrightcoveExperience").width(),
-            resizeHeight = $(".BrightcoveExperience").height();
-                alert("orientation change! height: " + resizeHeight + " width: " + resizeWidth);
+                var resizeWidth = $(".embed-container").width(),
+            resizeHeight = $(".embed-container").height();
+                alert("orientation embed-container! height: " + resizeHeight + " width: " + resizeWidth);
             }, 1000);
 
         }, false);
