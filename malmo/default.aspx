@@ -123,7 +123,7 @@
             }
         }
 
-        window.addEventListener("orientationchange", function () {
+        window.addEventListener("orientationchange", function (evt) {
             var resizeWidth = $(".BrightcoveExperience").width(),
             resizeHeight = $(".BrightcoveExperience").height();
             if (experienceModule.experience.type == "html") {
