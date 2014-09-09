@@ -39,7 +39,7 @@
 function setKfListItem() {
     var id = getUrlVars()["bctid"];
     var list = document.getElementById("kfList");
-    if (list != null) {
+    if (list !== null) {
         list.value = id;
     }
 }
@@ -57,5 +57,5 @@ function kfListChange() {
     /*
     alert(myselect.options[myselect.selectedIndex].value);
     */
-    window.open("http://video.malmo.se?bctid=" + myselect.options[myselect.selectedIndex].value,"_self")
+    window.open("http://video.malmo.se?bctid=" + myselect.options[myselect.selectedIndex].value, "_self");
 }

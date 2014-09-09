@@ -126,10 +126,7 @@
         window.addEventListener("orientationchange", function (evt) {
             var resizeWidth = $(".BrightcoveExperience").width(),
             resizeHeight = $(".BrightcoveExperience").height();
-            if (experienceModule.experience.type == "html") {
-                experienceModule.setSize(resizeWidth, resizeHeight)
-                //logit("html mode: ", "call setSize method to resize player");
-            }
+            alert("orientation change! height: " + resizeHeight + " width: " + resizeWidth);
         }, false);
 
     </script>
