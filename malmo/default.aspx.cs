@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-
-using System.Web.Caching;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Text;
+using System.Web.Caching;
 using System.Web.Script.Serialization;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using Newtonsoft;
+using System.Web.UI.WebControls;
 
 
 namespace malmo
@@ -26,8 +21,8 @@ namespace malmo
         private bool frontPage = false;
         private bool isFromKfAccount = false;
 
+        string _bodyCssClasses = "";
         string _kfDropDownList = string.Empty;
-
         StringBuilder clientScripts = new StringBuilder();
 
         protected void Page_Load(object sender, EventArgs e)
@@ -52,12 +47,13 @@ namespace malmo
             }
 
             _kfDropDownList = (string)Cache["kfListString"];
-            if (_kfDropDownList == null) {
+            if (_kfDropDownList == null)
+            {
                 _kfDropDownList = renderKFDropDownList(archive);
                 Cache.Insert("kfListString", _kfDropDownList, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
             }
 
-            
+
             #endregion
 
             #region Adapt page to Public/Internal viewers
@@ -70,7 +66,11 @@ namespace malmo
                 Page.Header.Controls.Add(robotMeta);
 
                 //för KOMIN
-                bodyTag.Attributes.Add("class", "development");
+                _bodyCssClasses += "development ";
+                //bodyTag.Attributes.Add("class", "development");
+
+
+
             }
 
             if (malmoKomin)
@@ -81,7 +81,7 @@ namespace malmo
             if (!malmoKomin)
             {
                 renderExternalAssets();
-                renderMasthead();
+                //renderMasthead();
             }
 
             renderCommonAssets();
@@ -104,7 +104,8 @@ namespace malmo
             {
                 if (Request.QueryString["public"] != null)
                 {
-                    if (Request.QueryString.GetValues("public").GetValue(0).ToString() == "no") {
+                    if (Request.QueryString.GetValues("public").GetValue(0).ToString() == "no")
+                    {
                         error.InnerHtml = "Du försöker spela en intern video från Malmö stad men kan inte verifieras som en behörig användare.";
                         error.Visible = true;
                     }
@@ -116,9 +117,9 @@ namespace malmo
             if (!isFromKfAccount)
             {
                 renderVideoArchive(archive);
-                
+
             }
-            else { videoSearch.Visible = false;  }
+            else { videoSearch.Visible = false; }
 
             addScriptsToPage();
         }
@@ -150,73 +151,87 @@ namespace malmo
         }
         private void renderExternalAssets()
         {
-            HtmlLink favicon = new HtmlLink();
-            favicon.Attributes["rel"] = "shortcut icon";
-            favicon.Attributes["type"] = "image/x-icon";
-            favicon.Href = ResolveClientUrl("http://www.malmo.se/assets-2.0/img/malmo-favicon.ico");
-            Page.Header.Controls.Add(favicon);
 
-            HtmlLink externalCore = new HtmlLink();
-            externalCore.Href = ResolveClientUrl("http://www.malmo.se/assets-2.0/css/external-core.css");
-            externalCore.Attributes["rel"] = "stylesheet";
-            externalCore.Attributes["type"] = "text/css";
-            externalCore.Attributes["media"] = "all";
-            Page.Header.Controls.Add(externalCore);
+            HtmlMeta viewPortMeta = new HtmlMeta();
+            viewPortMeta.Name = "viewport";
+            viewPortMeta.Content = "width=device-width, initial-scale=1.0";
+            Page.Header.Controls.Add(viewPortMeta);
+
+            //HtmlLink externalCore = new HtmlLink();
+            //externalCore.Href = ResolveClientUrl("http://www.malmo.se/assets-2.0/css/external-core.css");
+            //externalCore.Attributes["rel"] = "stylesheet";
+            //externalCore.Attributes["type"] = "text/css";
+            //externalCore.Attributes["media"] = "all";
+            //Page.Header.Controls.Add(externalCore);
+
+            Literal IEFix = new Literal();
+            IEFix.Text = "<!--[if IE]><meta content='IE=edge' http-equiv='X-UA-Compatible'/><![endif]-->";
+            Page.Header.Controls.Add(IEFix);
+
+            Literal IE8PrintFix = new Literal();
+            IE8PrintFix.Text = "<!--[if lte IE 8]><script src='//assets.malmo.se/external/v4/html5shiv-printshiv.js' type='text/javascript'></script><![endif]-->";
+            Page.Header.Controls.Add(IE8PrintFix);
 
             HtmlLink malmoTheme = new HtmlLink();
-            malmoTheme.Href = ResolveClientUrl("http://www.malmo.se/assets-2.0/jquery/malmo-theme.css");
+            malmoTheme.Href = ResolveClientUrl("//assets.malmo.se/external/v4/malmo.css");
             malmoTheme.Attributes["rel"] = "stylesheet";
             malmoTheme.Attributes["type"] = "text/css";
             malmoTheme.Attributes["media"] = "all";
             Page.Header.Controls.Add(malmoTheme);
 
-            HtmlLink malmoPrint = new HtmlLink();
-            malmoPrint.Href = ResolveClientUrl("http://www.malmo.se/assets-2.0/css/malmo-print.css");
-            malmoPrint.Attributes["rel"] = "stylesheet";
-            malmoPrint.Attributes["type"] = "text/css";
-            malmoPrint.Attributes["media"] = "print";
-            Page.Header.Controls.Add(malmoPrint);
+            //HtmlLink malmoPrint = new HtmlLink();
+            //malmoPrint.Href = ResolveClientUrl("http://www.malmo.se/assets-2.0/css/malmo-print.css");
+            //malmoPrint.Attributes["rel"] = "stylesheet";
+            //malmoPrint.Attributes["type"] = "text/css";
+            //malmoPrint.Attributes["media"] = "print";
+            //Page.Header.Controls.Add(malmoPrint);
 
-            Literal IEFix = new Literal();
-            IEFix.Text = "<!--[if lt IE 7]><link href=\"http://www.malmo.se/assets-2.0/css/malmo-ie-css-fix.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" /><![endif]-->";
-            Page.Header.Controls.Add(IEFix);
 
-            Literal IE7Fix = new Literal();
-            IE7Fix.Text = "<!--[if IE 7]><link href=\"http://www.malmo.se/assets-2.0/css/malmo-ie7-css-fix.css\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" /><![endif]-->";
-            Page.Header.Controls.Add(IE7Fix);
 
-            Literal IE9Fix = new Literal();
-            IE9Fix.Text = "<!--[if gte IE 9]><style type=\"text/css\">.gradient {filter: none;}</style><![endif]-->";
-            Page.Header.Controls.Add(IE9Fix);
+            Literal IE8Fix = new Literal();
+            IE8Fix.Text = "<!--[if lte IE 8]><link href='//assets.malmo.se/external/v4/legacy/ie8.css' media='all' rel='stylesheet' type='text/css'/><![endif]-->";
+            Page.Header.Controls.Add(IE8Fix);
 
             //HtmlGenericControl jquery = new HtmlGenericControl("script");
             //jquery.Attributes.Add("type", "text/javascript");
             //jquery.Attributes.Add("src", "http://www.malmo.se/assets-2.0/jquery/jquery.js");
             //Page.Header.Controls.Add(jquery);
-            addStartupScripts("http://www.malmo.se/assets-2.0/jquery/jquery.js");
+            //addStartupScripts("http://www.malmo.se/assets-2.0/jquery/jquery.js");
 
             //HtmlGenericControl malmoJs = new HtmlGenericControl("script");
             //malmoJs.Attributes.Add("type", "text/javascript");
             //malmoJs.Attributes.Add("src", "http://www.malmo.se/assets-2.0/js/malmo.js");
             //Page.Header.Controls.Add(malmoJs);
-            addStartupScripts("http://www.malmo.se/assets-2.0/js/malmo.js");
+            //addStartupScripts("http://www.malmo.se/assets-2.0/js/malmo.js");
 
             //HtmlGenericControl malmoExternal = new HtmlGenericControl("script");
             //malmoExternal.Attributes.Add("type", "text/javascript");
             //malmoExternal.Attributes.Add("src", "http://www.malmo.se/assets-2.0/js/external.js");
             //Page.Header.Controls.Add(malmoExternal);
-            addStartupScripts("http://www.malmo.se/assets-2.0/js/external.js");
+            //addStartupScripts("http://www.malmo.se/assets-2.0/js/external.js");
 
             //HtmlGenericControl addThis = new HtmlGenericControl("script");
             //addThis.Attributes.Add("type", "text/javascript");
             //addThis.Attributes.Add("src", "http://s7.addthis.com/js/250/addthis_widget.js");
             //Page.Header.Controls.Add(addThis);
-            addStartupScripts("http://s7.addthis.com/js/250/addthis_widget.js");
+            //addStartupScripts("http://s7.addthis.com/js/250/addthis_widget.js");
 
             //HtmlGenericControl noConflict = new HtmlGenericControl("script");
             //noConflict.InnerText = "$.noConflict(true);";
             //Page.Header.Controls.Add(noConflict);
-            clientScripts.AppendLine("<script>$.noConflict(true);</script>");
+
+            //clientScripts.AppendLine("<script>$.noConflict(true);</script>");
+            HtmlLink favicon = new HtmlLink();
+            favicon.Attributes["rel"] = "shortcut icon";
+            favicon.Attributes["type"] = "image/x-icon";
+            favicon.Href = ResolveClientUrl("//assets.malmo.se/external/v4/favicon.ico");
+            Page.Header.Controls.Add(favicon);
+
+            addStartupScripts("//assets.malmo.se/external/v4/malmo.js");
+
+            _bodyCssClasses += "mf-v4 ";
+            //bodyTag.Attributes.Add("class", "mf-v4");
+
         }
         private void renderCommonAssets()
         {
@@ -226,7 +241,7 @@ namespace malmo
             //Page.Header.Controls.Add(jquery);
             if (!malmoKomin)
             {
-                addStartupScripts("http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
+                // addStartupScripts("http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
             }
             //HtmlGenericControl tooltipster = new HtmlGenericControl("script");
             //tooltipster.Attributes.Add("type", "text/javascript");
@@ -244,25 +259,25 @@ namespace malmo
             //ui.Attributes.Add("type", "text/javascript");
             //ui.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
             //Page.Header.Controls.Add(ui);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery-ui-1.10.3.custom.min.js");
 
             //HtmlGenericControl kinetic = new HtmlGenericControl("script");
             //kinetic.Attributes.Add("type", "text/javascript");
             //kinetic.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
             //Page.Header.Controls.Add(kinetic);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.kinetic.min.js");
 
             //HtmlGenericControl mouseWheel = new HtmlGenericControl("script");
             //mouseWheel.Attributes.Add("type", "text/javascript");
             //mouseWheel.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
             //Page.Header.Controls.Add(mouseWheel);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.mousewheel.min.js");
 
             //HtmlGenericControl smoothScroll = new HtmlGenericControl("script");
             //smoothScroll.Attributes.Add("type", "text/javascript");
             //smoothScroll.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
             //Page.Header.Controls.Add(smoothScroll);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
 
             HtmlLink tooltipsterCSS = new HtmlLink();
             tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.min.css";
@@ -276,11 +291,11 @@ namespace malmo
             extensionsCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(extensionsCSS);
 
-            HtmlLink smoothDivScrollCSS = new HtmlLink();
-            smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
-            smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
-            smoothDivScrollCSS.Attributes["type"] = "text/css";
-            Page.Header.Controls.Add(smoothDivScrollCSS);
+            //HtmlLink smoothDivScrollCSS = new HtmlLink();
+            //smoothDivScrollCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/smoothDivScroll.min.css";
+            //smoothDivScrollCSS.Attributes["rel"] = "stylesheet";
+            //smoothDivScrollCSS.Attributes["type"] = "text/css";
+            //Page.Header.Controls.Add(smoothDivScrollCSS);
 
             HtmlLink playerCSS = new HtmlLink();
             playerCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player.min.css";
@@ -306,11 +321,13 @@ namespace malmo
             //startScript.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.js");
             //Page.Header.Controls.Add(startScript);
             addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.min.js");
+            bodyTag.Attributes.Add("class", _bodyCssClasses);
         }
         private void addStartupScripts(string scriptSrc)
         {
             clientScripts.AppendLine("<script type='text/javascript' src='" + scriptSrc + "'></script>");
         }
+
         private void addScriptsToPage()
         {
             scriptBlock.Text = clientScripts.ToString();
@@ -318,7 +335,8 @@ namespace malmo
 
         private void setStandardMeta()
         {
-            string title = "Malmö stads videoarkiv";
+            string title = "Videoarkiv &#x2013 Malmö stad";
+            metaPageTitle.Text = title;
             string description = "Välkommen till Malmö stads videoarkiv! Här publicerar vi videoklipp av nyheter, händelser och evenemang som vi tror kan vara av intresse för dig som bor i, eller besöker Malmö.";
             string logoURL = Request.Url.GetLeftPart(UriPartial.Authority) + "/Images/Logga.jpg";
 
@@ -473,10 +491,7 @@ namespace malmo
                     }
                     if (CBPlayer)
                     {
-                        metaHtml += "<div class=\"descriptionBox\">\n";
-                        metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>\n" + _kfDropDownList + "\n";
-                        metaHtml += "<p>Läs mer om <a href=\"http://www.malmo.se/Kommun--politik/Politiker-och-beslut/Kommunfullmaktige.html\" target=\"_blank\">Kommunfullmäktige</a></p>\n";
-                        metaHtml += "<h2>Har du frågor om webbsändningen?</h2><p>Kontakta Mikael Hellman, <a href=\"mailto:mikael.hellman@malmo.se\">mikael.hellman@malmo.se</a>, 0734-32 32 19</p></div>\n";
+                        metaHtml += "<div class=\"descriptionBox\">\n";                       
                     }
                     else
                     {
@@ -504,7 +519,7 @@ namespace malmo
                     {
                         metaHtml += "<h1>" + meta.name + "</h1>\n";
 
-                        metaPageTitle.Text = "Malmö stad video - " + meta.name;
+                        metaPageTitle.Text = meta.name + " &#x2013 Malmö stad";
 
                         twitterMeta.AppendLine("<meta name=\"twitter:title\" content=\"" + meta.name + "\" />");
                         faceBookMeta.AppendLine("<meta property=\"og:title\" content=\"" + meta.name + "\"/>");
@@ -576,6 +591,12 @@ namespace malmo
                         setStandardMeta();
                     }
                     metaHtml += "</div>\n";
+
+                    if (CBPlayer) {
+                        metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>\n" + _kfDropDownList + "\n";
+                        metaHtml += "<p>Läs mer om <a href=\"http://www.malmo.se/Kommun--politik/Politiker-och-beslut/Kommunfullmaktige.html\" target=\"_blank\">Kommunfullmäktige</a></p>\n";
+                        metaHtml += "<h2>Har du frågor om webbsändningen?</h2><p>Kontakta Mikael Hellman, <a href=\"mailto:mikael.hellman@malmo.se\">mikael.hellman@malmo.se</a>, 0734-32 32 19</p></div>\n";
+                    }
                     metaHtml += "</div>\n";
                     metaHtml += "<div style=\"clear: both;\"></div>\n";
 
@@ -595,7 +616,8 @@ namespace malmo
             {
                 foreach (videoCategory category in archive.categories)
                 {
-                    if (category.name == "Kommunfullmäktige") {
+                    if (category.name == "Kommunfullmäktige")
+                    {
                         kfVideos = category;
                     }
                 }
@@ -606,9 +628,10 @@ namespace malmo
             kfTable.Columns.Add("year", typeof(int));
             kfTable.Columns.Add("month", typeof(int));
 
-            if (kfVideos != null) 
+            if (kfVideos != null)
             {
-                foreach (videoItem video in kfVideos.videos) {
+                foreach (videoItem video in kfVideos.videos)
+                {
                     int month = 0;
                     int year = DateTime.Now.Year;
                     string id = "0";
@@ -616,9 +639,9 @@ namespace malmo
 
                     if (video.id != null) { id = video.id; }
                     if (video.name != null) { name = video.name; }
-                    if (video.tags != null) 
+                    if (video.tags != null)
                     {
-                        foreach (string tag in video.tags) 
+                        foreach (string tag in video.tags)
                         {
                             //är det en månads-tagg
                             if (tag.ToUpper() == "JANUARI") { month = 1; }
@@ -637,7 +660,8 @@ namespace malmo
                             //eller en års-tag
                             string pattern = @"\d{4}";
                             System.Text.RegularExpressions.Regex r = new System.Text.RegularExpressions.Regex(pattern);
-                            if (r.IsMatch(tag)) {
+                            if (r.IsMatch(tag))
+                            {
                                 year = Int32.Parse(tag);
                             }
                         }
@@ -654,13 +678,15 @@ namespace malmo
 
             //bygg listan
             html.AppendLine("<select onChange=\"kfListChange()\" id=\"kfList\">");
-            foreach (System.Data.DataRow r in yearsTable.Rows) {
-                html.AppendLine("\t<optgroup label=\""+r["year"].ToString()+"\">");
+            foreach (System.Data.DataRow r in yearsTable.Rows)
+            {
+                html.AppendLine("\t<optgroup label=\"" + r["year"].ToString() + "\">");
                 foreach (System.Data.DataRow kfRow in kfTable.Rows)
                 {
-                    if (kfRow["year"].ToString() == r["year"].ToString()) {
+                    if (kfRow["year"].ToString() == r["year"].ToString())
+                    {
 
-                        html.AppendLine("\t\t<option value=\""+kfRow["id"].ToString()+"\">"+kfRow["name"].ToString().Replace(kfRow["year"].ToString(), "")+"</option>");                    
+                        html.AppendLine("\t\t<option value=\"" + kfRow["id"].ToString() + "\">" + kfRow["name"].ToString().Replace(kfRow["year"].ToString(), "") + "</option>");
                     }
                 }
                 html.AppendLine("\t</optgroup>");
@@ -710,6 +736,7 @@ namespace malmo
             catch (WebException ex) { }
 
         }
+
         private void setMetaOnPage(string name)
         {
 
@@ -750,7 +777,7 @@ namespace malmo
                         string id = results.videoIds[0];
                         if (id.Length > 6)
                         {
-                            if (isKf) {Response.Redirect("?bctid="+id.ToString()); }
+                            if (isKf) { Response.Redirect("?bctid=" + id.ToString()); }
                             getBrightcoveVideo(id, token);
                         }
 
@@ -790,8 +817,8 @@ namespace malmo
 
                         htmlBuilder.AppendLine("<dl>\n");
                         htmlBuilder.AppendLine("<dt><h2>Relaterade Videor</h2></dt>\n");
-                        htmlBuilder.AppendLine("<div id=\"scrollbar\" class=\"related\">\n");
-                        htmlBuilder.AppendLine("<ul class=\"sidescroll\">\n");
+                        //htmlBuilder.AppendLine("<div id=\"scrollbar\" class=\"related\">\n");
+                        htmlBuilder.AppendLine("<ul class=\"related_videos_list\">\n");
                         //html += "<dl class=\"accordion\">\n";
                         //html += "<dt><h2>Relaterade Videos</h2></dt>\n";
                         //html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
@@ -825,8 +852,13 @@ namespace malmo
                                     htmlBuilder.AppendLine("\t\t<li class=\"video_item\">\n");
                                     //htmlBuilder.AppendLine("\t\t<div class=\"info-box\"><h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p></div>\n");
                                     htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
-                                    htmlBuilder.AppendLine("\t\t\t<h4>" + title + "</h4>\n");
+                                    htmlBuilder.AppendLine("\t\t\t<div class=\"thumbnail\">\n");
+                                    htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.videoStillURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
+                                    htmlBuilder.AppendLine("\t\t\t</div>\n");
+                                    htmlBuilder.AppendLine("\t\t\t<div class=\"description\">\n");
+                                    htmlBuilder.AppendLine("\t\t\t\t<h4>" + title + "</h4>\n");
+                                    htmlBuilder.AppendLine("\t\t\t\t<p>" + description + "</p>\n");
+                                    htmlBuilder.AppendLine("\t\t\t</div>\n");
                                     htmlBuilder.AppendLine("\t\t\t</a>");
                                     htmlBuilder.AppendLine("\t\t</li>\n");
                                     counter++;
@@ -836,7 +868,7 @@ namespace malmo
 
                         htmlBuilder.AppendLine("\t<li style=\"clear:both;\"</li>\n");
                         htmlBuilder.AppendLine("</ul>\n");
-                        htmlBuilder.AppendLine("</div>\n");
+                        //htmlBuilder.AppendLine("</div>\n");
                         htmlBuilder.AppendLine("</dl>\n");
 
                         html = htmlBuilder.ToString();
@@ -1195,5 +1227,7 @@ namespace malmo
         public int page_size { get; set; }
         public int total_count { get; set; }
     }
+
+
 
 }

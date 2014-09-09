@@ -1,12 +1,24 @@
-.videoWrapper {
-  width: 960px;
-}
-.cb_container {
+.cb_container,
+.bc-container,
+.descriptionBoxBC {
   width: 100%;
+  margin-bottom: 1em;
 }
-.bc-container {
-  width: 60%;
-  float: left;
+.videoDescription {
+  padding: 0;
+}
+@media (min-width: 50em) {
+  .bc-container {
+    width: 60%;
+    float: left;
+  }
+  .descriptionBoxBC {
+    width: 40%;
+    float: right;
+  }
+  .videoDescription {
+    padding: 0 1rem 0 1rem;
+  }
 }
 .embed-container {
   position: relative;
@@ -34,13 +46,6 @@
   border-top: .1em dotted grey;
   padding-top: 1em;
 }
-.descriptionBoxBC {
-  width: 40%;
-  float: right;
-}
-.videoDescription {
-  padding: 0 1rem 0 1rem;
-}
 .extraMeta {
   color: #cccccc;
   font-size: 0.8rem;
@@ -51,9 +56,6 @@
 }
 .social {
   margin-top: 1rem;
-}
-#relatedVideos {
-  margin-bottom: -0.8rem;
 }
 .archiveMenu {
   width: 22%;
@@ -126,35 +128,6 @@ a:link {
   font-size: 0.8rem;
   font-weight: normal;
 }
-#scrollbar {
-  width: 100%;
-  position: relative;
-}
-ul.sidescroll {
-  margin: 0px;
-  padding: 0px;
-  border: 0px;
-  outline: 0px;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-  line-height: inherit;
-}
-.sidescroll {
-  list-style: none;
-  height: 100px;
-  width: 1700px;
-}
-.sidescroll .video_item {
-  padding-top: 0.2rem;
-  /*padding-right: .9rem;*/
-}
-#makeMeScrollable div.scrollableArea li {
-  position: relative;
-  float: left;
-  margin: 0;
-  padding: 0;
-}
 .accordion dt h2 {
   padding: 0.5rem;
   color: #ffffff;
@@ -199,12 +172,6 @@ ul.sidescroll {
   background: linear-gradient(to bottom, #ffde73 0%, #fed12d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffde73', endColorstr='#fed12d', GradientType=0);
 }
-#relatedVideos .video_item {
-  height: 80px;
-}
-#relatedVideos .video_item h4 {
-  display: none;
-}
 .archiveBlock {
   background-color: #ffffff;
   padding: 1.4rem;
@@ -221,18 +188,43 @@ div.moreKF select {
   font-size: 1em;
   margin: .4em 0;
 }
-div.moreKF {
-  float: right;
-  width: 40%;
-  padding: 0 1rem 0 1rem;
-}
-div.moreKF p {
-  margin: .5em 0;
-}
 div#error {
   background-color: white;
   padding: 1rem;
   text-align: center;
   font-size: 1.2rem;
   margin-bottom: 1rem;
+}
+ul.related_videos_list {
+  list-style: none;
+  margin: 0;
+}
+#relatedVideos .video_item {
+  width: 100%;
+  height: auto;
+}
+#relatedVideos .video_item h4 {
+  color: #ffffff;
+  font-size: .8rem;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+#relatedVideos .video_item p {
+  width: 100%;
+  color: #ffffff;
+  font-size: .6rem;
+  text-align: justify;
+}
+#relatedVideos .video_item img {
+  width: 100%;
+  height: auto;
+}
+#relatedVideos .video_item .description {
+  width: 80%;
+  float: right;
+  padding-left: .5rem;
+}
+#relatedVideos .video_item .thumbnail {
+  width: 20%;
+  float: left;
 }

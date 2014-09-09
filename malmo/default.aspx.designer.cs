@@ -40,15 +40,6 @@ namespace malmo {
         protected global::System.Web.UI.WebControls.Literal twMeta;
         
         /// <summary>
-        /// scriptBlock control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal scriptBlock;
-        
-        /// <summary>
         /// bodyTag control.
         /// </summary>
         /// <remarks>
@@ -164,5 +155,14 @@ namespace malmo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl videoArchive;
+        
+        /// <summary>
+        /// scriptBlock control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal scriptBlock;
     }
 }
