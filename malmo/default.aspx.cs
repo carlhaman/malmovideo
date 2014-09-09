@@ -478,10 +478,13 @@ namespace malmo
                                       <param name='linkBaseURL' value='http://video.malmo.se?bctid=" + meta.id.ToString() + @"' />
                                       <param name='wmode' value='opaque' />
                                       <param name='htmlFallback' value='true' />
+                                      <param name='includeAPI' value='true' />
+                                      <param name='templateLoadHandler' value='onTemplateLoad' />
+                                      <param name='templateReadyHandler' value='onTemplateReady' />
                                       <param name='@videoPlayer' value='" + meta.id.ToString() + @"' />
                                     </object>
                                     <script type='text/javascript'>brightcove.createExperiences();</script>
-
+                                    <script type='text/javascript' src='http://admin.brightcove.com/js/api/SmartPlayerAPI.js'></script>
                                     <!-- End of Brightcove Player -->
                                     ";
 
@@ -491,7 +494,7 @@ namespace malmo
                     }
                     if (CBPlayer)
                     {
-                        metaHtml += "<div class=\"descriptionBox\">\n";                       
+                        metaHtml += "<div class=\"descriptionBox\">\n";
                     }
                     else
                     {
@@ -592,7 +595,8 @@ namespace malmo
                     }
                     metaHtml += "</div>\n";
 
-                    if (CBPlayer) {
+                    if (CBPlayer)
+                    {
                         metaHtml += "<div class=\"moreKF\"><h2>Fler kommunfullmäktigesändningar</h2>\n" + _kfDropDownList + "\n";
                         metaHtml += "<p>Läs mer om <a href=\"http://www.malmo.se/Kommun--politik/Politiker-och-beslut/Kommunfullmaktige.html\" target=\"_blank\">Kommunfullmäktige</a></p>\n";
                         metaHtml += "<h2>Har du frågor om webbsändningen?</h2><p>Kontakta Mikael Hellman, <a href=\"mailto:mikael.hellman@malmo.se\">mikael.hellman@malmo.se</a>, 0734-32 32 19</p></div>\n";

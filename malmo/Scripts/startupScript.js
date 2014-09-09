@@ -30,13 +30,6 @@
         $('.accordion > dt > h2').first().click();
 
         /**/
-        $("div#scrollbar").smoothDivScroll({
-            autoScrollingMode: "",
-            hotSpotScrolling: true,
-            visibleHotSpotBackgrounds: "always",
-            mousewheelScrolling: "horizontal",
-            touchScrolling: true
-        });
         
         setKfListItem();
 
@@ -46,9 +39,9 @@
 function setKfListItem() {
     var id = getUrlVars()["bctid"];
     var list = document.getElementById("kfList");
-    list.value = id;
-    
-
+    if (list != null) {
+        list.value = id;
+    }
 }
 
 function getUrlVars() {

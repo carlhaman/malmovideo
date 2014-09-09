@@ -24,7 +24,7 @@
         <article class="body-copy" role="main">
 
             <form id="form1" runat="server">
-                <asp:ScriptManager ID="scriptManager" runat="server" />
+               
                 <div id="error" runat="server"></div>
                 <div class="videoBlock gradient greyGradient">
                     <div id="videoDetails" runat="server"></div>
@@ -59,5 +59,72 @@
     </div>
 
     <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
+     <asp:ScriptManager ID="scriptManager" runat="server" />
+
+    <script type="text/javascript">
+
+        var player,
+          APIModules,
+          videoPlayer,
+          experienceModule;
+
+        // utility
+        logit = function (context, message) {
+            if (console) {
+                console.log(context, message);
+            }
+        };
+
+        function onTemplateLoad(experienceID) {
+            logit("EVENT", "onTemplateLoad");
+            player = brightcove.api.getExperience(experienceID);
+            APIModules = brightcove.api.modules.APIModules;
+        }
+
+        function onTemplateReady(evt) {
+            logit("EVENT", "onTemplateReady");
+            videoPlayer = player.getModule(APIModules.VIDEO_PLAYER);
+            experienceModule = player.getModule(APIModules.EXPERIENCE);
+
+            videoPlayer.getCurrentRendition(function (renditionDTO) {
+
+                if (renditionDTO) {
+                    logit("condition", "renditionDTO found");
+                    calulateNewPercentage(renditionDTO.frameWidth, renditionDTO.frameHeight);
+                } else {
+                    logit("condition", "renditionDTO NOT found");
+                    videoPlayer.addEventListener(brightcove.api.events.MediaEvent.PLAY, function (event) {
+                        calulateNewPercentage(event.media.renditions[0].frameWidth, event.media.renditions[0].frameHeight);
+                    });
+                }
+            });
+
+            var evt = document.createEvent('UIEvents');
+            evt.initUIEvent('resize', true, false, 0);
+            window.dispatchEvent(evt);
+
+            videoPlayer.play();
+        }
+
+        function calulateNewPercentage(width, height) {
+            logit("function", "calulateNewPercentage");
+            var newPercentage = ((height / width) * 100) + "%";
+            logit("Video Width = ", width);
+            logit("Video Height = ", height);
+            logit("New Percentage = ", newPercentage);
+            //document.getElementById("container1").style.paddingBottom = newPercentage;
+        }
+
+        window.onresize = function (evt) {
+            var resizeWidth = $(".BrightcoveExperience").width(),
+            resizeHeight = $(".BrightcoveExperience").height();
+            if (experienceModule.experience.type == "html") {
+                experienceModule.setSize(resizeWidth, resizeHeight)
+                //logit("html mode: ", "call setSize method to resize player");
+            }
+        }
+
+    </script>
+
 </body>
 </html>
