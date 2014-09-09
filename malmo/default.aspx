@@ -24,7 +24,7 @@
         <article class="body-copy" role="main">
 
             <form id="form1" runat="server">
-               
+                <asp:ScriptManager ID="scriptManager" runat="server" />
                 <div id="error" runat="server"></div>
                 <div class="videoBlock gradient greyGradient">
                     <div id="videoDetails" runat="server"></div>
@@ -59,7 +59,6 @@
     </div>
 
     <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
-     <asp:ScriptManager ID="scriptManager" runat="server" />
 
     <script type="text/javascript">
 
