@@ -31,6 +31,7 @@
 .embed-container iframe,
 .embed-container object,
 .embed-container embed,
+.embed-container video,
 .BrightcoveExperience {
   position: absolute;
   top: 0;
