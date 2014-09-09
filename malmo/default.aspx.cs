@@ -116,7 +116,7 @@ namespace malmo
 
             if (!isFromKfAccount)
             {
-                renderVideoArchive(archive);
+               // renderVideoArchive(archive);
 
             }
             else { videoSearch.Visible = false; }

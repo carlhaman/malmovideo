@@ -59,3 +59,67 @@ function kfListChange() {
     */
     window.open("http://video.malmo.se?bctid=" + myselect.options[myselect.selectedIndex].value, "_self");
 }
+
+//Brightcove responsive
+
+var player,
+      APIModules,
+      videoPlayer,
+      experienceModule,
+      percentage;
+
+// utility
+logit = function (context, message) {
+    if (console) {
+        console.log(context, message);
+    }
+};
+
+function onTemplateLoad(experienceID) {
+    logit("EVENT", "onTemplateLoad");
+    player = brightcove.api.getExperience(experienceID);
+    APIModules = brightcove.api.modules.APIModules;
+}
+
+function onTemplateReady() {
+    logit("EVENT", "onTemplateReady");
+    videoPlayer = player.getModule(APIModules.VIDEO_PLAYER);
+    experienceModule = player.getModule(APIModules.EXPERIENCE);
+
+    videoPlayer.getCurrentRendition(function (renditionDTO) {
+
+        if (renditionDTO) {
+            logit("condition", "renditionDTO found");
+            calulateNewPercentage(renditionDTO.frameWidth, renditionDTO.frameHeight);
+        } else {
+            logit("condition", "renditionDTO NOT found");
+            videoPlayer.addEventListener(brightcove.api.events.MediaEvent.PLAY, function (event) {
+                calulateNewPercentage(event.media.renditions[0].frameWidth, event.media.renditions[0].frameHeight);
+            });
+        }
+    });
+
+    var evt = document.createEvent('UIEvents');
+    evt.initUIEvent('resize', true, false, 0);
+    window.dispatchEvent(evt);
+
+    videoPlayer.play();
+}
+
+function calulateNewPercentage(width, height) {
+    logit("function", "calulateNewPercentage");
+    var newPercentage = ((height / width) * 100) + "%";
+    logit("Video Width = ", width);
+    logit("Video Height = ", height);
+    logit("New Percentage = ", newPercentage);
+    percentage = ((height / width) * 100);
+}
+
+window.onresize = function (evt) {
+    var resizeWidth = $(".embed-container").width(),
+        resizeHeight = (resizeWidth / 100) * percentage;
+
+    if (experienceModule.experience.type === "html") {
+        experienceModule.setSize(resizeWidth, resizeHeight);
+    }
+};
