@@ -124,9 +124,12 @@
         }
 
         window.addEventListener("orientationchange", function (evt) {
-            var resizeWidth = $(".BrightcoveExperience").width(),
+            setTimeout(function () {
+                var resizeWidth = $(".BrightcoveExperience").width(),
             resizeHeight = $(".BrightcoveExperience").height();
-            alert("orientation change! height: " + resizeHeight + " width: " + resizeWidth);
+                alert("orientation change! height: " + resizeHeight + " width: " + resizeWidth);
+            }, 500);
+
         }, false);
 
     </script>
