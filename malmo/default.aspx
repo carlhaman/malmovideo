@@ -122,13 +122,13 @@
                 //logit("html mode: ", "call setSize method to resize player");
             }
         }
-
+        
         window.addEventListener("orientationchange", function (evt) {
             setTimeout(function () {
                 var resizeWidth = $(".BrightcoveExperience").width(),
             resizeHeight = $(".BrightcoveExperience").height();
                 alert("orientation change! height: " + resizeHeight + " width: " + resizeWidth);
-            }, 500);
+            }, 1000);
 
         }, false);
 
