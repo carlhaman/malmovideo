@@ -115,7 +115,7 @@
         }
 
         window.onresize = function (evt) {
-            var resizeWidth = $(".BrightcoveExperience").width(),
+            var resizeWidth = $(".embed-container").width(),
             resizeHeight = $(".BrightcoveExperience").height();
             if (experienceModule.experience.type == "html") {
                 experienceModule.setSize(resizeWidth, resizeHeight)
@@ -123,14 +123,14 @@
             }
         }
         
-        window.addEventListener("orientationchange", function (evt) {
-            setTimeout(function () {
-                var resizeWidth = $(".embed-container").width(),
-            resizeHeight = $(".embed-container").height();
-                alert("orientation embed-container! height: " + resizeHeight + " width: " + resizeWidth);
-            }, 1000);
+        //window.addEventListener("orientationchange", function (evt) {
+        //    setTimeout(function () {
+        //        var resizeWidth = $(".embed-container").width(),
+        //    resizeHeight = $(".embed-container").height();
+        //        alert("orientation embed-container! height: " + resizeHeight + " width: " + resizeWidth);
+        //    }, 1000);
 
-        }, false);
+        //}, false);
 
     </script>
 
