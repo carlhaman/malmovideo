@@ -123,6 +123,15 @@
             }
         }
 
+        $(window).on("orientationchange",function(event){
+            var resizeWidth = $(".BrightcoveExperience").width(),
+            resizeHeight = $(".BrightcoveExperience").height();
+            if (experienceModule.experience.type == "html") {
+                experienceModule.setSize(resizeWidth, resizeHeight)
+                //logit("html mode: ", "call setSize method to resize player");
+            }
+        });
+
     </script>
 
 </body>
