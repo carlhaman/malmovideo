@@ -64,6 +64,26 @@ namespace malmo
                 }
             }
 
+            if (Cache["latestVideoId"] != null)
+            {
+                Cache.Remove("latestVideoId");
+                if (Cache["latestVideoId"] == null)
+                {
+                    html += "\n<p>Latest video ID removed</p>";
+                }
+            }
+
+            if (Cache["latestKfVideoId"] != null)
+            {
+                Cache.Remove("latestKfVideoId");
+                if (Cache["latestKfVideoId"] == null)
+                {
+                    html += "\n<p>Latest KF video ID removed</p>";
+                }
+            }
+
+
+
             pageContent.InnerHtml = html;
         }
     }

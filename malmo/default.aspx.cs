@@ -795,8 +795,10 @@ namespace malmo
                                     Cache.Insert("latestKfVideoId", id, null, DateTime.UtcNow.AddMinutes(5), Cache.NoSlidingExpiration);
 
                                 }
-                                Cache.Insert("latestVideoId", id, null, DateTime.UtcNow.AddMinutes(5), Cache.NoSlidingExpiration);
-
+                                else
+                                {
+                                    Cache.Insert("latestVideoId", id, null, DateTime.UtcNow.AddMinutes(5), Cache.NoSlidingExpiration);
+                                }
                             }
 
                         }
