@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace malmo
 {
@@ -14,8 +9,12 @@ namespace malmo
             string html = string.Empty;
             html += "\n<h2>Cache:</h2>";
             if (Cache["Archive"] != null) { html += "\n<p>Video archive is cached</p>"; }
+            if (Cache["archiveHtml"] != null) { html += "\n<p>Video archive pre-render is cached</p>"; }
 
             if (Cache["kominArchive"] != null) { html += "\n<p>KOMIN Video archive is cached</p>"; }
+            if (Cache["kominArchiveHtml"] != null) { html += "\n<p>KOMIN Video archive pre-render is cached</p>"; }
+
+            if (Cache["kfListString"] != null) { html += "\n<p>Kf-Dropdownlist is cached</p>"; }
 
             html += "\n<hr/>";
 
@@ -24,18 +23,45 @@ namespace malmo
             if (Cache["Archive"] != null)
             {
                 Cache.Remove("Archive");
-                html += "\n<p>Video archive cache is removed!</p>";
+                if (Cache["Archive"] == null)
+                {
+                    html += "\n<p>Video archive cache is removed!</p>";
+                }
             }
             if (Cache["kominArchive"] != null)
             {
                 Cache.Remove("kominArchive");
-                html += "\n<p>KOMIN Video archive cache is removed!</p>";
+                if (Cache["kominArchive"] == null)
+                {
+                    html += "\n<p>KOMIN Video archive cache is removed!</p>";
+                }
             }
 
             if (Cache["kfListString"] != null)
             {
                 Cache.Remove("kfListString");
-                html += "\n<p>KF drop down list cache removed!</p>";
+                if (Cache["kfListString"] == null)
+                {
+                    html += "\n<p>KF drop down list cache removed!</p>";
+                }
+            }
+
+            if (Cache["archiveHtml"] != null)
+            {
+                Cache.Remove("archiveHtml");
+                if (Cache["archiveHtml"] == null)
+                {
+                    html += "\n<p>Video pre-render archive cache is removed!</p>";
+                }
+            }
+
+            if (Cache["kominArchiveHtml"] != null)
+            {
+                Cache.Remove("kominArchiveHtml");
+                if (Cache["kominArchiveHtml"] == null)
+                {
+                    html += "\n<p>KOMIN Video  pre-render archive cache is removed!</p>";
+                }
             }
 
             pageContent.InnerHtml = html;

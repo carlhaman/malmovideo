@@ -47,6 +47,7 @@ namespace malmo
             }
 
             _kfDropDownList = (string)Cache["kfListString"];
+
             if (_kfDropDownList == null)
             {
                 _kfDropDownList = renderKFDropDownList(archive);
@@ -116,7 +117,7 @@ namespace malmo
 
             if (!isFromKfAccount)
             {
-               // renderVideoArchive(archive);
+                // renderVideoArchive(archive);
 
             }
             else { videoSearch.Visible = false; }
@@ -748,50 +749,69 @@ namespace malmo
 
         private void getLatestVideo()
         {
+            //lägger till en 5 min cache för att minska antal anrop mot Brightcove
+            string videoId = (string)Cache["latestVideoId"];
+
             //Kf listan: 2623641282001
             //Aktuellt listan: 1172867907001
             bool isKf = false;
             if (Request.QueryString["kf"] != null)
             {
                 isKf = true;
+                videoId = (string)Cache["latestKfVideoId"];
             }
-            string token = MReadToken;
-            string playlistId = "1172867907001";
-            if (isKf) { token = KFReadToken; playlistId = "2623641282001"; }
 
-            Stream dataStream;
-
-            string videoFields = "id,name,shortDescription,publishedDate,tags,customFields,videoStillURL,length,playsTotal";
-            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlist_by_id&playlist_id={0}&video_fields={1}&token={2}", playlistId, videoFields, token));
-            request.Method = "POST";
-
-            try
+            if (videoId == null)
             {
-                var response = request.GetResponse();
-                dataStream = response.GetResponseStream();
-                string BCResponseString = string.Empty;
+                string token = MReadToken;
+                string playlistId = "1172867907001";
+                if (isKf) { token = KFReadToken; playlistId = "2623641282001"; }
 
-                using (StreamReader reader = new StreamReader(dataStream))
+                Stream dataStream;
+
+                string videoFields = "id,name,shortDescription,publishedDate,tags,customFields,videoStillURL,length,playsTotal";
+                var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_playlist_by_id&playlist_id={0}&video_fields={1}&token={2}", playlistId, videoFields, token));
+                request.Method = "POST";
+
+                try
                 {
-                    BCResponseString = reader.ReadToEnd();
+                    var response = request.GetResponse();
+                    dataStream = response.GetResponseStream();
+                    string BCResponseString = string.Empty;
 
-                    if (BCResponseString != null && BCResponseString != "null")
+                    using (StreamReader reader = new StreamReader(dataStream))
                     {
-                        var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
-                        string id = results.videoIds[0];
-                        if (id.Length > 6)
+                        BCResponseString = reader.ReadToEnd();
+
+                        if (BCResponseString != null && BCResponseString != "null")
                         {
-                            if (isKf) { Response.Redirect("?bctid=" + id.ToString()); }
-                            getBrightcoveVideo(id, token);
+                            var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+                            string id = results.videoIds[0];
+                            if (id.Length > 6)
+                            {
+                                videoId = id;
+                                if (isKf)
+                                {
+                                    Cache.Insert("latestKfVideoId", id, null, DateTime.UtcNow.AddMinutes(5), Cache.NoSlidingExpiration);
+
+                                }
+                                Cache.Insert("latestVideoId", id, null, DateTime.UtcNow.AddMinutes(5), Cache.NoSlidingExpiration);
+
+                            }
+
                         }
-
                     }
+
                 }
-
+                catch (WebException ex) { }
             }
-            catch (WebException ex) { }
 
+            if (isKf) { Response.Redirect("?bctid=" + videoId); }
 
+            else
+            {
+                getBrightcoveVideo(videoId, MReadToken);
+            }
         }
 
         private void getRelatedVideos(string brightcoveId, string token)
@@ -889,78 +909,6 @@ namespace malmo
             //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
 
 
-        }
-
-        private string searchBrightcoveVideos(string searchString)
-        {
-            string renderedResult = string.Empty;
-            if (searchString == "") { renderedResult = "<p>Du måste ange ett sökord...</p>"; }
-            else
-            {
-                renderedResult = "<p>Inga träffar på \"" + searchString + "\"...</p>";
-                string videoFields = "id,name,shortDescription,videoStillURL,thumbnailURL,length,playsTotal,customFields";
-                string[] searchWords = searchString.Split(' ');
-                string bcSearchString = string.Empty;
-                foreach (string word in searchWords)
-                {
-                    bcSearchString += "&any=" + word;
-                }
-                var mRequest = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=search_videos{0}&video_fields={1}&token={2}", bcSearchString, videoFields, MReadToken));
-                mRequest.Method = "POST";
-                try
-                {
-                    var response = mRequest.GetResponse();
-                    Stream dataStream = response.GetResponseStream();
-                    string BCResponseString = string.Empty;
-                    using (StreamReader reader = new StreamReader(dataStream))
-                    {
-                        BCResponseString = reader.ReadToEnd();
-
-                        if (BCResponseString != null && BCResponseString != "null")
-                        {
-                            var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
-                            videoCategory cat = new videoCategory();
-                            cat.name = "Search results";
-                            cat.videos = new List<videoItem>();
-
-                            foreach (dynamic video in results.items)
-                            {
-                                bool kominVideo = false;
-                                if (video.customFields != null)
-                                {
-                                    var customFields = video.customFields;
-                                    foreach (dynamic field in customFields)
-                                    {
-                                        if (field.Name != null)
-                                        {
-                                            if (field.Name == "targetgroup")
-                                            {
-                                                if (field.Value == "Komin") { kominVideo = true; }
-                                            }
-
-                                        }
-                                    }
-                                }
-                                if (!kominVideo || kominVideo && malmoKomin)
-                                {
-                                    videoItem item = new videoItem();
-                                    item.id = video.id;
-                                    item.name = video.name.ToString().Replace("\"", "&quot");
-                                    item.length = video.length;
-                                    item.playsTotal = video.playsTotal;
-                                    item.thumbnailURL = video.thumbnailURL;
-                                    item.videoStillURL = video.videoStillURL;
-                                    item.shortDescription = video.shortDescription.ToString().Replace("\"", "&quot");
-                                    cat.videos.Add(item);
-                                }
-                            }
-                            if (cat.videos.Count > 0) { renderedResult = renderSearchResults(cat); }
-                        }
-                    }
-                }
-                catch { }
-            }
-            return renderedResult;
         }
 
         private videoArchive buildVideoArchive(bool komin)
@@ -1140,42 +1088,6 @@ namespace malmo
                 Cache.Insert(archiveString, html, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
             }
             videoArchive.InnerHtml = html;
-        }
-
-        private string renderSearchResults(videoCategory results)
-        {
-
-            StringBuilder htmlBuilder = new StringBuilder();
-            //htmlBuilder.AppendLine("<ul class=\"video_grid\">\n");
-
-            foreach (videoItem video in results.videos)
-            {
-                //htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
-                htmlBuilder.AppendLine("<li class=\"video_item\">\n");
-                htmlBuilder.AppendLine("<div class=\"info-box\"><h2>" + video.name + "</h2><img src=\"" + video.videoStillURL + "\" width=\"400\" height=\"225\"/><p>" + video.shortDescription + "</p></div>\n");
-                htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
-                htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL.ToString() + "\" width=\"160\" height=\"90\"/>");
-                htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
-                htmlBuilder.AppendLine("</a>\n");
-                htmlBuilder.AppendLine("</li>\n");
-            }
-            htmlBuilder.AppendLine("<li style=\"clear:both;\"></li>\n");
-            //htmlBuilder.AppendLine("</ul>\n");
-
-            return htmlBuilder.ToString();
-
-        }
-
-        protected void searchButton_Click(object sender, EventArgs e)
-        {
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "slideUp", "<script type='text/javascript'>if ($('.searchResults').is(':visible')) {$('.searchResults').slideUp();}</script>", false);
-            searchResultsDiv.InnerHtml = searchBrightcoveVideos(searchText.Text);
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-load", "<script type='text/javascript'>$(\"img.lazy\").lazyload({ effect: \"fadeIn\" });</script>", false);
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "slideDown", "<script type='text/javascript'>$('.searchResults').slideDown();</script>", false);
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "populate", "<script type='text/javascript'>$('#archiveContent').html($('#searchResultsDiv').html());</script>", false);
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-load", "<script type='text/javascript'>$('#archiveContent').find('img.lazy').lazyload({ effect: \"fadeIn\" });</script>", false);
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
         }
 
         private bool isMalmoNetwork()

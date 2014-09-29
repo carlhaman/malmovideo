@@ -35,19 +35,16 @@
 
                     <div id="videoSearch" class="playlist" runat="server">
 
-                        <asp:UpdatePanel ID="searchResultsPanel" runat="server">
-                            <ContentTemplate>
-
                                 <div class="searchField">
-                                    <asp:Button runat="server" ID="searchButton" class="gradient yellowGradient" OnClick="searchButton_Click" Text="Sök" />
-                                    <asp:TextBox ID="searchText" placeholder="Sök video" runat="server"></asp:TextBox>
+                                    <input type="button" id="searchButton" class="gradient yellowGradient" onclick="search()" value="Sök" />
+                                    <input ID="searchText" placeholder="Sök video"/>
                                 </div>
                                 <h2>Videoarkiv</h2>
 
-                                <div id="searchResultsDiv" class="searchResults" runat="server" style="display: none;"></div>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
+                                <div id="searchResultsDiv" class="searchResults" runat="server"></div>
+
                     </div>
+
                     <div class="archiveMenu" id="videoArchive" runat="server"></div>
                     <div class="archiveVideos">
                         <ul id="archiveContent" class="video_grid"></ul>
@@ -59,6 +56,41 @@
     </div>
 
     <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
+    <script type="text/javascript">
+        function search() {
+            var query = $('#searchText').val();
+            if (query.length >= 1) {
+                $.ajax({
+                    url: "search.aspx?query=" + query,
+                    dataType: "json"
+                }).success(function (data) {
+                    $('#searchResultsDiv').empty();                    
+                    $('#searchResultsDiv').append("<h2>Sökresultat för " + query + "</h2>");
+                    $.each(data, function (i, item) {
+                        $('#searchResultsDiv').append(
+                            "<div class=\"post\">"
+                            + "<a href=\"?bctid=" + data[i].bctid + " \" class=\"videoBox\">"                                
+                                + "<div class=\"item-video\">"
+                                   + "<img src=\"" + data[i].imageURL + "\" alt=\"" + data[i].shortDescription + "\"/>"
+                                + "</div>"
+                                + "<h3>" + data[i].title + "</h3>"
+                                + "<p>" + data[i].shortDescription + "</p>"
+                                + "</a>"
+                             + "</div>"
+                            );
+                    })
+                }).complete(function () { });
 
+            }
+        }
+
+
+        $('#searchText').keypress(function (e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                search();
+            }
+        })
+    </script>
 </body>
 </html>
