@@ -1,24 +1,30 @@
+body {
+  margin: 2.6875em 0 0;
+}
+.wrapper {
+  margin: 0 auto;
+  max-width: 60em;
+  padding: 0;
+}
+.videoWrapper {
+  width: 100%;
+  background-color: #303030;
+}
+.descriptionWrapper {
+  width: 100%;
+  background-color: #5d5d5d;
+}
 .cb_container,
 .bc-container,
 .descriptionBoxBC {
   width: 100%;
-  margin-bottom: 1em;
 }
 .videoDescription {
-  padding: 0;
+  padding: 1em;
+  color: #fff;
 }
-@media (min-width: 50em) {
-  .bc-container {
-    width: 60%;
-    float: left;
-  }
-  .descriptionBoxBC {
-    width: 40%;
-    float: right;
-  }
-  .videoDescription {
-    padding: 0 1rem 0 1rem;
-  }
+.videoDescription h1 {
+  text-align: center;
 }
 .embed-container {
   position: relative;
@@ -42,15 +48,13 @@
   width: 100%;
   height: 100%;
 }
-.cb-container {
-  margin-bottom: 1rem;
-}
 .descriptionBox {
   width: auto;
   border-top: .1em dotted grey;
   padding-top: 1em;
 }
 .extraMeta {
+  display: none;
   color: #cccccc;
   font-size: 0.8rem;
   line-height: 1rem;
@@ -59,7 +63,10 @@
   margin-top: 1rem;
 }
 .social {
-  margin-top: 1rem;
+  text-align: center;
+}
+.providers {
+  display: inline-block;
 }
 .archiveMenu {
   width: 22%;
@@ -101,7 +108,7 @@
 a,
 a:visited,
 a:link {
-  color: #808080;
+  color: #cccccc;
 }
 .video_grid {
   list-style: none;
@@ -145,13 +152,15 @@ a:link {
   /* Old browsers */
 }
 .videoBlock {
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  padding: 1.4rem;
+  /*
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 1.4rem;
+    */
   color: #ffffff;
 }
 .greyGradient {
@@ -191,6 +200,17 @@ div.moreKF select {
   width: 100%;
   font-size: 1em;
   margin: .4em 0;
+}
+.questions {
+  width: 50%;
+  color: #fff;
+  padding: 0 1em;
+}
+.moreKF {
+  width: 50%;
+  float: right;
+  padding: 0 1em;
+  color: #fff;
 }
 div#error {
   background-color: white;

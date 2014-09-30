@@ -70,7 +70,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="archive.aspx" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="clear.aspx" />
     <Content Include="css\4plus1.css">
@@ -89,20 +88,17 @@
     <Content Include="css\player.min.css">
       <DependentUpon>player.less</DependentUpon>
     </Content>
-    <Content Include="css\playerCSS.css" />
     <Content Include="anders_checkar_in.txt" />
     <Content Include="cloudbox.svc" />
     <Content Include="crossdomain.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="css\playerCSS_ie.css" />
     <Content Include="css\playerKomin.css">
       <DependentUpon>playerKomin.less</DependentUpon>
     </Content>
     <Content Include="css\playerKomin.min.css">
       <DependentUpon>playerKomin.less</DependentUpon>
     </Content>
-    <Content Include="css\playerKominCSS.css" />
     <Content Include="css\player_ie.css">
       <DependentUpon>player_ie.less</DependentUpon>
     </Content>
@@ -149,6 +145,7 @@
     <Content Include="Images\new_arrow_right_hover.gif" />
     <Content Include="Images\video_play_overlay.png" />
     <Content Include="includes\4plus1.aspx" />
+    <Content Include="render.aspx" />
     <Content Include="rss.aspx" />
     <Content Include="Scripts\startupScript.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -173,13 +170,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="archive.aspx.cs">
-      <DependentUpon>archive.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="archive.aspx.designer.cs">
-      <DependentUpon>archive.aspx</DependentUpon>
-    </Compile>
     <Compile Include="clear.aspx.cs">
       <DependentUpon>clear.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -208,6 +198,13 @@
     <Compile Include="luceneIndex.cs" />
     <Compile Include="ipRangeCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="render.aspx.cs">
+      <DependentUpon>render.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="render.aspx.designer.cs">
+      <DependentUpon>render.aspx</DependentUpon>
+    </Compile>
     <Compile Include="rss.aspx.cs">
       <DependentUpon>rss.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

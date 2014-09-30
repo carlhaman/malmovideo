@@ -49,15 +49,6 @@ namespace malmo {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl bodyTag;
         
         /// <summary>
-        /// mastHead control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mastHead;
-        
-        /// <summary>
         /// form1 control.
         /// </summary>
         /// <remarks>
@@ -67,13 +58,13 @@ namespace malmo {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// scriptManager control.
+        /// mastHead control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager scriptManager;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mastHead;
         
         /// <summary>
         /// error control.
@@ -92,6 +83,15 @@ namespace malmo {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl videoDetails;
+        
+        /// <summary>
+        /// videoDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl videoDescription;
         
         /// <summary>
         /// relatedVideos control.

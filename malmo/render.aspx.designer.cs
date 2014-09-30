@@ -11,7 +11,7 @@ namespace malmo
 {
 
 
-    public partial class archive
+    public partial class render
     {
 
         /// <summary>

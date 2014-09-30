@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="archive.aspx.cs" Inherits="malmo.archive" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="render.aspx.cs" Inherits="malmo.render" %>
 
 <!DOCTYPE html>
 

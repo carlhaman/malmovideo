@@ -17,31 +17,41 @@
 </head>
 <body runat="server" id="bodyTag">
 
-    <!--Include the remote masthead here -->
-    <div id="mastHead" runat="server"></div>
-
-    <div class="wrapper">
+    <form id="form1" runat="server">
+        <div id="mastHead" runat="server"></div>
         <article class="body-copy" role="main">
 
-            <form id="form1" runat="server">
-                <asp:ScriptManager ID="scriptManager" runat="server" />
-                <div id="error" runat="server"></div>
-                <div class="videoBlock gradient greyGradient">
-                    <div id="videoDetails" runat="server"></div>
+            <div class="videoWrapper">
+                <div class="wrapper">
+                    <div id="error" runat="server"></div>
+                    <div class="videoBlock gradient greyGradient">
+                        <div id="videoDetails" runat="server"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="descriptionWrapper">
+                <div class="wrapper">
+                    <div id="videoDescription" runat="server"></div>
+                </div>
+            </div>
+
+            <div class="relatedWrapper">
+                <div class="wrapper">
                     <div class="playlist" id="relatedVideos" runat="server"></div>
                 </div>
+            </div>
 
-                <div class="archiveBlock">
-
+            <div class="archiveWrapper">
+                <div class="wrapper">
                     <div id="videoSearch" class="playlist" runat="server">
 
-                                <div class="searchField">
-                                    <input type="button" id="searchButton" class="gradient yellowGradient" onclick="search()" value="Sök" />
-                                    <input ID="searchText" placeholder="Sök video"/>
-                                </div>
-                                <h2>Videoarkiv</h2>
+                        <div class="searchField">
+                            <input type="button" id="searchButton" class="gradient yellowGradient" onclick="search()" value="Sök" />
+                            <input id="searchText" placeholder="Sök video" />
+                        </div>
+                        <h2>Videoarkiv</h2>
 
-                                <div id="searchResultsDiv" class="searchResults" runat="server"></div>
+                        <div id="searchResultsDiv" class="searchResults" runat="server"></div>
 
                     </div>
 
@@ -50,10 +60,10 @@
                         <ul id="archiveContent" class="video_grid"></ul>
                     </div>
                 </div>
-
-            </form>
+            </div>
         </article>
-    </div>
+    </form>
+
 
     <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
     <script type="text/javascript">
@@ -64,12 +74,12 @@
                     url: "search.aspx?query=" + query,
                     dataType: "json"
                 }).success(function (data) {
-                    $('#searchResultsDiv').empty();                    
+                    $('#searchResultsDiv').empty();
                     $('#searchResultsDiv').append("<h2>Sökresultat för " + query + "</h2>");
                     $.each(data, function (i, item) {
                         $('#searchResultsDiv').append(
                             "<div class=\"post\">"
-                            + "<a href=\"?bctid=" + data[i].bctid + " \" class=\"videoBox\">"                                
+                            + "<a href=\"?bctid=" + data[i].bctid + " \" class=\"videoBox\">"
                                 + "<div class=\"item-video\">"
                                    + "<img src=\"" + data[i].imageURL + "\" alt=\"" + data[i].shortDescription + "\"/>"
                                 + "</div>"

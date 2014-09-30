@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Text;
+using System.Web.Caching;
 
 namespace malmo
 {
@@ -169,5 +169,139 @@ namespace malmo
             return archive;
 
         }
+    }
+
+    public class helpers
+    {
+        private Cache _cache = System.Web.HttpContext.Current.Cache;
+        public helpers() { }
+
+        #region KF Dropdown List
+        public string KfDropdownList()
+        {
+            string list = (string)_cache["kfListString"];
+            if (list == null)
+            {
+                list = renderKFDropDownList(getVideoArchive(false));
+                _cache.Insert("kfListString", list, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+            }
+            return list;
+        }
+        private string renderKFDropDownList(videoArchive archive)
+        {
+            StringBuilder html = new StringBuilder();
+            videoCategory kfVideos = new videoCategory();
+            if (archive != null)
+            {
+                foreach (videoCategory category in archive.categories)
+                {
+                    if (category.name == "Kommunfullmäktige")
+                    {
+                        kfVideos = category;
+                    }
+                }
+            }
+            System.Data.DataTable kfTable = new System.Data.DataTable("KF Videor");
+            kfTable.Columns.Add("id", typeof(string));
+            kfTable.Columns.Add("name", typeof(string));
+            kfTable.Columns.Add("year", typeof(int));
+            kfTable.Columns.Add("month", typeof(int));
+
+            if (kfVideos != null)
+            {
+                foreach (videoItem video in kfVideos.videos)
+                {
+                    int month = 0;
+                    int year = DateTime.Now.Year;
+                    string id = "0";
+                    string name = "KF Video";
+
+                    if (video.id != null) { id = video.id; }
+                    if (video.name != null) { name = video.name; }
+                    if (video.tags != null)
+                    {
+                        foreach (string tag in video.tags)
+                        {
+                            //är det en månads-tagg
+                            if (tag.ToUpper() == "JANUARI") { month = 1; }
+                            if (tag.ToUpper() == "FEBRUARI") { month = 2; }
+                            if (tag.ToUpper() == "MARS") { month = 3; }
+                            if (tag.ToUpper() == "APRIL") { month = 4; }
+                            if (tag.ToUpper() == "MAJ") { month = 5; }
+                            if (tag.ToUpper() == "JUNI") { month = 6; }
+                            if (tag.ToUpper() == "JULI") { month = 7; }
+                            if (tag.ToUpper() == "AUGUSTI") { month = 8; }
+                            if (tag.ToUpper() == "SEPTEMBER") { month = 9; }
+                            if (tag.ToUpper() == "OKTOBER") { month = 10; }
+                            if (tag.ToUpper() == "NOVEMBER") { month = 11; }
+                            if (tag.ToUpper() == "DECEMBER") { month = 12; }
+
+                            //eller en års-tag
+                            string pattern = @"\d{4}";
+                            System.Text.RegularExpressions.Regex r = new System.Text.RegularExpressions.Regex(pattern);
+                            if (r.IsMatch(tag))
+                            {
+                                year = Int32.Parse(tag);
+                            }
+                        }
+                    }
+                    kfTable.Rows.Add(id, name, year, month);
+                }
+            }
+            //sortera sändningarna per år och månad
+            System.Data.DataView dv = kfTable.DefaultView;
+            dv.Sort = "year DESC, month DESC";
+
+            //skapa en tabell över de unika åren 
+            System.Data.DataTable yearsTable = dv.ToTable(true, "year");
+
+            //bygg listan
+            html.AppendLine("<select onChange=\"kfListChange()\" id=\"kfList\">");
+            foreach (System.Data.DataRow r in yearsTable.Rows)
+            {
+                html.AppendLine("\t<optgroup label=\"" + r["year"].ToString() + "\">");
+                foreach (System.Data.DataRow kfRow in kfTable.Rows)
+                {
+                    if (kfRow["year"].ToString() == r["year"].ToString())
+                    {
+
+                        html.AppendLine("\t\t<option value=\"" + kfRow["id"].ToString() + "\">" + kfRow["name"].ToString().Replace(kfRow["year"].ToString(), "") + "</option>");
+                    }
+                }
+                html.AppendLine("\t</optgroup>");
+            }
+            html.AppendLine("</select>");
+
+            return html.ToString();
+        }
+        #endregion
+
+        public videoArchive getVideoArchive(bool komin)
+        {
+            buildVideoArchive builder = new malmo.buildVideoArchive();
+
+            videoArchive archive = new videoArchive();
+            if (komin)
+            {
+                archive = (videoArchive)_cache["kominArchive"];
+                if (archive == null)
+                {
+                    archive = builder.render(true);
+                    _cache.Insert("kominArchive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                }
+            }
+            else
+            {
+                archive = (videoArchive)_cache["Archive"];
+                if (archive == null)
+                {
+                    archive = builder.render(false);
+                    _cache.Insert("Archive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                }
+            }
+
+            return archive;
+        }
+
     }
 }
