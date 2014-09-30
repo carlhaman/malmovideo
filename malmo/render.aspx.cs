@@ -12,6 +12,7 @@ namespace malmo
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
         private string _bctid = string.Empty;
         private bool _komin = false;
+        StringBuilder htmlResponse = new StringBuilder();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,7 +29,7 @@ namespace malmo
 
             if (!string.IsNullOrEmpty(Request.QueryString["bctid"]))
             {
-                _bctid = HttpUtility.UrlDecode(Request.QueryString.GetValues("index").GetValue(0).ToString().ToUpper());
+                _bctid = HttpUtility.UrlDecode(Request.QueryString.GetValues("bctid").GetValue(0).ToString().ToUpper());
             }
 
             if (!string.IsNullOrEmpty(Request.QueryString["action"]))
@@ -37,16 +38,20 @@ namespace malmo
                 switch (action)
                 {
                     case "RELATED":
+                        if (!string.IsNullOrEmpty(_bctid)) { getRelatedVideos(_bctid); }
                         break;
                     default:
                         break;
                 }
             }
             #endregion
+
+            responseContent.InnerHtml = htmlResponse.ToString();
         }
 
-        private void getRelatedVideos(string brightcoveId, string token)
+        private void getRelatedVideos(string brightcoveId)
         {
+            string token = MReadToken;
             Stream dataStream;
             string html = string.Empty;
 
@@ -70,13 +75,6 @@ namespace malmo
                         var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
                         StringBuilder htmlBuilder = new StringBuilder();
 
-                        htmlBuilder.AppendLine("<dl>\n");
-                        htmlBuilder.AppendLine("<dt><h2>Relaterade Videor</h2></dt>\n");
-                        //htmlBuilder.AppendLine("<div id=\"scrollbar\" class=\"related\">\n");
-                        htmlBuilder.AppendLine("<ul class=\"related_videos_list\">\n");
-                        //html += "<dl class=\"accordion\">\n";
-                        //html += "<dt><h2>Relaterade Videos</h2></dt>\n";
-                        //html += "<ul class=\"video_grid\" style=\"display:none;\">\n";
                         int counter = 0;
                         foreach (dynamic video in results.items)
                         {
@@ -103,41 +101,29 @@ namespace malmo
                                     string title = video.name.ToString().Replace("\"", "&quot");
                                     string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                                    //htmlBuilder.AppendLine("\t\t<li class=\"video_item tooltip\" title=\"<h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p>\" >\n");
-                                    htmlBuilder.AppendLine("\t\t<li class=\"video_item\">\n");
-                                    //htmlBuilder.AppendLine("\t\t<div class=\"info-box\"><h2>" + title + "</h2><img src='" + video.videoStillURL.ToString() + "' width='400' height='225'/><p>" + description + "</p></div>\n");
+                                    htmlBuilder.AppendLine("\t\t<div class=\"video_item\">\n");
                                     htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
                                     htmlBuilder.AppendLine("\t\t\t<div class=\"thumbnail\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.videoStillURL.ToString() + "\" width=\"160\" height=\"90\"/>\n");
+                                    htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.videoStillURL.ToString() + "\"/>\n");
                                     htmlBuilder.AppendLine("\t\t\t</div>\n");
                                     htmlBuilder.AppendLine("\t\t\t<div class=\"description\">\n");
                                     htmlBuilder.AppendLine("\t\t\t\t<h4>" + title + "</h4>\n");
                                     htmlBuilder.AppendLine("\t\t\t\t<p>" + description + "</p>\n");
                                     htmlBuilder.AppendLine("\t\t\t</div>\n");
                                     htmlBuilder.AppendLine("\t\t\t</a>");
-                                    htmlBuilder.AppendLine("\t\t</li>\n");
+                                    htmlBuilder.AppendLine("\t\t</div>\n");
                                     counter++;
                                 }
                             }
                         }
 
-                        htmlBuilder.AppendLine("\t<li style=\"clear:both;\"</li>\n");
-                        htmlBuilder.AppendLine("</ul>\n");
-                        //htmlBuilder.AppendLine("</div>\n");
-                        htmlBuilder.AppendLine("</dl>\n");
-
                         html = htmlBuilder.ToString();
-
+                        htmlResponse.Append(html);
                     }
                 }
 
             }
             catch (WebException ex) { }
-
-            //relatedVideos.InnerHtml = html;
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "lazy-loader", "<script type='text/javascript'>$('#relatedVideos').find('img.lazy').lazyload();</script>", false);
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#relatedVideos').find('.tooltip').tooltipster('destroy');$('#relatedVideos').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
-            //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "tooltip", "<script type='text/javascript'>$('#archiveContent').find('.tooltip').tooltipster({theme: '.tooltipster-shadow',delay: 100,maxWidth: 420,touchDevices: false});</script>", false);
 
         }
 

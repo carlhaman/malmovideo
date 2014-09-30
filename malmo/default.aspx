@@ -37,7 +37,10 @@
 
             <div class="relatedWrapper">
                 <div class="wrapper">
-                    <div class="playlist" id="relatedVideos" runat="server"></div>
+                    <h2>Relaterade videor</h2>
+                    <input type="button" id="showRelatedButton" onclick="loadRelatedVideos()" value="Visa" />
+                    <div id="relatedVideos"></div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
 
@@ -64,14 +67,13 @@
         </article>
     </form>
 
-
     <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>
     <script type="text/javascript">
         function search() {
             var query = $('#searchText').val();
             if (query.length >= 1) {
                 $.ajax({
-                    url: "search.aspx?query=" + query,
+                    url: "search.aspx?query=" + query + _index,
                     dataType: "json"
                 }).success(function (data) {
                     $('#searchResultsDiv').empty();
@@ -90,17 +92,20 @@
                             );
                     })
                 }).complete(function () { });
-
             }
         }
-
-
+        
         $('#searchText').keypress(function (e) {
             if (e.which == 13) {
                 e.preventDefault();
                 search();
             }
         })
+
+        function loadRelatedVideos() {
+            $("#relatedVideos").load("render.aspx?action=related&bctid=" + _bctid + _index + " #responseContent > *");
+            $("#showRelatedButton").attr('value', 'Dölj');
+        }
     </script>
 </body>
 </html>

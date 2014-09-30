@@ -19,9 +19,11 @@ namespace malmo
 
         private static string KFReadToken = System.Configuration.ConfigurationManager.AppSettings["KF_READ_URL_TOKEN"].ToString();
         private static string MReadToken = System.Configuration.ConfigurationManager.AppSettings["M_READ_URL_TOKEN"].ToString();
+
         private bool malmoKomin = false;
         private bool frontPage = false;
         private bool isFromKfAccount = false;
+        private string _bctid = "0";
 
         string _bodyCssClasses = "";
         string _kfDropDownList = string.Empty;
@@ -102,6 +104,7 @@ namespace malmo
             }
             else { videoSearch.Visible = false; }
 
+            addClipInfoScript();
             addScriptsToPage();
         }
         private void renderKominAssets()
@@ -308,6 +311,22 @@ namespace malmo
         private void addStartupScripts(string scriptSrc)
         {
             clientScripts.AppendLine("<script type='text/javascript' src='" + scriptSrc + "'></script>");
+        }
+
+        private void addClipInfoScript()
+        {
+            string searchQuery = "";
+
+            switch (malmoKomin)
+            {
+                case true:
+                    searchQuery = "&index=komin";
+                    break;
+                default:
+                    searchQuery = "";
+                    break;
+            }
+            clientScripts.AppendLine("<script type=\"text/javascript\">var _bctid = \"" + _bctid + "\", _index = \"" + searchQuery + "\";</script>");
         }
 
         private void addScriptsToPage()
@@ -605,6 +624,7 @@ namespace malmo
 
         private void getBrightcoveVideo(string brightcoveId, string token)
         {
+            _bctid = brightcoveId;
             if (token == KFReadToken) { isFromKfAccount = true; }
 
             Stream dataStream;
