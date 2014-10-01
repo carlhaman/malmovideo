@@ -79,7 +79,10 @@
             }
         };
 
-        if (isMobile.any()) alert('Mobile');
+        if (isMobile.any()) {
+            $(".slidearrow").css("display","none");
+            $(".va-videolist-container").css("overflow-x","scroll");
+        };
 
         $(".slidearrow").click(function (event) {
             event.preventDefault();
