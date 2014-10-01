@@ -40,6 +40,9 @@ namespace malmo
                     case "RELATED":
                         if (!string.IsNullOrEmpty(_bctid)) { getRelatedVideos(_bctid); }
                         break;
+                    case "RENDER":
+                        renderArchive(_komin);
+                        break;
                     default:
                         break;
                 }
@@ -126,7 +129,44 @@ namespace malmo
             catch (WebException ex) { }
 
         }
+        private void renderArchive(bool komin)
+        {
+            helpers helper = new helpers();
+            videoArchive archive = helper.getVideoArchive(komin);
 
+            StringBuilder h = new StringBuilder();
+            int categoryId = 1;
+            foreach (videoCategory cat in archive.categories)
+            {
+                h.AppendLine("<section class=\"va-group\" id=\"" + categoryId.ToString() + "\">");
+                h.AppendLine("<div class=\"va-video-list\">");
+                h.AppendLine("<div class=\"va-videolist-sectionheader\">");
+                h.AppendLine("<h2>" + cat.name + "</h2>");
+                h.AppendLine("<button class=\"expand-button\" tabindex=\"0\"><span>Expandera</span></button>");
+                h.AppendLine("</div>");
+                h.AppendLine("<div class=\"va-videolist-container-outer\">");
+                h.AppendLine("<button class=\"slidearrow is-left is-invisible\" tabindex=\"-1\"></button>");
+                h.AppendLine("<button class=\"slidearrow is-right is-visible\" tabindex=\"-1\"></button>");
+                h.AppendLine("<div class=\"va-videolist-container not-expanded\">");
+                foreach (videoItem v in cat.videos)
+                {
+                    h.AppendLine("<article>");
+                    h.AppendLine("<a href=\"?bctid=" + v.id + "\" tabindex=\"-1\" title=\"" + v.shortDescription + "\">");
+                    h.AppendLine("<figure class=\"va-thumb-cont\"><img src=\"" + v.videoStillURL + "\" title=\"" + v.name + "\" class=\"va-thumb\" /></figure>");
+                    h.AppendLine("<span class=\"va-title\">" + v.name + "</span>");
+                    h.AppendLine("</a>");
+                    h.AppendLine("</article>");
+
+                }
+                h.AppendLine("</div>");
+                h.AppendLine("</div>");
+                h.AppendLine("</div>");
+                h.AppendLine("</section>");
+                categoryId++;
+            }
+
+            htmlResponse = h;
+        }
 
     }
 }
