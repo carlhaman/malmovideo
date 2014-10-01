@@ -58,6 +58,8 @@
     </div>
     </form>
     <script type="text/javascript">
+        var ismobi = navigator.userAgent.match(/Mobi/i);
+        alert(ismobi);
         $(".slidearrow").click(function (event) {
             event.preventDefault();
             if ($(this).hasClass("is-right")) {
