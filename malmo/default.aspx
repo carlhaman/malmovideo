@@ -55,12 +55,12 @@
                         <h2>Videoarkiv</h2>
 
                         <div id="searchResultsDiv" class="searchResults" runat="server"></div>
-
+                        <input type="button" id="loadVideoArchive" onclick="loadArchive()" value="Läs in arkiv" />
                     </div>
 
-                    <div class="archiveMenu" id="videoArchive" runat="server"></div>
-                    <div class="archiveVideos">
-                        <ul id="archiveContent" class="video_grid"></ul>
+
+                    <div id="archiveContainer">
+
                     </div>
                 </div>
             </div>
@@ -106,6 +106,11 @@
             $("#relatedVideos").load("render.aspx?action=related&bctid=" + _bctid + _index + " #responseContent > *");
             $("#showRelatedButton").attr('value', 'Dölj');
         }
+
+        function loadArchive() {
+            $("#archiveContainer").load("render.aspx?action=render" + _index + " #responseContent > *", function () { archiveLoaded(); });
+        }
+
     </script>
 </body>
 </html>

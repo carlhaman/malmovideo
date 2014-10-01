@@ -739,7 +739,6 @@ namespace malmo
         }
 
 
-
         private videoArchive buildVideoArchive(bool komin)
         {
             videoArchive archive = new videoArchive();
@@ -875,48 +874,6 @@ namespace malmo
             catch { }
             return archive;
 
-        }
-
-        private void renderVideoArchive(videoArchive archive)
-        {
-            string archiveString = "archiveHtml";
-            if (malmoKomin)
-            {
-                archiveString = "kominArchiveHtml";
-            }
-            string html = (string)Cache[archiveString];
-
-            if (html == null)
-            {
-                StringBuilder htmlBuilder = new StringBuilder();
-                int categoryId = 1;
-                htmlBuilder.AppendLine("<dl class=\"accordion\">\n");
-                foreach (videoCategory category in archive.categories)
-                {
-                    htmlBuilder.AppendLine("<dt><h2>" + category.name + "</h2></dt>");
-                    htmlBuilder.AppendLine("<ul class=\"video_grid\" style=\"display:none;\">\n");
-                    foreach (videoItem video in category.videos)
-                    {
-                        //htmlBuilder.AppendLine("<li class=\"video_item tooltip\" title=\"<h2>" + video.name + "</h2><img src='" + video.videoStillURL + "' width='400' height='225'/><p>" + video.shortDescription + "</p>\" >\n");
-                        htmlBuilder.AppendLine("<li class=\"video_item\">\n");
-                        htmlBuilder.AppendLine("<div class=\"info-box\"><h2>" + video.name + "</h2><img src=\"" + video.videoStillURL + "\" width=\"400\" height=\"225\"/><p>" + video.shortDescription + "</p></div>\n");
-                        htmlBuilder.AppendLine("\t<a href=\"?bctid=" + video.id + "\">");
-                        htmlBuilder.AppendLine("<img class=\"lazy\" src=\"Images/grey.gif\" data-original=\"" + video.thumbnailURL + "\" width=\"160\" height=\"90\"/>");
-                        htmlBuilder.AppendLine("<h4>" + video.name + "</h4>");
-                        htmlBuilder.AppendLine("</a>\n");
-                        htmlBuilder.AppendLine("</li>\n");
-                    }
-                    htmlBuilder.AppendLine("<li style=\"clear:both;\"></li>\n");
-                    htmlBuilder.AppendLine("</ul>\n");
-
-                    categoryId++;
-                }
-                htmlBuilder.AppendLine("</dl>\n");
-                html = htmlBuilder.ToString();
-                //Cache.Insert("archiveHtml", html, null, Cache.NoAbsoluteExpiration, TimeSpan.FromHours(6));
-                Cache.Insert(archiveString, html, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
-            }
-            videoArchive.InnerHtml = html;
         }
 
         private bool isMalmoNetwork()

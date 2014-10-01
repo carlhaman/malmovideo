@@ -30,7 +30,7 @@
         $('.accordion > dt > h2').first().click();
 
         /**/
-        
+
         setKfListItem();
 
     });
@@ -46,7 +46,7 @@ function setKfListItem() {
 
 function getUrlVars() {
     var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
         vars[key] = value;
     });
     return vars;
@@ -123,3 +123,87 @@ window.onresize = function (evt) {
         experienceModule.setSize(resizeWidth, resizeHeight);
     }
 };
+
+//Arkiv-kod
+function archiveLoaded() {
+    var isMobile = {
+        Android: function () {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function () {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function () {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function () {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function () {
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function () {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
+
+    if (isMobile.any()) {
+        $(".slidearrow").css("display", "none");
+        $(".va-videolist-container").css("overflow-x", "scroll");
+    };
+
+    $(".expand-button").click(function (event) {
+        event.preventDefault();
+        var videoList = $(this).parent().siblings(".va-videolist-container-outer").children(".va-videolist-container");
+
+        if (videoList.hasClass("not-expanded")) {
+            videoList.parent().children(".is-right").removeClass("is-visible").addClass("is-invisible");
+            if (videoList.parent().children(".is-left").hasClass("is-visible")) { videoList.parent().children(".is-left").removeClass("is-visible").addClass("is-invisible"); }
+
+            videoList.fadeOut("fast", function () {
+                videoList.removeClass("not-expanded").addClass("expanded");
+                videoList.fadeIn("fast");
+            });
+        }
+        if (videoList.hasClass("expanded")) {
+            videoList.fadeOut("fast", function () {
+                videoList.removeClass("expanded").addClass("not-expanded");
+                videoList.fadeIn("fast", function () {
+                    if (videoList.scrollLeft() > 0) {
+                        videoList.parent().children(".is-left").removeClass("is-invisible").addClass("is-visible");
+                    };
+                });
+            });
+            videoList.parent().children(".is-right").removeClass("is-invisible").addClass("is-visible");
+
+        }
+    });
+
+    $(".slidearrow").click(function (event) {
+        event.preventDefault();
+        if ($(this).hasClass("is-right")) {
+            var container = $(this).siblings(".va-videolist-container");
+            var videoWidth = container.children(0).width();
+            var width = container.width() - videoWidth;
+            container.animate({ scrollLeft: "+=" + width }, function () {
+                var offset = container.scrollLeft();
+                var leftButton = $(this).siblings(".is-left");
+                if (offset > 0) {
+                    leftButton.removeClass("is-invisible").addClass("is-visible");
+                }
+            });
+        };
+        if ($(this).hasClass("is-left")) {
+            var container = $(this).siblings(".va-videolist-container");
+            var videoWidth = container.children(0).width();
+            var width = container.width() - videoWidth;
+            container.animate({ scrollLeft: "-=" + width }, function () {
+                var offset = container.scrollLeft();
+                var leftButton = $(this).siblings(".is-left");
+                if (offset == 0) {
+                    leftButton.removeClass("is-visible").addClass("is-invisible");
+                }
+            });
+        };
+    });
+}
