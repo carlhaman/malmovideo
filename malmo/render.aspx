@@ -6,56 +6,83 @@
 <head runat="server">
     <title></title>
     <style>
-        * {margin:0; padding:0;}
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
         .va-videolist-container-outer {
-        position: relative;
+            position: relative;
         }
 
         .va-videolist-container {
-        max-width: 100%;
-        min-width: 100%;
-        white-space: nowrap;
-        overflow:hidden;
+            max-width: 100%;
+            min-width: 100%;
         }
+
+        .not-expanded {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .expanded {
+            white-space: normal;
+            overflow: visible;
+        }
+
         button.slidearrow {
-        height: 44px;
-        width: 44px;
-        opacity: 0.8;
-        position: absolute;
-        z-index: 20;
-        margin-top: -21px;
-        top: 76px;
-        border: none;
+            height: 44px;
+            width: 44px;
+            opacity: 0.8;
+            position: absolute;
+            z-index: 20;
+            margin-top: -21px;
+            top: 76px;
+            border: none;
         }
-        button.slidearrow.is-right {
-        right: 5px;
-        }
+
+            button.slidearrow.is-right {
+                right: 5px;
+            }
+
         .is-invisible {
-        display: none;
+            display: none;
         }
+
         .va-videolist-container article {
-        display: inline-block;
-        vertical-align: top;
-        width: 18%;
-        position: relative;
+            display: inline-block;
+            vertical-align: top;
+            width: 49%;
+            position: relative;
         }
+
         .va-videolist-container article img {
-        width: 100%;
+             width: 100%;
         }
+
         .va-title {
-        display: block;
-        overflow: hidden;
-        white-space: normal;
+            display: block;
+            overflow: hidden;
+            white-space: normal;
+        }
+        @media (min-width: 30em) {
+            .va-videolist-container article {
+                width: 30%;
+            }
+        }
+                @media (min-width: 50em) {
+            .va-videolist-container article {
+                width: 20%;
+            }
         }
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-    <div id="responseContent" runat="server"></div>
-    </div>
+        <div>
+            <div id="responseContent" runat="server"></div>
+        </div>
     </form>
     <script type="text/javascript">
         var isMobile = {
@@ -80,16 +107,43 @@
         };
 
         if (isMobile.any()) {
-            $(".slidearrow").css("display","none");
-            $(".va-videolist-container").css("overflow-x","scroll");
+            $(".slidearrow").css("display", "none");
+            $(".va-videolist-container").css("overflow-x", "scroll");
         };
+
+        $(".expand-button").click(function (event) {
+            event.preventDefault();
+            var videoList = $(this).parent().siblings(".va-videolist-container-outer").children(".va-videolist-container");
+
+            if (videoList.hasClass("not-expanded")) {
+                videoList.parent().children(".is-right").removeClass("is-visible").addClass("is-invisible");
+                if (videoList.parent().children(".is-left").hasClass("is-visible")) { videoList.parent().children(".is-left").removeClass("is-visible").addClass("is-invisible"); }
+
+                videoList.fadeOut("fast", function () {
+                    videoList.removeClass("not-expanded").addClass("expanded");
+                    videoList.fadeIn("fast");
+                });
+            }
+            if (videoList.hasClass("expanded")) {
+                videoList.fadeOut("fast", function () {
+                    videoList.removeClass("expanded").addClass("not-expanded");
+                    videoList.fadeIn("fast", function () {
+                        if (videoList.scrollLeft() > 0) {
+                            videoList.parent().children(".is-left").removeClass("is-invisible").addClass("is-visible");
+                        };
+                    });
+                });
+                videoList.parent().children(".is-right").removeClass("is-invisible").addClass("is-visible");
+
+            }
+        });
 
         $(".slidearrow").click(function (event) {
             event.preventDefault();
             if ($(this).hasClass("is-right")) {
                 var container = $(this).siblings(".va-videolist-container");
                 var videoWidth = container.children(0).width();
-                var width = container.width()- videoWidth;
+                var width = container.width() - videoWidth;
                 container.animate({ scrollLeft: "+=" + width }, function () {
                     var offset = container.scrollLeft();
                     var leftButton = $(this).siblings(".is-left");
@@ -111,7 +165,6 @@
                 });
             };
         });
-
     </script>
 </body>
 </html>

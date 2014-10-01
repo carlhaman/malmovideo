@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Caching;
 
 namespace malmo
 {
@@ -131,6 +132,12 @@ namespace malmo
         }
         private void renderArchive(bool komin)
         {
+            string renderName = "renderedArchive";
+            if(komin) renderName = "renderedKominArchive";
+
+            string response = (string)Cache[renderName];
+
+            if (response == null) { 
             helpers helper = new helpers();
             videoArchive archive = helper.getVideoArchive(komin);
 
@@ -152,7 +159,7 @@ namespace malmo
                 {
                     h.AppendLine("<article>");
                     h.AppendLine("<a href=\"?bctid=" + v.id + "\" tabindex=\"-1\" title=\"" + v.shortDescription + "\">");
-                    h.AppendLine("<figure class=\"va-thumb-cont\"><img src=\"" + v.videoStillURL + "\" title=\"" + v.name + "\" class=\"va-thumb\" /></figure>");
+                    h.AppendLine("<figure class=\"va-thumb-cont\"><img src=\"" + v.thumbnailURL + "\" title=\"" + v.name + "\" class=\"va-thumb\" /></figure>");
                     h.AppendLine("<span class=\"va-title\">" + v.name + "</span>");
                     h.AppendLine("</a>");
                     h.AppendLine("</article>");
@@ -164,8 +171,10 @@ namespace malmo
                 h.AppendLine("</section>");
                 categoryId++;
             }
-
-            htmlResponse = h;
+            response = h.ToString();
+            Cache.Insert(renderName, response, null, DateTime.UtcNow.AddHours(1), Cache.NoSlidingExpiration);
+            }
+            htmlResponse.Append(response);
         }
 
     }
