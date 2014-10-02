@@ -38,7 +38,6 @@
             <div class="relatedWrapper">
                 <div class="wrapper">
                     <h2>Relaterade videor</h2>
-                    <input type="button" id="showRelatedButton" onclick="loadRelatedVideos()" value="Visa" />
                     <div id="relatedVideos"></div>
                     <div class="clearfix"></div>
                 </div>
@@ -60,7 +59,6 @@
 
 
                     <div id="archiveContainer">
-
                     </div>
                 </div>
             </div>
@@ -94,7 +92,7 @@
                 }).complete(function () { });
             }
         }
-        
+
         $('#searchText').keypress(function (e) {
             if (e.which == 13) {
                 e.preventDefault();
@@ -103,12 +101,18 @@
         })
 
         function loadRelatedVideos() {
-            $("#relatedVideos").load("render.aspx?action=related&bctid=" + _bctid + _index + " #responseContent > *");
-            $("#showRelatedButton").attr('value', 'Dölj');
+            if (_kf === false) {
+                $("#relatedVideos").load("render.aspx?action=related&bctid=" + _bctid + _index + " #responseContent > *", function () {
+                    $(".relatedWrapper").fadeIn("slow");
+                });
+            };
         }
 
         function loadArchive() {
-            $("#archiveContainer").load("render.aspx?action=render" + _index + " #responseContent > *", function () { archiveLoaded(); });
+
+            $("#archiveContainer").fadeOut(0).load("render.aspx?action=render" + _index + " #responseContent > *", function () {
+                archiveLoaded();
+            }).fadeIn("slow");
         }
 
     </script>

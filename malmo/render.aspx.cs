@@ -149,7 +149,7 @@ namespace malmo
                 h.AppendLine("<div class=\"va-video-list\">");
                 h.AppendLine("<div class=\"va-videolist-sectionheader\">");
                 h.AppendLine("<h2>" + cat.name + "</h2>");
-                h.AppendLine("<button class=\"expand-button\" tabindex=\"0\"><span>Expandera</span></button>");
+                h.AppendLine("<button class=\"expand-button\" tabindex=\"0\"><span>Visa alla</span></button>");
                 h.AppendLine("</div>");
                 h.AppendLine("<div class=\"va-videolist-container-outer\">");
                 h.AppendLine("<button class=\"slidearrow is-left is-invisible\" tabindex=\"-1\"></button>");

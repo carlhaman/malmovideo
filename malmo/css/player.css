@@ -1,9 +1,8 @@
 body {
   margin: 2.6875em 0 0;
 }
-.cleearfix {
-  overflow: hidden;
-  zoom: 1;
+.relatedWrapper {
+  display: none;
 }
 .wrapper {
   margin: 0 auto;
@@ -17,6 +16,9 @@ body {
 .descriptionWrapper {
   width: 100%;
   background-color: #5d5d5d;
+}
+.archiveWrapper {
+  background-color: #333333;
 }
 .cb_container,
 .bc-container,
@@ -258,6 +260,19 @@ div#error {
 .va-videolist-container {
   max-width: 100%;
   min-width: 100%;
+}
+.va-videolist-sectionheader .expand-button {
+  float: right;
+  border: 0;
+  padding: 5px 0;
+  border: none;
+  background: none;
+  color: #fff;
+}
+.va-videolist-sectionheader h2 {
+  margin: .3em 0;
+  display: inline-block;
+  color: #fff;
 }
 .not-expanded {
   white-space: nowrap;

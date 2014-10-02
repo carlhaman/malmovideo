@@ -237,7 +237,8 @@ namespace malmo
             //lazyload.Attributes.Add("type", "text/javascript");
             //lazyload.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.lazyload.min.js");
             //Page.Header.Controls.Add(lazyload);
-            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.lazyload.min.js");
+
+            //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/jquery.lazyload.min.js");
 
             //HtmlGenericControl ui = new HtmlGenericControl("script");
             //ui.Attributes.Add("type", "text/javascript");
@@ -263,11 +264,11 @@ namespace malmo
             //Page.Header.Controls.Add(smoothScroll);
             //addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/smoothScroll/jquery.smoothdivscroll-1.3-min.js");
 
-            HtmlLink tooltipsterCSS = new HtmlLink();
-            tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.min.css";
-            tooltipsterCSS.Attributes["rel"] = "stylesheet";
-            tooltipsterCSS.Attributes["type"] = "text/css";
-            Page.Header.Controls.Add(tooltipsterCSS);
+            //HtmlLink tooltipsterCSS = new HtmlLink();
+            //tooltipsterCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/tooltipster.min.css";
+            //tooltipsterCSS.Attributes["rel"] = "stylesheet";
+            //tooltipsterCSS.Attributes["type"] = "text/css";
+            //Page.Header.Controls.Add(tooltipsterCSS);
 
             HtmlLink extensionsCSS = new HtmlLink();
             extensionsCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/extensions.min.css";
@@ -326,7 +327,10 @@ namespace malmo
                     searchQuery = "";
                     break;
             }
-            clientScripts.AppendLine("<script type=\"text/javascript\">var _bctid = \"" + _bctid + "\", _index = \"" + searchQuery + "\";</script>");
+            string scriptString = "<script type=\"text/javascript\">var _bctid = \"" + _bctid + "\", _index = \"" + searchQuery + "\", _kf = " + isFromKfAccount.ToString().ToLower() + ";</script>";
+
+            clientScripts.Insert(0, scriptString);
+            //clientScripts.AppendLine();
         }
 
         private void addScriptsToPage()

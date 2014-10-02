@@ -117,6 +117,8 @@
         $(".expand-button").click(function (event) {
             event.preventDefault();
             var videoList = $(this).parent().siblings(".va-videolist-container-outer").children(".va-videolist-container");
+            var button = $(this).children(0);
+            
 
             if (videoList.hasClass("not-expanded")) {
                 videoList.parent().children(".is-right").removeClass("is-visible").addClass("is-invisible");
@@ -125,6 +127,7 @@
                 videoList.fadeOut("fast", function () {
                     videoList.removeClass("not-expanded").addClass("expanded");
                     videoList.fadeIn("fast");
+                    button.text("Dölj");
                 });
             }
             if (videoList.hasClass("expanded")) {
@@ -134,6 +137,7 @@
                         if (videoList.scrollLeft() > 0) {
                             videoList.parent().children(".is-left").removeClass("is-invisible").addClass("is-visible");
                         };
+                        button.text("Visa alla");
                     });
                 });
                 videoList.parent().children(".is-right").removeClass("is-invisible").addClass("is-visible");
