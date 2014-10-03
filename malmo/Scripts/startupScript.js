@@ -1,38 +1,38 @@
 ﻿(function ($) {
-    $(document).ready(function () {
-
-        $('#searchButton').click(function () {
-            /*
-            $('.tooltip').tooltipster('destroy');
-            */
-        });
-
-
-        $('.accordion > dt > h2').click(function () {
-            $('.accordion > dt > h2').removeClass("active");
-            $(this).addClass("active");
-            $('#archiveContent').html($(this).parent().next().html());
-            $('#archiveContent').find('img.lazy').lazyload({ skip_invisible: false });
-            /*
-            $('#archiveContent').find('.tooltip').tooltipster('destroy');
-            $('#archiveContent').find('.tooltip').tooltipster({
-                theme: '.tooltipster-shadow',
-                delay: 100,
-                maxWidth: 420,
-                touchDevices: false
-            });
-            */
-            $('.archiveBlock').height($('.archiveVideos').height() + 25);
-
-            return false;
-        });
-
-        $('.accordion > dt > h2').first().click();
-
-        /**/
-        
+    $(document).ready(function () {       
         setKfListItem();
-        if (_bctid.length > 4) { loadRelatedVideos() };
+        if (_bctid.length > 4) { loadRelatedVideos(); };
+        if (_frontpage === true) { loadArchive(); };
+
+        $('.videocarousel').slick({
+            centerMode: true,
+            variableWidth: true,
+            centerPadding: '60px',
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 5000,
+            responsive: [
+              {
+                  breakpoint: 768,
+                  settings: {
+                      arrows: false,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 3
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      arrows: false,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 1
+                  }
+              }
+            ]
+        });
     });
 })(jQuery);
 

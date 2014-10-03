@@ -82,6 +82,7 @@
     <Content Include="css\extensions.min.css">
       <DependentUpon>extensions.css</DependentUpon>
     </Content>
+    <Content Include="css\fonts\slick.svg" />
     <Content Include="css\player.css">
       <DependentUpon>player.less</DependentUpon>
     </Content>
@@ -105,6 +106,10 @@
     <Content Include="css\player_ie.min.css">
       <DependentUpon>player_ie.less</DependentUpon>
     </Content>
+    <Content Include="css\slick.css" />
+    <Content Include="css\slick.min.css">
+      <DependentUpon>slick.css</DependentUpon>
+    </Content>
     <Content Include="css\smoothDivScroll.css">
       <DependentUpon>smoothDivScroll.less</DependentUpon>
     </Content>
@@ -118,6 +123,9 @@
       <DependentUpon>tooltipster.less</DependentUpon>
     </Content>
     <Content Include="google98541fcbfdbe77bc.html" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\arrow-left.png" />
+    <Content Include="Images\arrow-right.png" />
     <Content Include="Images\big_transparent.gif" />
     <Content Include="Images\cursors\cursor_arrow_left.cur" />
     <Content Include="Images\cursors\cursor_arrow_left.gif" />
@@ -133,6 +141,9 @@
     <Content Include="css\playerKomin.less" />
     <Content Include="css\smoothDivScroll.less" />
     <Content Include="css\tooltipster.less" />
+    <Content Include="css\fonts\slick.eot" />
+    <Content Include="css\fonts\slick.ttf" />
+    <Content Include="css\fonts\slick.woff" />
     <None Include="Properties\PublishProfiles\malmovideo - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\malmovideo - Web Deploy %282%29.pubxml" />
@@ -147,6 +158,10 @@
     <Content Include="includes\4plus1.aspx" />
     <Content Include="render.aspx" />
     <Content Include="rss.aspx" />
+    <Content Include="Scripts\slick.js" />
+    <Content Include="Scripts\slick.min.js">
+      <DependentUpon>slick.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\startupScript.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -252,6 +267,9 @@
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Scripts\startupScript.min.js.map">
       <DependentUpon>startupScript.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\slick.min.js.map">
+      <DependentUpon>slick.js</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

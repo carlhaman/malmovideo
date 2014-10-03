@@ -24,6 +24,7 @@ namespace malmo
         private bool frontPage = false;
         private bool isFromKfAccount = false;
         private string _bctid = "0";
+        bool _kf = false;
 
         string _bodyCssClasses = "";
         string _kfDropDownList = string.Empty;
@@ -73,6 +74,8 @@ namespace malmo
             string queryId = string.Empty;
             error.Visible = false;
 
+            if (Request.QueryString["kf"] != null) { _kf = true; }
+
             if (Request.QueryString["bctid"] != null)
             {
                 queryId = Request.QueryString.GetValues("bctid").GetValue(0).ToString();
@@ -87,14 +90,22 @@ namespace malmo
             {
                 if (Request.QueryString["public"] != null)
                 {
-                    if (Request.QueryString.GetValues("public").GetValue(0).ToString() == "no")
+                    if (Request.QueryString.GetValues("public").GetValue(0).ToString().ToLower() == "no")
                     {
                         error.InnerHtml = "Du försöker spela en intern video från Malmö stad men kan inte verifieras som en behörig användare.";
                         error.Visible = true;
                     }
                 }
                 frontPage = true;
-                getLatestVideo();
+                if (_kf)
+                {
+                    getLatestVideo(_kf);
+                }
+                else
+                {
+                    videoDetails.InnerHtml = renderers.carouselHtml();
+                    videoDescription.InnerHtml = "<div class=\"videoDescription\"><h1>Välkommen</h1><p>Välkommen till Malmö stads videoarkiv! Här publicerar vi videoklipp av nyheter, händelser och evenemang som vi tror kan vara av intresse för dig som bor i, eller besöker Malmö.</p></div>";
+                }
             }
 
             if (!isFromKfAccount)
@@ -288,9 +299,15 @@ namespace malmo
             playerCSS.Attributes["type"] = "text/css";
             Page.Header.Controls.Add(playerCSS);
 
-            Literal IEplayerCSS = new Literal();
-            IEplayerCSS.Text = "<!--[if IE]><link href=\"" + Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player_ie.min.css\" type=\"text/css\" rel=\"stylesheet\"><![endif]-->";
-            Page.Header.Controls.Add(IEplayerCSS);
+            HtmlLink slickCSS = new HtmlLink();
+            slickCSS.Href = Request.Url.GetLeftPart(UriPartial.Authority) + "/css/slick.min.css";
+            slickCSS.Attributes["rel"] = "stylesheet";
+            slickCSS.Attributes["type"] = "text/css";
+            Page.Header.Controls.Add(slickCSS);
+
+            //Literal IEplayerCSS = new Literal();
+            //IEplayerCSS.Text = "<!--[if IE]><link href=\"" + Request.Url.GetLeftPart(UriPartial.Authority) + "/css/player_ie.min.css\" type=\"text/css\" rel=\"stylesheet\"><![endif]-->";
+            //Page.Header.Controls.Add(IEplayerCSS);
 
             if (malmoKomin)
             {
@@ -305,7 +322,9 @@ namespace malmo
             //startScript.Attributes.Add("type", "text/javascript");
             //startScript.Attributes.Add("src", Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.js");
             //Page.Header.Controls.Add(startScript);
+            addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/slick.min.js");
             addStartupScripts(Request.Url.GetLeftPart(UriPartial.Authority) + "/Scripts/startupScript.min.js");
+
             bodyTag.Attributes.Add("class", _bodyCssClasses);
         }
 
@@ -327,7 +346,7 @@ namespace malmo
                     searchQuery = "";
                     break;
             }
-            string scriptString = "<script type=\"text/javascript\">var _bctid = \"" + _bctid + "\", _index = \"" + searchQuery + "\", _kf = " + isFromKfAccount.ToString().ToLower() + ";</script>";
+            string scriptString = "<script type=\"text/javascript\">var _bctid = \"" + _bctid + "\", _index = \"" + searchQuery + "\", _kf = " + isFromKfAccount.ToString().ToLower() + ", _frontpage = " + frontPage.ToString().ToLower() + ";</script>";
 
             clientScripts.Insert(0, scriptString);
             //clientScripts.AppendLine();
@@ -624,8 +643,6 @@ namespace malmo
             }
         }
 
-
-
         private void getBrightcoveVideo(string brightcoveId, string token)
         {
             _bctid = brightcoveId;
@@ -673,20 +690,22 @@ namespace malmo
 
         }
 
-        private void getLatestVideo()
+        private void getLatestVideo(bool kf)
         {
             //lägger till en 5 min cache för att minska antal anrop mot Brightcove
             string videoId = (string)Cache["latestVideoId"];
 
             //Kf listan: 2623641282001
             //Aktuellt listan: 1172867907001
-            bool isKf = false;
+            bool isKf = kf;
+
             if (Request.QueryString["kf"] != null)
             {
                 isKf = true;
                 videoId = (string)Cache["latestKfVideoId"];
             }
 
+            //temporär hack
             if (videoId == null)
             {
                 string token = MReadToken;

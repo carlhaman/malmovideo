@@ -122,7 +122,15 @@ div.moreKF {
 .searchField input {
     float: right;
 }
-
+input#loadVideoArchive {
+    border: 0;
+    background: none;
+    color: #fff;
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
 .searchField {
     float: right;
     display: inline-block;
@@ -132,6 +140,7 @@ div.moreKF {
 #videoSearch h2 {
     color: #ffffff;
     line-height: 1.8rem;
+    display: inline;
 }
 
 #videoSearch {
@@ -320,6 +329,9 @@ div#error {
         float: left;
     }
 
+    .videocarousel .slick-slide{
+        padding: 0 .5em;
+    }
       .va-videolist-container-outer {
             position: relative;
         }
@@ -330,7 +342,6 @@ div#error {
         }
         .va-videolist-sectionheader .expand-button {
             float: right;
-            border: 0;
             padding: 5px 0;
             border: none;
             background: none;
@@ -361,10 +372,26 @@ div#error {
             margin-top: -21px;
             top: 76px;
             border: none;
+            outline: none;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            transform: scale(0.84);
+            transition: all,0.3s,ease-in-out;
         }
+            button.slidearrow:hover {                
+            opacity: 1;
+            transform: scale(1);
+            display: block;
+            }
+            
 
             button.slidearrow.is-right {
                 right: 5px;
+                background-image: url("../images/arrow-right.png");
+            }
+            button.slidearrow.is-left {
+                background-image: url("../images/arrow-left.png");
             }
 
         .is-invisible {

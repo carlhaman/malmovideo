@@ -303,5 +303,36 @@ namespace malmo
             return archive;
         }
 
+        public string carouselHtml()
+        {
+
+            StringBuilder r = new StringBuilder();
+
+            r.AppendLine("<div class=\"videocarousel\">");
+            videoArchive archive = getVideoArchive(false);
+            foreach (videoCategory cat in archive.categories)
+            {
+                if (cat.name == "Aktuellt")
+                {
+                    int counter = 0;
+                    foreach (videoItem v in cat.videos)
+                    {
+                        r.AppendLine("<div>");
+                        r.AppendLine("<a title=\"" + v.shortDescription + "\" href=\"?bctid=" + v.id + "\" tabindex=\"-1\">");
+                        r.AppendLine("<div>");
+                        r.AppendLine("<img src=\"" + v.videoStillURL + "\" alt=\"" + v.name + "\" />");
+                        r.AppendLine("</div>");
+                        r.AppendLine("</a>");
+                        r.AppendLine("</div>");
+                        counter++;
+                        if (counter > 9) break;
+                    }
+                }
+            }
+            r.AppendLine("</div>");
+
+
+            return r.ToString();
+        }
     }
 }

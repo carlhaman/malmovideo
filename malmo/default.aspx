@@ -24,7 +24,7 @@
             <div class="videoWrapper">
                 <div class="wrapper">
                     <div id="error" runat="server"></div>
-                    <div class="videoBlock gradient greyGradient">
+                    <div class="videoBlock">
                         <div id="videoDetails" runat="server"></div>
                     </div>
                 </div>
@@ -54,12 +54,11 @@
                         <h2>Videoarkiv</h2>
 
                         <div id="searchResultsDiv" class="searchResults" runat="server"></div>
-                        <input type="button" id="loadVideoArchive" onclick="loadArchive()" value="Läs in arkiv" />
+                        <input type="button" id="loadVideoArchive" onclick="loadArchive()" value="Bläddra i videoarkivet" />
                     </div>
 
 
-                    <div id="archiveContainer">
-                    </div>
+                    <div id="archiveContainer"></div>
                 </div>
             </div>
         </article>
@@ -110,9 +109,11 @@
 
         function loadArchive() {
 
-            $("#archiveContainer").fadeOut(0).load("render.aspx?action=render" + _index + " #responseContent > *", function () {
+            $("#archiveContainer").load("render.aspx?action=render" + _index + " #responseContent > *", function () {
                 archiveLoaded();
-            }).fadeIn("slow");
+                $("#loadVideoArchive").css("display", "none");
+                $("#archiveContainer").fadeIn("slow")
+            });
         }
 
     </script>
