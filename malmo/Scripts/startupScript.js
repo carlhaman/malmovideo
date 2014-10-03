@@ -3,6 +3,7 @@
         setKfListItem();
         if (_bctid.length > 4) { loadRelatedVideos(); };
         if (_frontpage === true) {
+            $('.videocarousel').css("display", "block");
             $('.videocarousel').slick({
                 centerMode: true,
                 variableWidth: true,
