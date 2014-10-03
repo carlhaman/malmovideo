@@ -319,9 +319,10 @@ namespace malmo
                     {
                         r.AppendLine("<div>");
                         r.AppendLine("<a title=\"" + v.shortDescription + "\" href=\"?bctid=" + v.id + "\" tabindex=\"-1\">");
-                        r.AppendLine("<div>");
+                        r.AppendLine("<figure>");
                         r.AppendLine("<img src=\"" + v.videoStillURL + "\" alt=\"" + v.name + "\" />");
-                        r.AppendLine("</div>");
+                        r.AppendLine("</figure>");
+                        r.AppendLine("<span class=\"videoinfo\"><span class=\"slick_title\">" + v.name + "</span><span class=\"slick_description\">" + v.shortDescription + "</span></span>");
                         r.AppendLine("</a>");
                         r.AppendLine("</div>");
                         counter++;
