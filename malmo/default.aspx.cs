@@ -607,7 +607,7 @@ namespace malmo
                         faceBookMeta.AppendLine("<meta property=\"og:video:height\" content=\"270\"/>");
                         faceBookMeta.AppendLine("<meta property=\"og:video:width\" content=\"480\"/>");
                         faceBookMeta.AppendLine("<meta property=\"og:video\" content=\"http://c.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "\">");
-                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlaue&videoId=" + meta.id.ToString() + "&secureConnections=true\">");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&videoId=" + meta.id.ToString() + "&secureConnections=true\">");
                         faceBookMeta.AppendLine("<meta property=\"og:video:type\" content=\"application/x-shockwave-flash\">");
 
                         if (!frontPage)
