@@ -253,6 +253,9 @@ div#error {
   font-size: 1.2em;
   display: block;
 }
+section.va-group {
+  border-bottom: 1px dotted #666666;
+}
 .va-videolist-container-outer {
   position: relative;
 }
