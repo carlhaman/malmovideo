@@ -32,6 +32,13 @@ body {
 .videoDescription h1 {
   text-align: center;
 }
+@media (min-width: 40em) {
+  div#searchResultsDiv .post {
+    width: 30%;
+    float: left;
+    margin-right: 3%;
+  }
+}
 .embed-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -121,51 +128,13 @@ input#loadVideoArchive {
   border: 0px;
   padding: 0.2rem 0.5rem;
 }
+#searchResultsDiv h2 {
+  display: block;
+}
 a,
 a:visited,
 a:link {
   color: #cccccc;
-}
-.video_grid {
-  list-style: none;
-  margin-left: auto;
-  margin-right: auto;
-  width: 96%;
-}
-.video_item {
-  float: left;
-  margin-left: 0.3rem;
-  margin-right: 0.3rem;
-  margin-bottom: 1rem;
-  position: relative;
-  width: 160px;
-  height: 160px;
-  font-size: 1.4rem;
-}
-.video_item img {
-  border: 2px solid #5d5d5d;
-}
-.video_item:hover img {
-  border: 2px solid #5d5d5d;
-}
-.video_item h4 {
-  -ms-word-break: keep-all;
-  word-break: keep-all;
-  color: #000000;
-  font-size: 0.8rem;
-  font-weight: normal;
-}
-.accordion dt h2 {
-  padding: 0.5rem;
-  color: #ffffff;
-  background-color: #5b595a;
-  font-size: 0.9rem;
-  margin: 0 0 1px 0;
-}
-.accordion dt h2:hover,
-.accordion dt h2.active {
-  background: #303030;
-  /* Old browsers */
 }
 .videoBlock {
   /*

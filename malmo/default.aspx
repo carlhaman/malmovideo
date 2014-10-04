@@ -48,7 +48,7 @@
                     <div id="videoSearch" class="playlist" runat="server">
 
                         <div class="searchField">
-                            <input type="button" id="searchButton" class="gradient yellowGradient" onclick="search()" value="Sök" />
+                            <!--<input type="button" id="searchButton" class="gradient yellowGradient" onclick="search()" value="Sök" />-->
                             <input id="searchText" placeholder="Sök video" />
                         </div>
                         <h2>Videoarkiv</h2>
@@ -62,6 +62,7 @@
                 </div>
             </div>
         </article>
+      
     </form>
 
     <asp:Literal ID="scriptBlock" runat="server"></asp:Literal>

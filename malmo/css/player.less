@@ -1,6 +1,7 @@
 ﻿body {
     margin: 2.6875em 0 0;
 }
+
 .relatedWrapper {
     display: none;
 }
@@ -20,6 +21,7 @@
     width: 100%;
     background-color: #5d5d5d;
 }
+
 .archiveWrapper {
     background-color: #333333;
 }
@@ -44,6 +46,12 @@ div.moreKF {
     }
 
 @media (min-width: 40em) {
+
+    div#searchResultsDiv .post {
+        width: 30%;
+        float: left;
+        margin-right: 3%;
+    }
 }
 
 @media (min-width: 50em) {
@@ -122,6 +130,7 @@ div.moreKF {
 .searchField input {
     float: right;
 }
+
 input#loadVideoArchive {
     border: 0;
     background: none;
@@ -131,6 +140,7 @@ input#loadVideoArchive {
     padding: 0;
     width: 100%;
 }
+
 .searchField {
     float: right;
     display: inline-block;
@@ -163,58 +173,13 @@ input#loadVideoArchive {
     padding: 0.2rem 0.5rem;
 }
 
+#searchResultsDiv h2 {
+    display: block;
+}
+
 a, a:visited, a:link {
     color: #cccccc;
 }
-
-.video_grid {
-    list-style: none;
-    margin-left: auto;
-    margin-right: auto;
-    width: 96%;
-}
-
-.video_item {
-    float: left;
-    margin-left: 0.3rem;
-    margin-right: 0.3rem;
-    margin-bottom: 1rem;
-    position: relative;
-    width: 160px;
-    height: 160px;
-    font-size: 1.4rem;
-}
-
-    .video_item img {
-        border: 2px solid #5d5d5d;
-    }
-
-    .video_item:hover img {
-        border: 2px solid #5d5d5d;
-    }
-
-
-    .video_item h4 {
-        -ms-word-break: keep-all;
-        word-break: keep-all;
-        color: #000000;
-        font-size: 0.8rem;
-        font-weight: normal;
-    }
-
-
-.accordion dt h2 {
-    padding: 0.5rem;
-    color: #ffffff;
-    background-color: #5b595a;
-    font-size: 0.9rem;
-    margin: 0 0 1px 0;
-}
-
-    .accordion dt h2:hover, .accordion dt h2.active {
-        background: #303030; /* Old browsers */
-    }
-
 
 .videoBlock {
     /*
@@ -330,12 +295,14 @@ div#error {
     }
 
 .videocarousel {
-    display:none;
-    }
-    .videocarousel .slick-slide{
+    display: none;
+}
+
+    .videocarousel .slick-slide {
         padding: 0 .5em;
     }
-    .videoinfo {
+
+.videoinfo {
     display: block;
     width: 100%;
     position: absolute;
@@ -344,101 +311,108 @@ div#error {
     background: rgba(0,0,0,0.2);
     color: #fff;
     padding: .5em;
-    }
-    .slick_title {
+}
+
+.slick_title {
     font-size: 1.2em;
     display: block;
+}
+
+.va-videolist-container-outer {
+    position: relative;
+}
+
+.va-videolist-container {
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.va-videolist-sectionheader .expand-button {
+    float: right;
+    padding: 5px 0;
+    border: none;
+    background: none;
+    color: #fff;
+}
+
+.va-videolist-sectionheader h2 {
+    margin: .3em 0;
+    display: inline-block;
+    color: #fff;
+}
+
+.not-expanded {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.expanded {
+    white-space: normal;
+    overflow: visible;
+}
+
+button.slidearrow {
+    height: 44px;
+    width: 44px;
+    opacity: 0.8;
+    position: absolute;
+    z-index: 20;
+    margin-top: -21px;
+    top: 76px;
+    border: none;
+    outline: none;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    transform: scale(0.84);
+    transition: all,0.3s,ease-in-out;
+}
+
+    button.slidearrow:hover {
+        opacity: 1;
+        transform: scale(1);
+        display: block;
     }
-      .va-videolist-container-outer {
-            position: relative;
-        }
 
-        .va-videolist-container {
-            max-width: 100%;
-            min-width: 100%;
-        }
-        .va-videolist-sectionheader .expand-button {
-            float: right;
-            padding: 5px 0;
-            border: none;
-            background: none;
-            color: #fff;
-        }
-        .va-videolist-sectionheader h2 {
-            margin: .3em 0;
-            display: inline-block;
-            color: #fff;
-        }
 
-        .not-expanded {
-            white-space: nowrap;
-            overflow: hidden;
-        }
+    button.slidearrow.is-right {
+        right: 5px;
+        background-image: url("../images/arrow-right.png");
+    }
 
-        .expanded {
-            white-space: normal;
-            overflow: visible;
-        }
+    button.slidearrow.is-left {
+        background-image: url("../images/arrow-left.png");
+    }
 
-        button.slidearrow {
-            height: 44px;
-            width: 44px;
-            opacity: 0.8;
-            position: absolute;
-            z-index: 20;
-            margin-top: -21px;
-            top: 76px;
-            border: none;
-            outline: none;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-color: transparent;
-            transform: scale(0.84);
-            transition: all,0.3s,ease-in-out;
-        }
-            button.slidearrow:hover {                
-            opacity: 1;
-            transform: scale(1);
-            display: block;
-            }
-            
+.is-invisible {
+    display: none;
+}
 
-            button.slidearrow.is-right {
-                right: 5px;
-                background-image: url("../images/arrow-right.png");
-            }
-            button.slidearrow.is-left {
-                background-image: url("../images/arrow-left.png");
-            }
+.va-videolist-container article {
+    display: inline-block;
+    vertical-align: top;
+    width: 49%;
+    position: relative;
+}
 
-        .is-invisible {
-            display: none;
-        }
+    .va-videolist-container article img {
+        width: 100%;
+    }
 
-        .va-videolist-container article {
-            display: inline-block;
-            vertical-align: top;
-            width: 49%;
-            position: relative;
-        }
+.va-title {
+    display: block;
+    overflow: hidden;
+    white-space: normal;
+}
 
-        .va-videolist-container article img {
-             width: 100%;
-        }
+@media (min-width: 30em) {
+    .va-videolist-container article {
+        width: 30%;
+    }
+}
 
-        .va-title {
-            display: block;
-            overflow: hidden;
-            white-space: normal;
-        }
-
-        @media (min-width: 30em) {
-            .va-videolist-container article {
-                width: 30%;
-            }
-        }
-                @media (min-width: 50em) {
-            .va-videolist-container article {
-                width: 20%;
-            }
-        }
+@media (min-width: 50em) {
+    .va-videolist-container article {
+        width: 20%;
+    }
+}

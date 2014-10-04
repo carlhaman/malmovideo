@@ -104,7 +104,7 @@ namespace malmo
                 else
                 {
                     videoDetails.InnerHtml = renderers.carouselHtml();
-                    videoDescription.InnerHtml = "<div class=\"videoDescription\"><h1>Välkommen</h1><p>Välkommen till Malmö stads videoarkiv! Här publicerar vi videoklipp av nyheter, händelser och evenemang som vi tror kan vara av intresse för dig som bor i, eller besöker Malmö.</p></div>";
+                    videoDescription.InnerHtml = "<div class=\"videoDescription\"><h1>Välkommen</h1><p>I Malmö stads videoarkiv finns videoklipp från våra olika verksamheter. Vi publicerar löpande videoklipp av kommunövergripande satsningar och projekt, samhällsservice, händelser, evenemang med mera.</p></div>";
                 }
             }
 
@@ -607,7 +607,7 @@ namespace malmo
                         faceBookMeta.AppendLine("<meta property=\"og:video:height\" content=\"270\"/>");
                         faceBookMeta.AppendLine("<meta property=\"og:video:width\" content=\"480\"/>");
                         faceBookMeta.AppendLine("<meta property=\"og:video\" content=\"http://c.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "\">");
-                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlayerId + "&autoStart=true&videoId=" + meta.id.ToString() + "&secureConnections=true\">");
+                        faceBookMeta.AppendLine("<meta property=\"og:video:secure_url\" content=\"https://secure.brightcove.com/services/viewer/federated_f9/?isVid=1&isUI=1&playerID=" + facebookPlaue&videoId=" + meta.id.ToString() + "&secureConnections=true\">");
                         faceBookMeta.AppendLine("<meta property=\"og:video:type\" content=\"application/x-shockwave-flash\">");
 
                         if (!frontPage)

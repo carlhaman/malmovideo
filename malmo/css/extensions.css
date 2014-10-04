@@ -58,8 +58,7 @@ div.info-box p
 
 /*Temporär söktest*/
 div#searchResultsDiv .post {
-width: 30%;
-float: left;
+width: 100%;
 }
 .item-video img {
 width: 100%;
