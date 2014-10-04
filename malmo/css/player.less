@@ -45,25 +45,7 @@ div.moreKF {
     div.moreKF p {
     }
 
-@media (min-width: 40em) {
 
-    div#searchResultsDiv .post {
-        width: 30%;
-        float: left;
-        margin-right: 3%;
-    }
-}
-
-@media (min-width: 50em) {
-    .bc-container {
-    }
-
-    .descriptionBoxBC {
-    }
-
-    .videoDescription {
-    }
-}
 
 //Responsive embedding
 .embed-container {
@@ -311,7 +293,7 @@ div#error {
     background: #212225;
     background: rgba(0,0,0,0.2);
     color: #fff;
-    padding: .5em;
+    padding: .5em 3em;
 }
 
 .slick_title {
@@ -413,10 +395,36 @@ button.slidearrow {
     .va-videolist-container article {
         width: 30%;
     }
+        .videoinfo {
+        padding: .5em .5em;
+    }
+}
+
+@media (min-width: 40em) {
+
+    div#searchResultsDiv .post {
+        width: 30%;
+        float: left;
+        margin-right: 3%;
+    }
+    .videoinfo {
+        padding: .5em .5em;
+    }
 }
 
 @media (min-width: 50em) {
-    .va-videolist-container article {
+    .bc-container {
+    }
+
+    .descriptionBoxBC {
+    }
+
+    .videoDescription {
+    }
+        .videoinfo {
+        padding: .5em .5em;
+    }
+            .va-videolist-container article {
         width: 20%;
     }
 }

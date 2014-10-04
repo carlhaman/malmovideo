@@ -32,13 +32,6 @@ body {
 .videoDescription h1 {
   text-align: center;
 }
-@media (min-width: 40em) {
-  div#searchResultsDiv .post {
-    width: 30%;
-    float: left;
-    margin-right: 3%;
-  }
-}
 .embed-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -248,7 +241,7 @@ div#error {
   background: #212225;
   background: rgba(0, 0, 0, 0.2);
   color: #fff;
-  padding: .5em;
+  padding: .5em 3em;
 }
 .slick_title {
   font-size: 1.2em;
@@ -333,8 +326,24 @@ button.slidearrow.is-left {
   .va-videolist-container article {
     width: 30%;
   }
+  .videoinfo {
+    padding: .5em .5em;
+  }
+}
+@media (min-width: 40em) {
+  div#searchResultsDiv .post {
+    width: 30%;
+    float: left;
+    margin-right: 3%;
+  }
+  .videoinfo {
+    padding: .5em .5em;
+  }
 }
 @media (min-width: 50em) {
+  .videoinfo {
+    padding: .5em .5em;
+  }
   .va-videolist-container article {
     width: 20%;
   }
