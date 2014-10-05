@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    $(document).ready(function () {       
+    $(document).ready(function () {
         setKfListItem();
         if (_bctid.length > 4) { loadRelatedVideos(); };
         if (_frontpage === true) {
@@ -65,8 +65,21 @@
               }
             ]
         });
+        sizeSlides();
     });
 })(jQuery);
+
+function sizeSlides() {
+    var carouselWidth = $(".videocarousel").width();
+    if (carouselWidth){
+        if (carouselWidth < 480) {
+            $(".slick-slide").width(carouselWidth);
+        }
+        else {
+            $(".slick-slide").width(480);
+        }
+    }
+}
 
 function setKfListItem() {
     var id = getUrlVars()["bctid"];
@@ -151,8 +164,11 @@ window.onresize = function (evt) {
     var resizeWidth = $(".embed-container").width(),
         resizeHeight = (resizeWidth / 100) * percentage;
 
-    if (experienceModule.experience.type === "html") {
-        experienceModule.setSize(resizeWidth, resizeHeight);
+    sizeSlides();
+    if (experienceModule) {
+        if (experienceModule.experience.type === "html") {
+            experienceModule.setSize(resizeWidth, resizeHeight);
+        }
     }
 };
 

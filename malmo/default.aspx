@@ -47,9 +47,8 @@
                 <div class="wrapper">
                     <div id="videoSearch" class="playlist" runat="server">
 
-                        <div class="searchField">
-                            
-                            <input id="searchText" placeholder="Sök video" />
+                        <div class="searchField">                            
+                            <input id="searchText" type="search" placeholder="Sök video" />
                         </div>
                         <h2>Videoarkiv</h2>
 
