@@ -16,6 +16,8 @@ namespace malmo
 
             if (Cache["kfListString"] != null) { html += "\n<p>Kf-Dropdownlist is cached</p>"; }
 
+            if (Cache["carousel"] != null) { html += "\n<p>Carousel is cached</p>"; }
+
             html += "\n<hr/>";
 
             html += "\n<h2>Video caches cleared:</h>";
@@ -81,7 +83,14 @@ namespace malmo
                     html += "\n<p>Latest KF video ID removed</p>";
                 }
             }
-
+            if (Cache["carousel"] != null)
+            {
+                Cache.Remove("carousel");
+                if (Cache["carousel"] == null)
+                {
+                    html += "\n<p>Carousel removed</p>";
+                }
+            }
 
 
             pageContent.InnerHtml = html;

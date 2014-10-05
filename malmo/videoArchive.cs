@@ -288,7 +288,10 @@ namespace malmo
                 if (archive == null)
                 {
                     archive = builder.render(true);
-                    _cache.Insert("kominArchive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                    if (archive.categories.Count > 2)
+                    {
+                        _cache.Insert("kominArchive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                    }
                 }
             }
             else
@@ -297,7 +300,10 @@ namespace malmo
                 if (archive == null)
                 {
                     archive = builder.render(false);
-                    _cache.Insert("Archive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                    if (archive.categories.Count > 2)
+                    {
+                        _cache.Insert("Archive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                    }
                 }
             }
 
@@ -319,14 +325,14 @@ namespace malmo
             if (response == null)
             {
                 StringBuilder r = new StringBuilder();
-
+                int counter = 0;
                 r.AppendLine("<div class=\"videocarousel\">");
                 videoArchive archive = getVideoArchive(false);
                 foreach (videoCategory cat in archive.categories)
                 {
                     if (cat.name == "Aktuellt")
                     {
-                        int counter = 0;
+
                         foreach (videoItem v in cat.videos)
                         {
                             r.AppendLine("<div>");
@@ -344,7 +350,10 @@ namespace malmo
                 }
                 r.AppendLine("</div>");
                 response = r.ToString();
-                _cache.Insert("carousel", response, null, DateTime.UtcNow.AddMinutes(30), Cache.NoSlidingExpiration);
+                if (counter > 2)
+                {
+                    _cache.Insert("carousel", response, null, DateTime.UtcNow.AddMinutes(30), Cache.NoSlidingExpiration);
+                }
             }
 
             return response;
