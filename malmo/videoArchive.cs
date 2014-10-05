@@ -174,6 +174,7 @@ namespace malmo
     public class helpers
     {
         private Cache _cache = System.Web.HttpContext.Current.Cache;
+
         public helpers() { }
 
         #region KF Dropdown List
@@ -303,37 +304,54 @@ namespace malmo
             return archive;
         }
 
+        public string truncateString(string input, int length)
+        {
+            if (input == null || input.Length < length)
+                return input;
+            int iNextSpace = input.LastIndexOf(" ", length);
+            return string.Format("{0}…", input.Substring(0, (iNextSpace > 0) ? iNextSpace : length).Trim());
+        }
+
         public string carouselHtml()
         {
 
-            StringBuilder r = new StringBuilder();
-
-            r.AppendLine("<div class=\"videocarousel\">");
-            videoArchive archive = getVideoArchive(false);
-            foreach (videoCategory cat in archive.categories)
+            string response = (string)_cache["carousel"];
+            if (response == null)
             {
-                if (cat.name == "Aktuellt")
+                StringBuilder r = new StringBuilder();
+
+                r.AppendLine("<div class=\"videocarousel\">");
+                videoArchive archive = getVideoArchive(false);
+                foreach (videoCategory cat in archive.categories)
                 {
-                    int counter = 0;
-                    foreach (videoItem v in cat.videos)
+                    if (cat.name == "Aktuellt")
                     {
-                        r.AppendLine("<div>");
-                        r.AppendLine("<a title=\"" + v.shortDescription + "\" href=\"?bctid=" + v.id + "\" tabindex=\"-1\">");
-                        r.AppendLine("<figure>");
-                        r.AppendLine("<img src=\"" + v.videoStillURL + "\" alt=\"" + v.name + "\" />");
-                        r.AppendLine("</figure>");
-                        r.AppendLine("<span class=\"videoinfo\"><span class=\"slick_title\">" + v.name + "</span><span class=\"slick_description\">" + v.shortDescription + "</span></span>");
-                        r.AppendLine("</a>");
-                        r.AppendLine("</div>");
-                        counter++;
-                        if (counter > 9) break;
+                        int counter = 0;
+                        foreach (videoItem v in cat.videos)
+                        {
+                            r.AppendLine("<div>");
+                            r.AppendLine("<a title=\"" + v.shortDescription + "\" href=\"?bctid=" + v.id + "\" tabindex=\"-1\">");
+                            r.AppendLine("<figure>");
+                            r.AppendLine("<img src=\"" + v.videoStillURL + "\" alt=\"" + v.name + "\" />");
+                            r.AppendLine("</figure>");
+                            r.AppendLine("<span class=\"videoinfo\"><span class=\"slick_title\">" + v.name + "</span><span class=\"slick_description\">" + truncateString(v.shortDescription, 120) + "</span></span>");
+                            r.AppendLine("</a>");
+                            r.AppendLine("</div>");
+                            counter++;
+                            if (counter > 9) break;
+                        }
                     }
                 }
+                r.AppendLine("</div>");
+                response = r.ToString();
+                _cache.Insert("carousel", response, null, DateTime.UtcNow.AddMinutes(30), Cache.NoSlidingExpiration);
             }
-            r.AppendLine("</div>");
 
-
-            return r.ToString();
+            return response;
         }
+
+
+
     }
+
 }

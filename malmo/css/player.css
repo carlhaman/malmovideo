@@ -106,7 +106,7 @@ input#loadVideoArchive {
 }
 #videoSearch {
   background-color: #303030;
-  /*padding: 0.2rem 0.2rem 0.2rem 0.5rem;*/
+  padding-top: 1rem;
   overflow: auto;
 }
 #searchButton {
@@ -116,7 +116,7 @@ input#loadVideoArchive {
   padding: 0.2rem;
 }
 #searchText {
-  width: 15rem;
+  width: 13rem;
   margin: 0;
   border: 0px;
   padding: 0.2rem 0.5rem;
@@ -317,10 +317,17 @@ button.slidearrow.is-left {
 .va-videolist-container article img {
   width: 100%;
 }
+figure.va-thumb-cont {
+  overflow-y: hidden;
+  max-height: 6.8em;
+}
 .va-title {
   display: block;
   overflow: hidden;
   white-space: normal;
+}
+footer#malmo-footer.fix {
+  position: relative;
 }
 @media (min-width: 30em) {
   .va-videolist-container article {

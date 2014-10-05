@@ -104,7 +104,7 @@ namespace malmo
                 else
                 {
                     videoDetails.InnerHtml = renderers.carouselHtml();
-                    videoDescription.InnerHtml = "<div class=\"videoDescription\"><h1>Välkommen</h1><p>I Malmö stads videoarkiv finns videoklipp från våra olika verksamheter. Vi publicerar löpande videoklipp av kommunövergripande satsningar och projekt, samhällsservice, händelser, evenemang med mera.</p></div>";
+                    videoDescription.InnerHtml = "<div class=\"videoDescription\"><h1>Videoarkivet</h1><p>I Malmö stads videoarkiv finns videoklipp från våra olika verksamheter. Vi publicerar löpande videoklipp av kommunövergripande satsningar och projekt, samhällsservice, händelser, evenemang med mera.</p></div>";
                 }
             }
 
