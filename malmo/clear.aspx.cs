@@ -46,19 +46,19 @@ namespace malmo
                 }
             }
 
-            if (Cache["archiveHtml"] != null)
+            if (Cache["renderedArchive"] != null)
             {
-                Cache.Remove("archiveHtml");
-                if (Cache["archiveHtml"] == null)
+                Cache.Remove("renderedArchive");
+                if (Cache["renderedArchive"] == null)
                 {
                     html += "\n<p>Video pre-render archive cache is removed!</p>";
                 }
             }
 
-            if (Cache["kominArchiveHtml"] != null)
+            if (Cache["renderedKominArchive"] != null)
             {
-                Cache.Remove("kominArchiveHtml");
-                if (Cache["kominArchiveHtml"] == null)
+                Cache.Remove("renderedKominArchive");
+                if (Cache["renderedKominArchive"] == null)
                 {
                     html += "\n<p>KOMIN Video  pre-render archive cache is removed!</p>";
                 }
