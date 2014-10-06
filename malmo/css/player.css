@@ -221,10 +221,9 @@ div#error {
 #relatedVideos .video_item .description {
   width: 60%;
   float: right;
-  padding-left: .5rem;
 }
 #relatedVideos .video_item .thumbnail {
-  width: 40%;
+  width: 38%;
   float: left;
 }
 .videocarousel {

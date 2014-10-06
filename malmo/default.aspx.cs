@@ -35,7 +35,7 @@ namespace malmo
             #region Build Page Indexes
 
             malmoKomin = isMalmoNetwork();
-            //malmoKomin = true;
+            malmoKomin = true;
 
             _kfDropDownList = renderers.KfDropdownList();
 

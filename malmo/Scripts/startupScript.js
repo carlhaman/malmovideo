@@ -164,6 +164,20 @@ window.onresize = function (evt) {
     var resizeWidth = $(".embed-container").width(),
         resizeHeight = (resizeWidth / 100) * percentage;
 
+    var cloudbox = $(".cb-container")[0];
+    if (cloudbox) {
+        var aspect = window.innerWidth / window.innerHeight;
+        var main_width = $(cloudbox).width();
+        if (aspect > 16 / 9) aspect = 16 / 9;
+        var main_height = main_width / aspect;
+        if (aspect < 1) {
+            $(cloudbox).children(".embed-container").css("padding-bottom", "150%");
+        }
+        else {
+            $(cloudbox).children(".embed-container").css("padding-bottom", "56.25%");
+        }
+          
+    }
     sizeSlides();
     if (experienceModule) {
         if (experienceModule.experience.type === "html") {
