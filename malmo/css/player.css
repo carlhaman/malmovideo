@@ -180,15 +180,17 @@ div.moreKF select {
   font-size: 1em;
   margin: .4em 0;
 }
+.videoDescription h2 {
+  font-size: 1.5em;
+}
 .questions {
-  width: 50%;
+  width: 100%;
   color: #fff;
-  padding: 0 1em;
+  padding: 0;
 }
 .moreKF {
-  width: 50%;
-  float: right;
-  padding: 0 1em;
+  width: 100%;
+  padding: 0;
   color: #fff;
 }
 div#error {
@@ -336,6 +338,9 @@ footer#malmo-footer.fix {
   .videoDescription h1 {
     font-size: 1.5em;
   }
+  .videoDescription h2 {
+    font-size: 1.2em;
+  }
 }
 @media (min-width: 40em) {
   div#searchResultsDiv .post {
@@ -345,6 +350,22 @@ footer#malmo-footer.fix {
   }
   .videoDescription h1 {
     font-size: 2em;
+  }
+  div.moreKF select {
+    width: 100%;
+    font-size: 1em;
+    margin: .4em 0;
+  }
+  .questions {
+    width: 50%;
+    color: #fff;
+    padding: 0 1em;
+  }
+  .moreKF {
+    width: 50%;
+    float: right;
+    padding: 0 1em;
+    color: #fff;
   }
 }
 @media (min-width: 50em) {
