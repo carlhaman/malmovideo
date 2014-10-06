@@ -30,6 +30,7 @@ body {
   color: #fff;
 }
 .videoDescription h1 {
+  font-size: 1.5em;
   text-align: center;
 }
 .embed-container {
@@ -332,6 +333,9 @@ footer#malmo-footer.fix {
   .va-videolist-container article {
     width: 30%;
   }
+  .videoDescription h1 {
+    font-size: 1.5em;
+  }
 }
 @media (min-width: 40em) {
   div#searchResultsDiv .post {
@@ -339,8 +343,14 @@ footer#malmo-footer.fix {
     float: left;
     margin-right: 3%;
   }
+  .videoDescription h1 {
+    font-size: 2em;
+  }
 }
 @media (min-width: 50em) {
+  .videoDescription h1 {
+    font-size: 2em;
+  }
   .va-videolist-container article {
     width: 20%;
   }

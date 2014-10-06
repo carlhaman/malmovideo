@@ -65,7 +65,7 @@
               }
             ]
         });
-        sizeSlides();
+        onsize();
     });
 })(jQuery);
 
@@ -160,9 +160,9 @@ function calulateNewPercentage(width, height) {
     percentage = ((height / width) * 100);
 }
 
-window.onresize = function (evt) {
+function onsize() {
     var resizeWidth = $(".embed-container").width(),
-        resizeHeight = (resizeWidth / 100) * percentage;
+       resizeHeight = (resizeWidth / 100) * percentage;
 
     var cloudbox = $(".cb-container")[0];
     if (cloudbox) {
@@ -176,7 +176,6 @@ window.onresize = function (evt) {
         else {
             $(cloudbox).children(".embed-container").css("padding-bottom", "56.25%");
         }
-          
     }
     sizeSlides();
     if (experienceModule) {
@@ -184,6 +183,9 @@ window.onresize = function (evt) {
             experienceModule.setSize(resizeWidth, resizeHeight);
         }
     }
+};
+window.onresize = function (evt) {
+    onsize();
 };
 
 //Arkiv-kod
