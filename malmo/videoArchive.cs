@@ -184,7 +184,7 @@ namespace malmo
             if (list == null)
             {
                 list = renderKFDropDownList(getVideoArchive(false));
-                _cache.Insert("kfListString", list, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                _cache.Insert("kfListString", list, null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration);
             }
             return list;
         }
@@ -290,7 +290,7 @@ namespace malmo
                     archive = builder.render(true);
                     if (archive.categories.Count > 2)
                     {
-                        _cache.Insert("kominArchive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                        _cache.Insert("kominArchive", archive, null, DateTime.UtcNow.AddMinutes(600), Cache.NoSlidingExpiration);
                     }
                 }
             }
@@ -302,7 +302,7 @@ namespace malmo
                     archive = builder.render(false);
                     if (archive.categories.Count > 2)
                     {
-                        _cache.Insert("Archive", archive, null, DateTime.UtcNow.AddMinutes(15), Cache.NoSlidingExpiration);
+                        _cache.Insert("Archive", archive, null, DateTime.UtcNow.AddMinutes(600), Cache.NoSlidingExpiration);
                     }
                 }
             }
@@ -350,9 +350,9 @@ namespace malmo
                 }
                 r.AppendLine("</div>");
                 response = r.ToString();
-                if (counter > 2)
+                if (counter > 3)
                 {
-                    _cache.Insert("carousel", response, null, DateTime.UtcNow.AddMinutes(30), Cache.NoSlidingExpiration);
+                    _cache.Insert("carousel", response, null, DateTime.UtcNow.AddMinutes(600), Cache.NoSlidingExpiration);
                 }
             }
 

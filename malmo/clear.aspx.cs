@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using System.Web.UI.HtmlControls;
 
 namespace malmo
 {
@@ -6,94 +10,100 @@ namespace malmo
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            HtmlMeta robotMeta = new HtmlMeta();
+            robotMeta.Name = "ROBOTS";
+            robotMeta.Content = "NOINDEX, NOFOLLOW";
+            Page.Header.Controls.Add(robotMeta);
+
             string html = string.Empty;
-            html += "\n<h2>Cache:</h2>";
-            if (Cache["Archive"] != null) { html += "\n<p>Video archive is cached</p>"; }
-            if (Cache["renderedArchive"] != null) { html += "\n<p>Video archive pre-render is cached</p>"; }
 
-            if (Cache["kominArchive"] != null) { html += "\n<p>KOMIN Video archive is cached</p>"; }
-            if (Cache["renderedKominArchive"] != null) { html += "\n<p>KOMIN Video archive pre-render is cached</p>"; }
-
-            if (Cache["kfListString"] != null) { html += "\n<p>Kf-Dropdownlist is cached</p>"; }
-
-            if (Cache["carousel"] != null) { html += "\n<p>Carousel is cached</p>"; }
-
-            html += "\n<hr/>";
-
-            html += "\n<h2>Video caches cleared:</h>";
-
-            if (Cache["Archive"] != null)
+            if (!string.IsNullOrEmpty(Request.QueryString["delete"]))
             {
-                Cache.Remove("Archive");
-                if (Cache["Archive"] == null)
+                string action = HttpUtility.UrlDecode(Request.QueryString.GetValues("delete").GetValue(0).ToString());
+                switch (action)
                 {
-                    html += "\n<p>Video archive cache is removed!</p>";
-                }
-            }
-            if (Cache["kominArchive"] != null)
-            {
-                Cache.Remove("kominArchive");
-                if (Cache["kominArchive"] == null)
-                {
-                    html += "\n<p>KOMIN Video archive cache is removed!</p>";
+                    case "all":
+                        string all = emptyCache();
+                        if (all.Length > 1) { html += "<div class=\"deleted\">" + all + "</div>"; }
+                        break;
+                    default:
+                        string result = deleteFromCache(action);
+                        if (result.Length > 1) { html += "<div class=\"deleted\">" + result + "</div>"; }
+                        break;
                 }
             }
 
-            if (Cache["kfListString"] != null)
-            {
-                Cache.Remove("kfListString");
-                if (Cache["kfListString"] == null)
-                {
-                    html += "\n<p>KF drop down list cache removed!</p>";
-                }
-            }
-
-            if (Cache["renderedArchive"] != null)
-            {
-                Cache.Remove("renderedArchive");
-                if (Cache["renderedArchive"] == null)
-                {
-                    html += "\n<p>Video pre-render archive cache is removed!</p>";
-                }
-            }
-
-            if (Cache["renderedKominArchive"] != null)
-            {
-                Cache.Remove("renderedKominArchive");
-                if (Cache["renderedKominArchive"] == null)
-                {
-                    html += "\n<p>KOMIN Video  pre-render archive cache is removed!</p>";
-                }
-            }
-
-            if (Cache["latestVideoId"] != null)
-            {
-                Cache.Remove("latestVideoId");
-                if (Cache["latestVideoId"] == null)
-                {
-                    html += "\n<p>Latest video ID removed</p>";
-                }
-            }
-
-            if (Cache["latestKfVideoId"] != null)
-            {
-                Cache.Remove("latestKfVideoId");
-                if (Cache["latestKfVideoId"] == null)
-                {
-                    html += "\n<p>Latest KF video ID removed</p>";
-                }
-            }
-            if (Cache["carousel"] != null)
-            {
-                Cache.Remove("carousel");
-                if (Cache["carousel"] == null)
-                {
-                    html += "\n<p>Carousel removed</p>";
-                }
-            }
-
-
+            html += test();
             pageContent.InnerHtml = html;
+        }
+
+        private Dictionary<string, string> cacheValues()
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("Archive", "Public video archive");
+            dict.Add("renderedArchive", "Public video archive HTML");
+            dict.Add("kominArchive", "Internal video archive");
+            dict.Add("renderedKominArchive", "Internal video archive HTML");
+            dict.Add("kfListString", "KF dropdown list HTML");
+            dict.Add("carousel", "Start page carousel HTML");
+            dict.Add("latestVideoId", "Latest video ID from Brightcove");
+            dict.Add("latestKfVideoId", "Latest KF video ID from Brightcove");
+            return dict;
+        }
+
+        private string test()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<div class=\"currentCache\"><h1>Items in cache</h1>");
+            int counter = 0;
+            foreach (KeyValuePair<string, string> k in cacheValues())
+            {
+
+                if (Cache[k.Key] != null)
+                {
+                    sb.AppendLine("<p><span>" + k.Value + "</span><a href=\"?delete=" + k.Key + "\">Delete</a></p>");
+                    counter++;
+                }
+
+            }
+            if (counter >= 2) { sb.AppendLine("<p style=\"text-align: center;\"><a href=\"?delete=all\">Empty Cache</a></p>"); }
+            if (counter == 0) { sb.AppendLine("<p>No items in cache!</p>"); }
+            sb.AppendLine("</div>");
+            return sb.ToString();
+        }
+        private string deleteFromCache(string key)
+        {
+            string response = string.Empty;
+
+            string description = string.Empty;
+            if (cacheValues().TryGetValue(key, out description))
+            {
+                if (Cache[key] != null)
+                {
+                    Cache.Remove(key);
+                    if (Cache[key] == null)
+                    {
+                        response = "<p>" + description + " - Removed from Cache!</p>";
+                    }
+                }
+            }
+            return response;
+        }
+        private string emptyCache()
+        {
+            string response = string.Empty;
+            foreach (KeyValuePair<string, string> k in cacheValues())
+            {
+                if (Cache[k.Key] != null)
+                {
+                    Cache.Remove(k.Key);
+                    if (Cache[k.Key] == null)
+                    {
+                        response += "<p>" + k.Value + " - Removed from cache!</p>";
+                    }
+                }
+            }
+            return response;
         }
     }
 }

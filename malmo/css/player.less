@@ -9,7 +9,10 @@
 .wrapper {
     margin: 0 auto;
     max-width: 60em;
-    padding: 0;
+    padding: 0 .5em;
+}
+.videoWrapper .wrapper {
+    padding:0;
 }
 
 .videoWrapper {
@@ -23,6 +26,7 @@
 }
 
 .archiveWrapper {
+    width: 100%;
     background-color: #333333;
 }
 
@@ -91,17 +95,6 @@
     display: inline-block;
 }
 
-
-
-.archiveMenu {
-    width: 22%;
-    float: left;
-}
-
-.archiveVideos {
-    width: 78%;
-    float: right;
-}
 
 .searchField input {
     float: right;
@@ -350,21 +343,21 @@ button.slidearrow {
     transition: all,0.3s,ease-in-out;
 }
 
-    button.slidearrow:hover {
-        opacity: 1;
-        transform: scale(1);
-        display: block;
-    }
+button.slidearrow:hover {
+    opacity: 1;
+    transform: scale(1);
+    display: block;
+}
 
 
-    button.slidearrow.is-right {
-        right: 5px;
-        background-image: url("../images/arrow-right.png");
-    }
+button.slidearrow.is-right {
+    right: 5px;
+    background-image: url("../images/arrow-right.png");
+}
 
-    button.slidearrow.is-left {
-        background-image: url("../images/arrow-left.png");
-    }
+button.slidearrow.is-left {
+    background-image: url("../images/arrow-left.png");
+}
 
 .is-invisible {
     display: none;
@@ -377,9 +370,9 @@ button.slidearrow {
     position: relative;
 }
 
-    .va-videolist-container article img {
-        width: 100%;
-    }
+.va-videolist-container article img {
+    width: 100%;
+}
 
 figure.va-thumb-cont {
     overflow-y: hidden;
@@ -422,7 +415,7 @@ footer#malmo-footer.fix {
     .videoDescription h1 {
         font-size: 2em;
     }
-        div.moreKF select {
+    div.moreKF select {
         width: 100%;
         font-size: 1em;
         margin: .4em 0;
@@ -455,5 +448,11 @@ footer#malmo-footer.fix {
 
     .va-videolist-container article {
         width: 20%;
+    }
+}
+
+@media (min-width: 60em) {
+    .wrapper {
+        padding: 0;
     }
 }

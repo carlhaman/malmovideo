@@ -55,80 +55,90 @@ namespace malmo
 
         private void getRelatedVideos(string brightcoveId)
         {
-            string token = MReadToken;
-            Stream dataStream;
-            string html = string.Empty;
+            string cacheName = "rel" + brightcoveId + _komin.ToString().ToLower();
+            string responseHtml = (string)Cache[cacheName];
 
-            string videoFields = "id,name,shortDescription,customFields,videoStillURL,thumbnailURL,length,playsTotal";
-            var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_related_videos&video_id={0}&video_fields={1}&token={2}", brightcoveId, videoFields, token));
-            request.Method = "POST";
-
-            try
+            if (responseHtml == null)
             {
-                var response = request.GetResponse();
+                string token = MReadToken;
+                Stream dataStream;
 
+                string videoFields = "id,name,shortDescription,customFields,videoStillURL,thumbnailURL,length,playsTotal";
+                var request = (HttpWebRequest)HttpWebRequest.Create(string.Format("http://api.brightcove.com/services/library?command=find_related_videos&video_id={0}&video_fields={1}&token={2}", brightcoveId, videoFields, token));
+                request.Method = "POST";
 
-                dataStream = response.GetResponseStream();
-                string BCResponseString = string.Empty;
-                using (StreamReader reader = new StreamReader(dataStream))
+                try
                 {
-                    BCResponseString = reader.ReadToEnd();
+                    var response = request.GetResponse();
 
-                    if (BCResponseString != null && BCResponseString != "null")
+
+                    dataStream = response.GetResponseStream();
+                    string BCResponseString = string.Empty;
+                    using (StreamReader reader = new StreamReader(dataStream))
                     {
-                        var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
-                        StringBuilder htmlBuilder = new StringBuilder();
+                        BCResponseString = reader.ReadToEnd();
 
-                        int counter = 0;
-                        foreach (dynamic video in results.items)
+                        if (BCResponseString != null && BCResponseString != "null")
                         {
-                            bool kominVideo = false;
-                            if (video.customFields != null)
-                            {
-                                var customFields = video.customFields;
-                                foreach (dynamic field in customFields)
-                                {
-                                    if (field.Name != null)
-                                    {
-                                        if (field.Name == "targetgroup")
-                                        {
-                                            if (field.Value == "Komin") { kominVideo = true; }
-                                        }
+                            var results = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(BCResponseString);
+                            StringBuilder htmlBuilder = new StringBuilder();
 
+                            int counter = 0;
+                            foreach (dynamic video in results.items)
+                            {
+                                bool kominVideo = false;
+                                if (video.customFields != null)
+                                {
+                                    var customFields = video.customFields;
+                                    foreach (dynamic field in customFields)
+                                    {
+                                        if (field.Name != null)
+                                        {
+                                            if (field.Name == "targetgroup")
+                                            {
+                                                if (field.Value == "Komin") { kominVideo = true; }
+                                            }
+
+                                        }
+                                    }
+                                }
+                                if (counter <= 6)
+                                {
+                                    if (!kominVideo || kominVideo && _komin)
+                                    {
+                                        string title = video.name.ToString().Replace("\"", "&quot");
+                                        string description = video.shortDescription.ToString().Replace("\"", "&quot");
+
+                                        htmlBuilder.AppendLine("\t\t<div class=\"video_item\">\n");
+                                        htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
+                                        htmlBuilder.AppendLine("\t\t\t<div class=\"thumbnail\">\n");
+                                        htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.videoStillURL.ToString() + "\"/>\n");
+                                        htmlBuilder.AppendLine("\t\t\t</div>\n");
+                                        htmlBuilder.AppendLine("\t\t\t<div class=\"description\">\n");
+                                        htmlBuilder.AppendLine("\t\t\t\t<h4>" + title + "</h4>\n");
+                                        htmlBuilder.AppendLine("\t\t\t\t<p>" + description + "</p>\n");
+                                        htmlBuilder.AppendLine("\t\t\t</div>\n");
+                                        htmlBuilder.AppendLine("\t\t\t</a>");
+                                        htmlBuilder.AppendLine("\t\t</div>\n");
+                                        counter++;
                                     }
                                 }
                             }
-                            if (counter <= 9)
+
+                            responseHtml = htmlBuilder.ToString();
+                            if (counter > 1)
                             {
-                                if (!kominVideo || kominVideo && _komin)
-                                {
-                                    string title = video.name.ToString().Replace("\"", "&quot");
-                                    string description = video.shortDescription.ToString().Replace("\"", "&quot");
 
-                                    htmlBuilder.AppendLine("\t\t<div class=\"video_item\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t<a href=\"?bctid=" + video.id.ToString() + "\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t<div class=\"thumbnail\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t<img src=\"" + video.videoStillURL.ToString() + "\"/>\n");
-                                    htmlBuilder.AppendLine("\t\t\t</div>\n");
-                                    htmlBuilder.AppendLine("\t\t\t<div class=\"description\">\n");
-                                    htmlBuilder.AppendLine("\t\t\t\t<h4>" + title + "</h4>\n");
-                                    htmlBuilder.AppendLine("\t\t\t\t<p>" + description + "</p>\n");
-                                    htmlBuilder.AppendLine("\t\t\t</div>\n");
-                                    htmlBuilder.AppendLine("\t\t\t</a>");
-                                    htmlBuilder.AppendLine("\t\t</div>\n");
-                                    counter++;
-                                }
+                                Cache.Insert(cacheName, responseHtml, null, DateTime.UtcNow.AddHours(6), Cache.NoSlidingExpiration);
                             }
+
                         }
-
-                        html = htmlBuilder.ToString();
-                        htmlResponse.Append(html);
                     }
+
                 }
-
+                catch (WebException ex) { }
             }
-            catch (WebException ex) { }
-
+            htmlResponse.Append(responseHtml);
         }
         private void renderArchive(bool komin)
         {
@@ -173,7 +183,10 @@ namespace malmo
                     categoryId++;
                 }
                 response = h.ToString();
-                Cache.Insert(renderName, response, null, DateTime.UtcNow.AddHours(1), Cache.NoSlidingExpiration);
+                if (categoryId > 3)
+                {
+                    Cache.Insert(renderName, response, null, DateTime.UtcNow.AddHours(6), Cache.NoSlidingExpiration);
+                }
             }
             htmlResponse.Append(response);
         }

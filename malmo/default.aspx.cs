@@ -35,7 +35,7 @@ namespace malmo
             #region Build Page Indexes
 
             malmoKomin = isMalmoNetwork();
-            malmoKomin = true;
+            //malmoKomin = true;
 
             _kfDropDownList = renderers.KfDropdownList();
 
@@ -632,7 +632,7 @@ namespace malmo
 
                     }
                     metaHtml += "</div>\n";
-                    metaHtml += "<div style=\"clear: both;\"></div>\n";
+                    metaHtml += "<div style=\"clear: both; overflow: hidden;\"></div>\n";
 
                 }
 

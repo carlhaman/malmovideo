@@ -7,6 +7,9 @@ body {
 .wrapper {
   margin: 0 auto;
   max-width: 60em;
+  padding: 0 .5em;
+}
+.videoWrapper .wrapper {
   padding: 0;
 }
 .videoWrapper {
@@ -18,6 +21,7 @@ body {
   background-color: #5d5d5d;
 }
 .archiveWrapper {
+  width: 100%;
   background-color: #333333;
 }
 .cb_container,
@@ -74,14 +78,6 @@ body {
 }
 .providers {
   display: inline-block;
-}
-.archiveMenu {
-  width: 22%;
-  float: left;
-}
-.archiveVideos {
-  width: 78%;
-  float: right;
 }
 .searchField input {
   float: right;
@@ -374,5 +370,10 @@ footer#malmo-footer.fix {
   }
   .va-videolist-container article {
     width: 20%;
+  }
+}
+@media (min-width: 60em) {
+  .wrapper {
+    padding: 0;
   }
 }
