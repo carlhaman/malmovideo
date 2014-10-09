@@ -310,6 +310,56 @@ namespace malmo
             return archive;
         }
 
+        private videoCategory getVideoCategory(string name, bool komin)
+        {
+            videoArchive archive = getVideoArchive(komin);
+            videoCategory category = new videoCategory();
+            foreach (videoCategory cat in archive.categories)
+            {
+                if (cat.name == name)
+                {
+                    category = cat;
+                }
+            }
+            return category;
+        }
+        public string frontPageVideos(int total)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            videoCategory aktuellt = getVideoCategory("Aktuellt", false);
+            sb.AppendLine("<div class=\"frontPageVideos\">");
+            if (aktuellt.videos.Count >= 4)
+            {
+                int counter = 1;
+                foreach (videoItem v in aktuellt.videos)
+                {
+                    if (counter == 1)
+                    {
+                        sb.AppendLine("<section class=\"latestVideo clear\">");
+                        frontPageVideo(v, sb);
+                        sb.AppendLine("</section>");
+                        sb.AppendLine("<section class=\"topThreeVideos clear\">");
+                    }
+                    if (counter >= 2) { frontPageVideo(v, sb); }
+                    if (counter == total) { break; }
+                    counter++;
+                }
+                sb.AppendLine("</section>");
+            }
+            sb.AppendLine("</div>");
+            return sb.ToString();
+        }
+        private void frontPageVideo(videoItem v, StringBuilder sb)
+        {
+            sb.AppendLine("<div class=\"front-video\">");
+            sb.AppendLine("<img src=\"" + v.videoStillURL + "\"/>");
+            sb.AppendLine("<h2>" + v.name + "</h2>");
+            sb.AppendLine("<p class=\"duration\">" + new TimeSpan(0, 0, 0, 0, Convert.ToInt32(v.length)).ToString(@"mm\:ss", System.Globalization.CultureInfo.InvariantCulture) + "</p>");
+            sb.AppendLine("<p class=\"description\">" + v.shortDescription + "</p>");
+            sb.AppendLine("</div>");
+        }
+
         public string truncateString(string input, int length)
         {
             if (input == null || input.Length < length)

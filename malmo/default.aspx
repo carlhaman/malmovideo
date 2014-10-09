@@ -23,6 +23,7 @@
 
             <div class="videoWrapper">
                 <div class="wrapper">
+                    <div id="frontPageVideos" runat="server"></div>
                     <div id="error" runat="server"></div>
                     <div class="videoBlock">
                         <div id="videoDetails" runat="server"></div>
