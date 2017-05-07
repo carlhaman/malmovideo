@@ -24,8 +24,6 @@ namespace malmo
         private bool frontPage = false;
         private bool isFromKfAccount = false;
         private string _bctid = "0";
-        private string startTime = "";
-
         bool _kf = false;
 
         string _bodyCssClasses = "";
@@ -83,12 +81,6 @@ namespace malmo
                 queryId = Request.QueryString.GetValues("bctid").GetValue(0).ToString();
             }
 
-            //Starttime till cloudbox
-            if (Request.QueryString["start"] != null)
-            {
-                startTime = "start=" + Request.QueryString.GetValues("start").GetValue(0).ToString();
-            }
-
             if (queryId.Length > 6)
             {
                 getBrightcoveVideo(queryId, MReadToken);
@@ -104,7 +96,6 @@ namespace malmo
                         error.Visible = true;
                     }
                 }
-
                 frontPage = true;
                 if (_kf)
                 {
@@ -465,17 +456,10 @@ namespace malmo
                         playerKey = System.Configuration.ConfigurationManager.AppSettings["KF_BC_PLAYERKEY"].ToString();
                         playerId = System.Configuration.ConfigurationManager.AppSettings["KF_BC_PLAYERID"].ToString();
 
-                        //Lite ändringar för starttid och delningsfunktioner
-                        string url = meta.customFields["cblandingpage"] +"?";
-                        if (!string.IsNullOrEmpty(startTime)) {
-                            url += "&" + startTime;
-                        }
-
-                        url += "&share=" + Request.Url.GetLeftPart(UriPartial.Authority) + "/?bctid=" + _bctid;
 
                         playerHtml += "<div class=\"cb-container\">\n";
                         playerHtml += "<div class=\"embed-container\">\n";
-                        playerHtml += "<iframe src=\"" + url + "\" frameborder=\"0\" allowTransparency=\"true\" allowfullscreen></iframe>\n";
+                        playerHtml += "<iframe src=\"" + meta.customFields["cblandingpage"] + "\" frameborder=\"0\" allowTransparency=\"true\" allowfullscreen></iframe>\n";
                         playerHtml += "</div>\n";
                         playerHtml += "</div>\n";
                     }
